@@ -1,0 +1,90 @@
+@media (min-width: 992px) and (max-width: 1100px) {
+	.right_container .search_box{ width:65%;}
+	.right_container .search_box input[type="search"]{ width:92%;}
+	.left_container{ width:17%;}
+	.left_container.more{ width:22%;}
+	.right_container{ padding:15px 1.5% 10px; width:97%;}
+	.right_container.less{ width:73%;}
+	.head-sec.sort{ width:76%;}
+	.middle-search{ width:45%;}
+	.right_container.less .middle-search{ width:70%; margin:10px 0 0;}
+	.right_container.less .btns_sec .log-btn{ margin:10px 0 0;}
+	.img_container .box{}
+	
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+	.right_container .search_box{ width:57%;}
+	.right_container .search_box input[type="search"]{ width:88%;}
+	.left_container .user-sec img{ width:60px;}
+	.left_container .user-sec p{ padding:10px 0 0;}
+	
+	.left_container{ width:17%;}
+	.left_container.more{ width:28%;}
+	.right_container{ width:96%; padding:15px 2% 10px;}
+	.right_container.less{ width:66%; }
+	.right_container.less.home{ padding-top:135px;}
+	.middle-search{ width:70%; margin:10px 0 0;}
+	.btns_sec .log-btn{ margin:10px 0 0;}
+	.logbox .graylog img{ width:80px;}
+	.logbox p{ padding:5px 0 0;}
+	.boxout{ width:33.33%}
+	.img_container .box{ width:94%; margin:0 0 15px}
+	.head-sec.sort{ width:70%;}
+	.right_container.less .left_sec{ width:100%;}
+	.right_container.less .right_sec{ margin:20px 0 0; width:100%;}
+	.right_container.less .boxout{ width:50%;}
+}
+
+/*@media (min-width: 1366px){
+	.left_container{margin:0 0 0 -18%}
+}*/
+
+@media (max-width: 767px){
+	.right_container{ width:96%; padding:10px 2%; position:relative; transition:.5s;}
+	.left_container .toggle{ }
+	.left_container{ width:88%; margin:0 0 0 -90%; transition:.5s; overflow:visible}
+	.right_container h3{ font-size:15px; line-height:20px; padding:0 0 10px;}
+	.right_container .choose{ display:block; text-align:center; margin:0 0 5px;}
+	.right_container .search_box{ width:90%;}
+	.right_container .search_box input[type="search"]{ width:86%;}
+	.img_container ul{ margin:0; width:100%;}
+	.right_container .toggle{ font-size:21px; margin:0;}
+	.left_container.more{ margin:0; width:84%}
+	.right_container.less{ width:0%; margin:0 -15% 0 0; padding:0 15%;}
+	
+	.left_sec{ width:100%;}
+	.trending_box ul li{ width:100%; margin:0 0 10px;}
+	.trending_box{ padding:10px 4%; width:92%;}
+	.btns_sec{ margin:10px 0; text-align:center;}
+	.btns_sec .btn{ float:none; display:inline-block; padding:5px 15px; margin:0 5px;}
+	.middle-search{ width:100%; margin:10px 0; width:90%; padding:5px 5%;}
+	.middle-search input[type="search"]{ width:85%; font-size:13px; height:22px;}
+	.middle-search a{ margin:1px 10px 0 0;}
+	.log_container{ padding:10px 4% 0; width:92%;}
+	.logbox .whitelog{ width:92%; padding:5px 8% 10px;}
+	.logbox .graylog{ padding:10px 4%; width:92%;}
+	.right_sec{ margin:10px 0 0; width:100%; float:left;}
+	
+	.right_container .head-sec{ position:relative; padding:10px 0; min-height:20px; margin:0 0 10px; width:100%;}
+	.right_container.home, .right_container.inner{ padding-top:0px;}
+	.boxout{ width:100%;}
+	.img_container{ margin:10px 0;}
+	.img_container .box{ margin:0 0 10px; width:94%;}
+	.right_container.less{ position:relative;}
+	.right_container.less .head-sec{ position:static;}
+	.right_container.less .toggle{ position:absolute; left:4px;}
+	.left_pop, .right_pop{ width:100%;}
+}
+
+@media (min-width: 480px) and (max-width: 767px) {
+	.right_container{ width:86%;}
+}
+
+
+
+
+
+
+
+
