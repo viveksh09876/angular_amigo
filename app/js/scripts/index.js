@@ -18,15 +18,17 @@
 		$('.head-sec').toggleClass('sort');
 	});
 	
+	
+	
+	
+	
 	//$('.categorybox input:radio').jqTransRadio();
 	
-	
-	/*$(function($){
-		var $container = $('.img_container');
-		
+	/*
+	var $container = $('.boxout');	
 		$container.imagesLoaded(function(){
 			$container.masonry({
-			itemSelector: '.img_container .box',
+			itemSelector: '.boxout .box',
 			columnWidth: 10,
 			isAnimated:true,
 			animationOptions: {
@@ -36,6 +38,8 @@
 			}
 			});
 		});	
-		});*/
-
+	*/
+	
 	});
+	
+	

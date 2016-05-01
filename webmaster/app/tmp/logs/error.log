@@ -1,0 +1,20 @@
+2016-05-01 13:51:00 Error: Fatal Error (4): syntax error, unexpected '$returnData' (T_VARIABLE), expecting ';' in [D:\xampp\htdocs\Ameego\webmaster\app\Controller\AmeegoController.php, line 33]
+2016-05-01 13:51:00 Error: [FatalErrorException] syntax error, unexpected '$returnData' (T_VARIABLE), expecting ';'
+Request URL: /Ameego/webmaster/Ameego/register
+Stack Trace:
+#0 D:\xampp\htdocs\Ameego\webmaster\lib\Cake\Error\ErrorHandler.php(184): ErrorHandler::handleFatalError(4, 'syntax error, u...', 'D:\\xampp\\htdocs...', 33)
+#1 [internal function]: ErrorHandler::handleError(4, 'syntax error, u...', 'D:\\xampp\\htdocs...', 33, Array)
+#2 D:\xampp\htdocs\Ameego\webmaster\lib\Cake\Core\App.php(926): call_user_func('ErrorHandler::h...', 4, 'syntax error, u...', 'D:\\xampp\\htdocs...', 33, Array)
+#3 D:\xampp\htdocs\Ameego\webmaster\lib\Cake\Core\App.php(899): App::_checkFatalError()
+#4 [internal function]: App::shutdown()
+#5 {main}
+2016-05-01 13:51:01 Error: Fatal Error (4): syntax error, unexpected '$returnData' (T_VARIABLE), expecting ';' in [D:\xampp\htdocs\Ameego\webmaster\app\Controller\AmeegoController.php, line 33]
+2016-05-01 13:51:01 Error: [FatalErrorException] syntax error, unexpected '$returnData' (T_VARIABLE), expecting ';'
+Request URL: /Ameego/webmaster/Ameego/assets/css/themes/theme-1.css
+Stack Trace:
+#0 D:\xampp\htdocs\Ameego\webmaster\lib\Cake\Error\ErrorHandler.php(184): ErrorHandler::handleFatalError(4, 'syntax error, u...', 'D:\\xampp\\htdocs...', 33)
+#1 [internal function]: ErrorHandler::handleError(4, 'syntax error, u...', 'D:\\xampp\\htdocs...', 33, Array)
+#2 D:\xampp\htdocs\Ameego\webmaster\lib\Cake\Core\App.php(926): call_user_func('ErrorHandler::h...', 4, 'syntax error, u...', 'D:\\xampp\\htdocs...', 33, Array)
+#3 D:\xampp\htdocs\Ameego\webmaster\lib\Cake\Core\App.php(899): App::_checkFatalError()
+#4 [internal function]: App::shutdown()
+#5 {main}

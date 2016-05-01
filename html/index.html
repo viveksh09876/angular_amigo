@@ -8,8 +8,9 @@
         <link type="text/css" rel="stylesheet" href="common/fonts/font-awesome.css">
         <link type="text/css" rel="stylesheet" href="common/css/style.css">
         <link type="text/css" rel="stylesheet" href="common/css/responsive.css">
+        <link type="text/css" rel="stylesheet" href="common/css/bootstrap.css">
         <script type="text/javascript" src="common/js/jquery-1.11.3.js"></script>
-        <script type="text/javascript" src="common/js/jquery.fancybox.js"></script>
+            <script type="text/javascript" src="common/js/bootstrap.js"></script>
         <script type="text/javascript" src="common/js/jquery.masonry.min.js"></script>
         <script type="text/javascript" src="common/js/index.js"></script>
 	</head>
@@ -31,6 +32,10 @@
         <div class="head-sec">
             <a href="#" class="toggle"><i class="fa fa-navicon"></i></a>
             <div class="wrapper">
+            <ul>
+                <li><a data-target=".signin" data-toggle="modal" href="#">Login</a></li>
+                <li><a data-target=".signup" data-toggle="modal" href="#">Signup</a></li>
+                </ul>
                 <h3>Discover awesome things to do, food to eat, and place to stay</h3>
                 <span class="choose">Choose a place to search</span>
                 <div class="search_box"><a href="#"><i class="fa fa-search"></i></a><input type="search" value="Type the name of a place or a key word" onClick="if(this.value=''){this.value=='Type the name of a place or a key word'}" onBlur="if(this.value='Type the name of a place or a key word'){this.value==''}"></div>
@@ -39,7 +44,7 @@
         <div class="wrapper">
         <div class="img_container">
         	<div class="boxout">
-                <div class="box">
+                <div class="box" data-toggle="modal" data-target=".common">
                 	<img src="common/images/main-banner.png" alt="">
                     <span>Some Text</span>
                     <div class="links">
@@ -50,7 +55,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="box">
+                <div class="box" data-toggle="modal" data-target=".common">
                 	<img src="common/images/slide4.png" alt="">
                     <span>Some Text</span>
                     <div class="links">
@@ -62,7 +67,7 @@
                     </div>
                 </div>
             
-                <div class="box">
+                <div class="box"  data-toggle="modal" data-target=".common">
                 	<img src="common/images/box2.jpg" alt="">
                     <span>Some Text</span>
                     <div class="links">
@@ -253,6 +258,160 @@
             
         </div>
         </div>
+        
+ 
+ 
+         <!-- common popup -->
+<div class="modal fade popup common" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+	  <div class="left-sec">
+      <div class="title">
+      <h3>Some Text</h3>
+      <p>By <a href="#">Vivek sharma</a> on <span>28 April, 2016</span></p>
+      </div>
+      <figure><img src="common/images/main-banner.png" alt=""></figure>
+      <p>A shot from a piece we are working on. Here you can see how we go from an Illustrator file through to a final composite in After Effects.</p>
+	  <p>Here we have added particles systems for the crowd, camera flashes and confetti as well as lens effects, lens flare and some grading.A shot from a piece we are working on. Here you can see how we go from an Illustrator file through to a final composite in After Effects.</p>
+	  <p>Here we have added particles systems for the crowd, camera flashes and confetti as well as lens effects, lens flare and some grading.</p>
+      <p>A shot from a piece we are working on. Here you can see how we go from an Illustrator file through to a final composite in After Effects.</p>
+	  <p>Here we have added particles systems for the crowd, camera flashes and confetti as well as lens effects, lens flare and some grading.</p>
+      </div>
+      <div class="right-sec">
+      <ul class="stats">
+      <li><a href="#"><i class="fa fa-eye"></i> 187</a></li>
+      <li><a href="#"><i class="fa fa-heart-o"></i>200</a> </li>
+      </ul>
+      <figure class="map">
+      <h3>Map</h3>
+      <img src="common/images/map.jpg" alt="">
+      </figure>
+      <h3>Tags</h3>
+      <ul class="tags">
+      <li><a href="#">html</a></li>
+      <li><a href="#">css</a></li>
+      <li><a href="#">php</a></li>
+      <li><a href="#">java</a></li>
+      <li><a href="#">perl</a></li>
+      </ul>
+      </div>
+       <a class="close-modal" onclick="$('.modal').modal('hide')"></a>
+  </div>
 </div>
-		</body>
+</div>
+<!-- common popup -->
+        
+        <!-- Login popup -->
+<div class="modal fade popup signin" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <h3>Sign-in</h3>
+      <div class="middle-sec">
+      <div class="social-login">
+      <ul>
+      <li><a onclick="" href="javascript:void(0)" class="facebook-login">Sign In With Facebook <i class="fa fa-3x fa-facebook-official"></i> </a></li>
+      </ul>
+      </div>
+      <div class="seprator">&nbsp;</div>
+      <form class="form-sec">
+      <div class="email-field">
+      <label>
+      <span>Email Address</span>
+      <input type="email" required>
+      </label>
+      </div>
+      <div class="password-filed">
+      <label for="password">
+      <span>Password </span>
+      <input type="password" required>
+      </label>
+      </div>
+      <div class="submit-btn">
+      <button type="submit">Sign-in</button>
+      <a href="#" data-toggle="modal" data-target=".forget"  onclick="$('.signin').modal('hide')">Forgot Password?</a>
+      </div>
+      </form>
+      </div>
+      <div class="bottom-sec"><p>New around here? <a href="#" data-toggle="modal" data-target=".signup"  onclick="$('.signin').modal('hide')">Register</a> now.</p></div>
+       <a class="close-modal" onclick="$('.modal').modal('hide')"></a>
+  </div>
+</div>
+</div>
+<!-- Login popup -->
+
+<!-- Register popup -->
+<div class="modal fade popup signup" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+     <h3>Sign-in</h3>
+      <div class="middle-sec">
+      <div class="social-login">
+      <ul>
+      <li><a onclick="" href="javascript:void(0)" class="facebook-login">Sign In With Facebook <i class="fa fa-3x fa-facebook-official"></i></a></li>
+      </ul>
+      </div>
+      <div class="seprator">&nbsp;</div>
+      <form class="form-sec">
+      <div class="email-field">
+      <label>
+      <span class="label-custom">Email Address</span>
+      <input type="email" required >
+      </label>
+      </div>
+      <div class="password-filed">
+      <label for="password"><span class="label-custom">Password </span>
+      <input type="password" required>
+      </label>
+      </div>
+      <div class="confirm-pw-filled">
+      <label><span class="label-custom">Retype Password</span>
+      <input type="password" data-equalto="rpassword" required name="confirmPassword" id="rconfirmPassword">
+      </label>
+      </div>
+      <div class="submit-btn">
+      <button type="submit">register</button>
+      </div>
+      </form>
+      </div>
+      <div class="bottom-sec"><p>New around here? <a href="#" data-toggle="modal" data-target=".signin"  onclick="$('.signup').modal('hide')">Sign In</a> now.</p></div> 
+      <a class="close-modal" onclick="$('.modal').modal('hide')"></a>
+    </div>
+  </div>
+</div>
+<!-- Register popup -->
+
+<!-- Forget popup -->
+<div class="modal fade popup forget" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <h3>Sign-in</h3>
+      <div class="middle-sec">
+      <div class="social-login">
+      <ul>
+      <li><a onclick="" href="javascript:void(0)" class="facebook-login">Sign In With Facebook <i class="fa fa-3x fa-facebook-official"></i></a></li>
+      </ul>
+      </div>
+      <div class="seprator">&nbsp;</div>
+      <form class="form-sec">
+      <div class="email-field">
+      <label>
+      <span class="label-custom">Email Address</span>
+      <input type="email" required>
+      </label>
+      </div>
+      <div class="submit-btn">
+      <button type="submit">submit</button>
+      </div>
+      </form>
+      </div>
+      <div class="bottom-sec"><p>New around here? <a href="#" data-toggle="modal" data-target=".signin"  onclick="$('.forget').modal('hide')">Sign In</a> now.</p></div>
+       <a class="close-modal" onclick="$('.modal').modal('hide')"></a>
+  </div>
+</div>
+</div>
+<!-- Forget popup -->
+
+
+
+</body>
 </html>

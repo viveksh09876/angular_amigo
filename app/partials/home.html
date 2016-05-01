@@ -3,226 +3,37 @@
         <div class="head-sec" ng-class="headSecClass">
             <a class="toggle" ng-click="toggleMenu()"><i class="fa fa-navicon"></i></a>
             <div class="wrapper">
+				<ul ng-show="$root.isLoggedIn == false || !$root.isLoggedIn">
+					<li><a ng-click="showLogin()">Login</a></li>
+					<li><a ng-click="showRegister()">Signup</a></li>
+                </ul>
+				<ul ng-show="$root.isLoggedIn == true">
+					<li><a ng-click="logout()">Logout</a></li>
+                </ul>
                 <h3>Discover awesome things to do, food to eat, and place to stay</h3>
-                <span class="choose">Choose a place to search</span>
-                <div class="search_box"><a href="#"><i class="fa fa-search"></i></a><input type="search" value="Type the name of a place or a key word" onClick="if(this.value=''){this.value=='Type the name of a place or a key word'}" onBlur="if(this.value='Type the name of a place or a key word'){this.value==''}"></div>
+                
+                <div class="search_box"><a href="#"><i class="fa fa-search"></i></a><input type="search" placeholder="Type the name of a place or a key word" ng-change="doSearch()" ng-model="searchText"></div>
             </div>
         </div>
         <div class="wrapper">
-        <div class="img_container">
-        	<div class="boxout">
-                <div class="box">
-                	<img src="app/images/main-banner.png" alt="">
-                    <span>Some Text</span>
-                    <div class="links">
-                    	<ul>
-                        	<li><a href="#"><i class="fa fa-eye"></i> 187</a></li>
-                            <li><a href="#"><i class="fa fa-heart-o"></i>200</a> </li>
-                            <li><a href="#">Read more..</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="box">
-                	<img src="app/images/slide4.png" alt="">
-                    <span>Some Text</span>
-                    <div class="links">
-                    	<ul>
-                        	<li><a href="#"><i class="fa fa-eye"></i> 187</a></li>
-                            <li><a href="#"><i class="fa fa-heart-o"></i>200</a> </li>
-                            <li><a href="#">Read more..</a></li>
-                        </ul>
-                    </div>
-                </div>
-            
-                <div class="box">
-                	<img src="app/images/box2.jpg" alt="">
-                    <span>Some Text</span>
-                    <div class="links">
-                    	<ul>
-                        	<li><a href="#"><i class="fa fa-eye"></i> 187</a></li>
-                            <li><a href="#"><i class="fa fa-heart-o"></i>200</a> </li>
-                            <li><a href="#">Read more..</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="box">
-                	<img src="app/images/courses4.jpg" alt="">
-                    <span>Some Text</span>
-                    <div class="links">
-                    	<ul>
-                        	<li><a href="#"><i class="fa fa-eye"></i> 187</a></li>
-                            <li><a href="#"><i class="fa fa-heart-o"></i>200</a> </li>
-                            <li><a href="#">Read more..</a></li>
-                        </ul>
-                    </div>
-                </div>
-            
-                <div class="box">
-                	<img src="app/images/courses4.jpg" alt="">
-                    <span>Some Text</span>
-                    <div class="links">
-                    	<ul>
-                        	<li><a href="#"><i class="fa fa-eye"></i> 187</a></li>
-                            <li><a href="#"><i class="fa fa-heart-o"></i>200</a> </li>
-                            <li><a href="#">Read more..</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="box">
-                	<img src="app/images/box2.jpg" alt="">
-                    <span>Some Text</span>
-                    <div class="links">
-                    	<ul>
-                        	<li><a href="#"><i class="fa fa-eye"></i> 187</a></li>
-                            <li><a href="#"><i class="fa fa-heart-o"></i>200</a> </li>
-                            <li><a href="#">Read more..</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="box">
-                	<img src="app/images/banner_slide2.png" alt="">
-                    <span>Some Text</span>
-                    <div class="links">
-                    	<ul>
-                        	<li><a href="#"><i class="fa fa-eye"></i> 187</a></li>
-                            <li><a href="#"><i class="fa fa-heart-o"></i>200</a> </li>
-                            <li><a href="#">Read more..</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="boxout">
-            	<div class="box">
-                	<img src="app/images/offer1.png" alt="">
-                    <span>Some Text</span>
-                    <div class="links">
-                    	<ul>
-                        	<li><a href="#"><i class="fa fa-eye"></i> 187</a></li>
-                            <li><a href="#"><i class="fa fa-heart-o"></i>200</a> </li>
-                            <li><a href="#">Read more..</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="box">
-                	<img src="app/images/courses4.jpg" alt="">
-                    <span>Some Text</span>
-                    <div class="links">
-                    	<ul>
-                        	<li><a href="#"><i class="fa fa-eye"></i> 187</a></li>
-                            <li><a href="#"><i class="fa fa-heart-o"></i>200</a> </li>
-                            <li><a href="#">Read more..</a></li>
-                        </ul>
-                    </div>
-                </div>
-                
-            
-                <div class="box">
-                	<img src="app/images/box3.jpg" alt="">
-                    <span>Some Text</span>
-                    <div class="links">
-                    	<ul>
-                        	<li><a href="#"><i class="fa fa-eye"></i> 187</a></li>
-                            <li><a href="#"><i class="fa fa-heart-o"></i>200</a> </li>
-                            <li><a href="#">Read more..</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="box">
-                	<img src="app/images/box2.jpg" alt="">
-                    <span>Some Text</span>
-                    <div class="links">
-                    	<ul>
-                        	<li><a href="#"><i class="fa fa-eye"></i> 187</a></li>
-                            <li><a href="#"><i class="fa fa-heart-o"></i>200</a> </li>
-                            <li><a href="#">Read more..</a></li>
-                        </ul>
-                    </div>
-                </div>
-            
-                <div class="box">
-                	<img src="app/images/slide4.png" alt="">
-                    <span>Some Text</span>
-                    <div class="links">
-                    	<ul>
-                        	<li><a href="#"><i class="fa fa-eye"></i> 187</a></li>
-                            <li><a href="#"><i class="fa fa-heart-o"></i>200</a> </li>
-                            <li><a href="#">Read more..</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="box">
-                	<img src="app/images/courses4.jpg" alt="">
-                    <span>Some Text</span>
-                    <div class="links">
-                    	<ul>
-                        	<li><a href="#"><i class="fa fa-eye"></i> 187</a></li>
-                            <li><a href="#"><i class="fa fa-heart-o"></i>200</a> </li>
-                            <li><a href="#">Read more..</a></li>
-                        </ul>
-                    </div>
-                </div>
-           </div>
-            <div class="boxout">
-                <div class="box">
-                	<img src="app/images/box1.jpg" alt="">
-                    <span>Some Text</span>
-                    <div class="links">
-                    	<ul>
-                        	<li><a href="#"><i class="fa fa-eye"></i> 187</a></li>
-                            <li><a href="#"><i class="fa fa-heart-o"></i>200</a> </li>
-                            <li><a href="#">Read more..</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="box">
-                	<img src="app/images/banner_slide2.png" alt="">
-                    <span>Some Text</span>
-                    <div class="links">
-                    	<ul>
-                        	<li><a href="#"><i class="fa fa-eye"></i> 187</a></li>
-                            <li><a href="#"><i class="fa fa-heart-o"></i>200</a> </li>
-                            <li><a href="#">Read more..</a></li>
-                        </ul>
-                    </div>
-                </div>
-            
-                <div class="box">
-                	<img src="app/images/box3.jpg" alt="">
-                    <span>Some Text</span>
-                    <div class="links">
-                    	<ul>
-                        	<li><a href="#"><i class="fa fa-eye"></i> 187</a></li>
-                            <li><a href="#"><i class="fa fa-heart-o"></i>200</a> </li>
-                            <li><a href="#">Read more..</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="box">
-                	<img src="app/images/box1.jpg" alt="">
-                    <span>Some Text</span>
-                    <div class="links">
-                    	<ul>
-                        	<li><a href="#"><i class="fa fa-eye"></i> 187</a></li>
-                            <li><a href="#"><i class="fa fa-heart-o"></i>200</a> </li>
-                            <li><a href="#">Read more..</a></li>
-                        </ul>
-                    </div>
-                </div>
-            
-                <div class="box">
-                	<img src="app/images/box1.jpg" alt="">
-                    <span>Some Text</span>
-                    <div class="links">
-                    	<ul>
-                        	<li><a href="#"><i class="fa fa-eye"></i> 187</a></li>
-                            <li><a href="#"><i class="fa fa-heart-o"></i>200</a> </li>
-                            <li><a href="#">Read more..</a></li>
-                        </ul>
-                    </div>
-                </div>
-                
-            </div>
-            
-        
+          <div class="img_container">
+				<ul class="boxout grid effect-2" id="grid">
+					<li class="box"  ng-repeat="card in cards" ng-class="hoverBox" ng-mouseover="hoverBox='active'" data-toggle="modal" data-target=".common">
+						<img src="{{card.img}}" alt="">
+						<span>{{card.text}}</span>
+						<div class="links">
+							<ul>
+								<li><a href="#"><i class="fa fa-eye"></i> {{card.views}}</a></li>
+								<li><a href="#"><i class="fa fa-heart-o"></i>{{card.likes}}</a> </li>
+								<li><a href="#">Read more..</a></li>
+							</ul>
+						</div>
+					</li>			  
+				</ul>
+			 <div scroll-trigger="loadMore()" threshold="100"></div>
+			
         </div>
-</div>
+        
+		</div>
+		
+		

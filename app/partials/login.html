@@ -1,0 +1,37 @@
+<!-- Login popup -->
+<div class="modal fade popup signin" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <h3>Sign-in</h3>
+      <div class="middle-sec">
+      <div class="social-login">
+      <ul>
+      <li><a onclick="" href="javascript:void(0)" class="facebook-login">Sign In With Facebook <i class="fa fa-3x fa-facebook-official"></i> </a></li>
+      </ul>
+      </div>
+      <div class="seprator">&nbsp;</div>
+      <form name="loginForm" class="form-sec" ng-submit="loginUser()">
+		  <div class="email-field">
+			  <label>
+			  <span>Email Address</span>
+			  <input type="email" required ng-model="user.username"/>
+			  </label>
+		  </div>
+		  <div class="password-filed">
+			  <label for="password">
+			  <span>Password </span>
+			  <input type="password" required ng-model="user.password">
+			  </label>
+		  </div>
+		  <div class="submit-btn">
+			  <button type="submit">Sign-in</button>
+			  <a href="#" data-toggle="modal" data-target=".forget"  onclick="$('.signin').modal('hide')">Forgot Password?</a>
+		  </div>
+      </form>
+      </div>
+      <!--<div class="bottom-sec"><p>New around here? <a href="#" data-toggle="modal" data-target=".signup"  onclick="$('.signin').modal('hide')">Register</a> now.</p></div>-->
+       <a class="close-modal" ng-click="close('Cancel')" remove-modal></a>
+  </div>
+</div>
+</div>
+<!-- Login popup -->

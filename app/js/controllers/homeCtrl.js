@@ -1,30 +1,66 @@
-app.controller('indexCtrl', function($scope){
-	$scope.menuLeftClass = '';
-	$scope.menuRightClass = '';
-	$scope.headSecClass = '';
-
-	$scope.toggleMenu = function(){
-		if($scope.menuLeftClass == '')
-				$scope.menuLeftClass = 'more';
-		else	
-			$scope.menuLeftClass = '';
+app.controller('homeCtrl', function($scope, dataFactory, ModalService, $filter){
+	
+	$scope.cards = [];
+	
+	dataFactory.getLocalData('app/json/cards.json').success(function(response){
+		$scope.cards = response.result;	
+		updateAnim();		
+	});
+	
+	
+	
+	function updateAnim() {
+		setTimeout(function(){
+			new AnimOnScroll( document.getElementById( 'grid' ), {
+					minDuration : 0.4,
+					maxDuration : 0.7,
+					viewportFactor : 0.2
+			});
+		},1000);
 		
-		if($scope.menuRightClass == '')
-				$scope.menuRightClass = 'less';
-		else	
-			$scope.menuRightClass = '';
+	}
+	
+	$scope.loadMore = function() {
+		dataFactory.getLocalData('app/json/cards.json').success(function(response){
+			
+			var newCards = response.result;
+			
+			for(var i=0; i<newCards.length; i++) {
+				$scope.cards.push(newCards[i]);
+			}
+			updateAnim();
+					
+		}); 
+	}
+	
+	//$scope.filteredItems = $scope.cards;
+	$scope.doSearch = function(){
+		if($scope.searchText == '') {
+			$scope.loadMore();
+			
+		}else{
+			$scope.cards = $filter('filter')($scope.cards,{text: $scope.searchText});
+			updateAnim();
+		}
 		
-		if($scope.headSecClass == '')
-				$scope.headSecClass = 'sort';
-		else	
-			$scope.headSecClass = '';
+		setTimeout(function(){
+			$scope.$apply();
+			console.log($scope.cards);
+			updateAnim();
+		},200);
 		
 		
 	}
-});
-
-app.controller('homeCtrl', function($scope){
-
 	
 	
+	$scope.showCardPreview = function() {
+        ModalService.showModal({
+            templateUrl: 'app/partials/cardDetails.html',
+            controller: "cardCtrl"
+        }).then(function(modal) {
+           modal.element.modal();
+        });
+    };
+	
 });
+

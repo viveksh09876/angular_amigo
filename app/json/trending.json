@@ -1,0 +1,25 @@
+{
+   "result":[
+      {
+         "id":1,
+         "text":"Food",
+         "img":"app/images/main-banner.png",
+         "views":23,
+         "likes":10
+      },
+      {
+         "id":2,
+         "text":"Drinks",
+         "img":"app/images/offer1.png",
+         "views":12,
+         "likes":5
+      },
+      {
+         "id":3,
+         "text":"La Costa",
+         "img":"app/images/box1.jpg",
+         "views":13,
+         "likes":10
+      }
+   ]
+}

@@ -6,32 +6,60 @@
         <title>Ameego</title>
         <link type="text/css" rel="stylesheet" href="app/fonts/fonts.css">
         <link type="text/css" rel="stylesheet" href="app/fonts/font-awesome.css">
-        <link type="text/css" rel="stylesheet" href="app/css/style.css">
-        <link type="text/css" rel="stylesheet" href="app/css/responsive.css">        
+        
+		<link type="text/css" rel="stylesheet" href="app/css/bootstrap.css"> 
+<!--<link type="text/css" rel="stylesheet" href="app/css/bootstrap-complete.css">--> 		
+		<link type="text/css" rel="stylesheet" href="app/css/component.css">
+		<link type="text/css" rel="stylesheet" href="app/css/style.css">
+        <link type="text/css" rel="stylesheet" href="app/css/responsive.css">
+<link type="text/css" rel="stylesheet" href="app/css/autocomplete.css">		
+<script type="text/javascript" src="app/js/libs/modernizr.custom.js"></script>		
 	</head>
 <body ng-app="recoApp" ng-controller="indexCtrl">	
 	
 		<div class="left_container" ng-class="menuLeftClass">
-			<div class="user-sec">
+			<div class="user-sec" ng-if="$root.isLoggedIn == true">
 				<img src="app/images/f2.jpg" alt="">
-				<p>Jean Reyes</p>
+				<p>{{$root.userDetails.first_name}} {{$root.userDetails.last_name}}</p>
 				<small>	Online</small>
 			</div>
 			<ul>
-				<li><a href="#">Home <i class="pull-right fa fa-chevron-right"></i></a></li>
-				<li><a href="#">Add a Log <i class="pull-right fa fa-chevron-right"></i></a></li>
+				<li><a ng-click="goToLocation('/')">Home <i class="pull-right fa fa-chevron-right"></i></a></li>
+				
+				<li ng-if="$root.isLoggedIn == true"><a ng-click="goToLocation('/my-cards')">My Cards <i class="pull-right fa fa-chevron-right"></i></a></li>
 			</ul>
 		</div>
 		
 		<div class="right_container home" ng-class="menuRightClass" ng-view></div>
 	
 	<script type="text/javascript" src="app/js/libs/jquery-1.11.3.js"></script>
-    <script type="text/javascript" src="app/js/libs/jquery.fancybox.js"></script>
-    <script type="text/javascript" src="app/js/libs/jquery.masonry.min.js"></script>	
+  <!--  <script type="text/javascript" src="app/js/libs/jquery.fancybox.js"></script>
+   -->	
+   <script type="text/javascript" src="app/js/libs/bootstrap.js"></script>
+	<script type="text/javascript" src="app/js/libs/lodash.js"></script>
 	<script type="text/javascript" src="app/js/libs/angular-1.5.5/angular.min.js"></script>
 	<script type="text/javascript" src="app/js/libs/angular-1.5.5/angular-route.min.js"></script>
+	<script type="text/javascript" src="app/js/libs/masonry.js"></script>
+	<script type="text/javascript" src="app/js/libs/imagesLoaded.js"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?libraries=places&language=en&key=AIzaSyCkjaOVFvLTTmfEhqqhwT6J7b8GVueQpYg"></script>
+	<script type="text/javascript" src="app/js/libs/autocomplete.js"></script>
+	<script type="text/javascript" src="app/js/libs/imageupload.js"></script>
+	<script type="text/javascript" src="app/js/libs/angularjs-dropdown-multiselect.min.js"></script>
+	<script type="text/javascript" src="app/js/libs/classie.js"></script>
+	<script type="text/javascript" src="app/js/libs/AnimOnScroll.js"></script>
+	<script type="text/javascript" src="app/js/libs/angular-modal-service.js"></script>
+	<script type="text/javascript" src="app/js/libs/ui.bootstrap.js"></script>
 	<script type="text/javascript" src="app/app.js"></script>
+	<script type="text/javascript" src="app/js/directives/directives.js"></script>
+	<script type="text/javascript" src="app/js/services/dataFactory.js"></script>
+	<script type="text/javascript" src="app/js/services/localStorage.js"></script>
+	<script type="text/javascript" src="app/js/controllers/indexCtrl.js"></script>
+	<script type="text/javascript" src="app/js/controllers/registerCtrl.js"></script>
+	<script type="text/javascript" src="app/js/controllers/loginCtrl.js"></script>
+	<script type="text/javascript" src="app/js/controllers/cardCtrl.js"></script>
 	<script type="text/javascript" src="app/js/controllers/homeCtrl.js"></script>
+	<script type="text/javascript" src="app/js/controllers/myCardsCtrl.js"></script>
+	
 	<script type="text/javascript" src="app/js/scripts/index.js"></script>
 </body>
 
