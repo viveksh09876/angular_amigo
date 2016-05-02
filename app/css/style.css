@@ -1,6 +1,7 @@
 /*===========common css start here=============*/
 html,body{height:100%; width:100%;}
 *{margin:0; padding:0;}
+a{cursor:pointer}
 body{ font-family: 'RobotoRegular'; /*background:url(../images/inner_body_bg.jpg) repeat 0 0;*/ background:#eceff4;}
 img, fieldset{border:none;}
 :focus{outline:none}	
@@ -39,7 +40,7 @@ h1,h2,h3,h4,h5,h6{ font-weight:normal; margin:0;}
 
 .right_container .head-sec ul {list-style:none; position: absolute; right: 0; text-transform: uppercase; top: 5px;}
 .right_container .head-sec  ul li {border-right: 1px solid #bd2126; display: inline-block;padding: 0 10px;}
-.right_container .head-sec ul li a { color: #bd2126; font-size: 14px;  line-height: 18px; opacity: 0.8; text-decoration: none;}
+.right_container .head-sec ul li a { color: #bd2126; font-size: 14px;  line-height: 18px; opacity: 0.8; text-decoration: none; cursor:pointer}
 .right_container .head-sec  ul li:last-child{border:none}
 .right_container .search_box{ display:inline-block; vertical-align:middle; background:#fff; width:75%; border:2px solid #BD2126; height:20px; border-radius:20px; padding:5px 10px;}
 .right_container .search_box a{ font-size:19px; float:left; color:#BD2126; margin:0 5px;}
@@ -87,6 +88,7 @@ h1,h2,h3,h4,h5,h6{ font-weight:normal; margin:0;}
 .trending_box h4{ font-size:16px; font-family: 'RobotoLight'; line-height:22px; color:#8e9fa7; margin:0 0 10px;}
 .trending_box ul li{ float:left; width:32%; margin:0 2% 0 0;}
 .trending_box ul li:last-child{ margin:0;}
+.trending_box ul li{max-height:147px; overflow:hidden}
 .trending_box ul li img{ width:100%; vertical-align:top;}
 
 .btns_sec{ margin:20px 0; float:left; width:100%;}
@@ -114,6 +116,12 @@ h1,h2,h3,h4,h5,h6{ font-weight:normal; margin:0;}
 .modal-body label{ float:left; width:40%; font-size:16px; margin:8px 0 0; font-weight:normal; line-height:20px;}
 .modal-body input[type="text"]{ float:right; width:55%; border:1px solid #ccc; height:25px; padding:3px 2%; border-radius:}
 .left_pop .categorybox{ float:right; width:60%;}
+.left_pop .categorybox .dropdown-toggle{ border: 1px solid #cccccc; background:#fff; height: 31px; padding: 3px 2%; text-align:left; width: 100%;}
+.left_pop .categorybox .multiselect-parent .dropdown-menu{ border:1px solid #ccc; overflow-y:auto !Important; overflow-x:hidden !Important; margin:10px 0 0; padding:10px;}
+.left_pop .categorybox .multiselect-parent .dropdown-menu label{ width:100%; font-size:15px; text-transform:capitalize;} 
+.left_pop .categorybox .multiselect-parent .dropdown-menu a{ cursorointer;}
+.left_pop .categorybox .multiselect-parent .dropdown-menu li{ margin:0; font-size:14px; line-height:20px;}
+
 .left_pop .categorybox ul li{ margin:0 0 10px; float:left; width:100%;}
 .left_pop .categorybox ul li:last-child{ margin:0;}
 .left_pop .categorybox select{ float:right; width:85%; padding:5px 10px; border:1px solid #ccc;}
@@ -190,20 +198,5 @@ h1,h2,h3,h4,h5,h6{ font-weight:normal; margin:0;}
 /*====login-popup-css=======*/
  
  
- #placeAutoComplete{ z-index: 9999;}
- 
- 
- 
- 
- 
- 
- 
- 
-  
- 
- 
- 
- 
- 
-  
- 
+#placeAutoComplete{ z-index: 9999; position:relative; margin:5px 0 0;}
+ #myModal, .modal-backdrop{ max-width:67%;}
