@@ -1,4 +1,5 @@
-app.controller('myCardsCtrl', function($scope, dataFactory, ModalService){
+app.controller('myCardsCtrl', function($scope, dataFactory, ModalService, $rootScope, $http,Upload, $timeout,   $document){
+	
 	
 	$scope.trendingCards = [];
 	$scope.myCards = [];
@@ -6,14 +7,20 @@ app.controller('myCardsCtrl', function($scope, dataFactory, ModalService){
 	$scope.categories = [];
 	$scope.place = null;
 	
+	$scope.close = function(result) {
+		$scope.newCard = {};
+		//$element.modal('hide');
+		close(result, 500); // close, but give 500ms for bootstrap to animate
+	 };
+	
 	dataFactory.getLocalData('app/json/trending.json').success(function(response){
 		$scope.trendingCards = response.result;		
 	});
 	
-	/*
-	dataFactory.postData('app/json/getUserCards.json',{"id": 1}).success(function(response){
-		$scope.myCards = response.result;		
-	});*/
+	
+	dataFactory.getData('/ameego/getUserStories/'+$rootScope.userDetails.user_id).success(function(response){
+		$scope.myCards = response.data;		
+	});
 	
 	dataFactory.getData('/ameego/getCategories').success(function(response){
 		var categories = [];
@@ -40,51 +47,74 @@ app.controller('myCardsCtrl', function($scope, dataFactory, ModalService){
         ModalService.showModal({
             templateUrl: 'app/partials/addCard.html',
             controller: 'myCardsCtrl'
-        }).then(function(modal) {           
+        }).then(function(modal) {
 			modal.element.modal();			
         });
+		
     };	
 	
-	$scope.close = function(result) {
-		$scope.newCard = {};
-		$element.modal('hide');
-		close(result, 500); // close, but give 500ms for bootstrap to animate
-	 };
-	 
 	
 	$scope.cardData = {
+				user_id: $rootScope.userDetails.user_id,
 				title:"",
 				categories: $scope.selectedCategories,
 				notes: "",
-				time_spent: "",
-				image: "",
+				time_spent: "",				
 				recommend: "",
-				place: ""
+				place: "",
+				place_id: "",
+				place_name: "",
+				place_photo: ""
 			};
+		
+		
+	$scope.f = null;
+	$scope.errFile = null;
 	
-	$scope.single = function(image) {
-		console.log(image);
-		var formData = new FormData();
-		formData.append('image', image);
-
-		$http.post('upload', formData, {
-			headers: { 'Content-Type': false },
-			transformRequest: angular.identity
-		}).success(function(result) {
-			$scope.uploadedImgSrc = result.src;
-			$scope.sizeInBytes = result.size;
-		});
-	};
-	
-	
-	
-	$scope.addNewCard = function(image) {
-		console.log(image);
-		var formData = new FormData();
-		formData.append('image', image);
-		formData.append('cardData', $scope.cardData)
+	$scope.captureFile = function(file, errFiles) {
+		$scope.f = file;
+        $scope.errFile = errFiles && errFiles[0];		
 	}
 	
 	
+	$scope.$on('g-places-autocomplete:select', function (event, param) {
+		//console.log(param);
+	  $scope.cardData.place_id = param.place_id;
+	  $scope.cardData.place_name = param.name;
+	});
 	
+	
+	
+	$scope.addNewCard = function() {
+	  
+    	var file = $scope.f;
+		
+        if (file) {
+            file.upload = Upload.upload({
+                url: 'http://sandboxonline.in/dev/ameego/webmaster/ameego/addCard',
+                data: {file: file, card: $scope.cardData}
+            });
+
+            file.upload.then(function (response) {
+                $timeout(function () {
+                    file.result = response.data;
+					
+					//close popup
+					$scope.close('cancel');
+					$document[0].body.classList.remove('modal-open');				
+					angular.element($document[0].getElementsByClassName('modal-backdrop')).remove();
+					angular.element($document[0].getElementsByClassName('modal')).remove();
+                
+				});
+            }, function (response) {
+                if (response.status > 0)
+                    $scope.errorMsg = response.status + ': ' + response.data;
+            }, function (evt) {
+                file.progress = Math.min(100, parseInt(100.0 * 
+                                         evt.loaded / evt.total));
+            });
+        }   
+    }
+	
+		
 });

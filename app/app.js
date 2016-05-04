@@ -1,4 +1,4 @@
-var app = angular.module('recoApp', ['ngRoute','angularModalService','angularjs-dropdown-multiselect','ui.bootstrap','google.places','imageupload']);
+var app = angular.module('recoApp', ['ngRoute','angularModalService','angularjs-dropdown-multiselect','ui.bootstrap','google.places','imageupload','ngFileUpload']);
 
 app.config(function($routeProvider){
 	
@@ -17,8 +17,8 @@ app.config(function($routeProvider){
 	
 }).run(function($rootScope, $location){
 	
-	//$rootScope.siteUrl = 'http://sandboxonline.in/dev/ameego/admin';
-	$rootScope.siteUrl = 'http://localhost/Ameego/webmaster';
+	$rootScope.siteUrl = 'http://sandboxonline.in/dev/ameego/webmaster';
+	//$rootScope.siteUrl = 'http://localhost/Ameego/webmaster';
 	$rootScope.isLoggedIn = false;
 	$rootScope.userDetails = null;
 	

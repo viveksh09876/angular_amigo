@@ -10,16 +10,21 @@ app.controller('loginCtrl', function($scope, $rootScope, close, $element, dataFa
 	 $scope.loginUser = function(){
 		 dataFactory.postData('/ameego/login', $scope.user).success(function(response){
 			 
-			 $localstorage.setObject('user', response.data);
-			 $localstorage.set('isLoggedIn', true);
-			 $location.path('/');
-			 $scope.close('cancel');
-			 $rootScope.isLoggedIn = true;
-			 $rootScope.userDetails = response.data;
-			 console.log(response.data, $rootScope.userDetails);
-			 $document[0].body.classList.remove('modal-open');				
-             angular.element($document[0].getElementsByClassName('modal-backdrop')).remove();
-             angular.element($document[0].getElementsByClassName('modal')).remove();
+			 if(response.status == true) {
+				$localstorage.setObject('user', response.data);
+				 $localstorage.set('isLoggedIn', true);
+				 $location.path('/');
+				 $scope.close('cancel');
+				 $rootScope.isLoggedIn = true;
+				 $rootScope.userDetails = response.data;
+				 console.log('user-details', $rootScope.userDetails);
+				 $document[0].body.classList.remove('modal-open');				
+				 angular.element($document[0].getElementsByClassName('modal-backdrop')).remove();
+				 angular.element($document[0].getElementsByClassName('modal')).remove();
+			 }else{
+				alert(response.message);
+			 }
+			 
 			 
 		 }).error(function(err){
 			 console.log(err);

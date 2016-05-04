@@ -4,7 +4,10 @@ app.controller('indexCtrl', function($scope, $rootScope, $localstorage, ModalSer
 	$scope.headSecClass = '';
 	
 	if($localstorage.get('isLoggedIn')) {
-		$rootScope.isLoggedIn = JSON.parse($localstorage.get('isLoggedIn'));	
+		$rootScope.isLoggedIn = JSON.parse($localstorage.get('isLoggedIn'));
+		if($localstorage.get('user'))
+			$rootScope.userDetails = $localstorage.get('user');
+		console.log($rootScope.userDetails);	
 	}
 	
 	//console.log($rootScope.isLoggedIn, $localstorage.get('isLoggedIn'));

@@ -7,7 +7,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="myModalLabel">Add a log</h4>
               </div>
-			  <form name="cardForm">
+			  <form name="form" enctype="multipart/form-data">
               <div class="modal-body">
 				
                 <div class="left_pop">
@@ -49,20 +49,19 @@
                      </div>
                      <div class="formrow">
                         <label>Add photo</label>
+						
                         <div class="upload">
-							 <input id="inputImage2" 
-								type="file" 
-								accept="image/*" 
-								image="image" 
-							/>
+							
+							  <input type="file" ngf-select="captureFile($file, $invalidFiles)" 
+												accept="image/*" ngf-max-height="1000" ngf-max-size="2MB">
                         	<span>Upload File</span>
                         </div>
                      </div>  
                 </div>
                 <div class="right_pop">
                 	<div class="formrow">
-                    	<a ng-click="cardData.recommend=true" class="likebtn"><i class="fa fa-thumbs-o-up"></i> Yes, I Recommend</a>
-                        <a ng-click="cardData.recommend=false" class="likebtn"><i class="fa fa-thumbs-o-down"></i> No, Steer Clear</a>
+                    	<a ng-click="cardData.recommend=true" class="likebtn" ng-class="{'active':cardData.recommend == true}"><i class="fa fa-thumbs-o-up"></i> Yes, I Recommend</a>
+                        <a ng-click="cardData.recommend=false" class="likebtn" ng-class="{'active':cardData.recommend == false}"><i class="fa fa-thumbs-o-down"></i> No, Steer Clear</a>
                     </div>
                     <div class="formrow">
                     	<label>Place(s)</label>
@@ -76,7 +75,7 @@
               </div>
               <div class="modal-footer">
                 <!--<a  class="btn btn-default"><i class="fa fa-trash"></i> Delete Place</a>-->
-                <a ng-click="addNewCard(image)" class="btn btn-primary"><i class="fa fa-check-circle"></i> Done</a>
+                <a ng-click="addNewCard()" class="btn btn-primary"><i class="fa fa-check-circle"></i> Done</a>
               </div>
 				</form>
 			</div>

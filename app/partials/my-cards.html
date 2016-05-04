@@ -11,73 +11,25 @@
             <div class="btns_sec">
             	<a href="#" class="btn">List View</a>
                 <a href="#" class="btn">Map View</a>
-                <div class="middle-search"><a href="#"><i class="fa fa-search"></i></a> <input type="search" placeholder="Type the name of a place or a key word"></div>
+                <div class="middle-search"><a href="#"><i class="fa fa-search"></i></a> <input type="search" placeholder="Type the name of a place or a key word" ng-model="cardSearch"></div>
                 <a class="btn log-btn" ng-click="showAddCard()"><i class="fa fa-plus-circle"></i> Add a log</a>
             </div>
             <div class="logs-list">
             	<h4>Your Logs</h4>
                 <div class="log_container">
-                	<div class="logbox">
+                	<div class="logbox" ng-repeat="mCards in myCards | filter: cardSearch">
                     	<div class="whitelog">
                         	<i class="fa fa-camera-retro"></i>
-                        	<p>Lorem Ipsum</p>
-                            <small>dollar sir amet</small>
+                        	<p>{{mCards.title}}</p>
+                            <small>{{mCards.notes}}</small>
                         </div>
                         <div class="graylog">
-                        	<img src="app/images/right-sec-img.jpg" alt="">
-                            <p>Lorem Ipsum</p>
-                            <small>dollar sir amet</small>
+                        	<img src="{{mCards.pictures}}" alt=""/>
+                            <p>{{mCards.location}}</p>
+                            <small>{{mCards.categories}}</small>
                         </div>
                     </div>
-                    <div class="logbox">
-                    	<div class="whitelog">
-                        	<i class="fa fa-camera-retro"></i>
-                        	<p>Lorem Ipsum</p>
-                            <small>dollar sir amet</small>
-                        </div>
-                        <div class="graylog">
-                        	<img src="app/images/right-sec-img.jpg" alt="">
-                            <p>Lorem Ipsum</p>
-                            <small>dollar sir amet</small>
-                        </div>
-                    </div>
-                    <div class="logbox">
-                    	<div class="whitelog">
-                        	<i class="fa fa-camera-retro"></i>
-                        	<p>Lorem Ipsum</p>
-                            <small>dollar sir amet</small>
-                        </div>
-                        <div class="graylog">
-                        	<img src="app/images/right-sec-img.jpg" alt="">
-                            <p>Lorem Ipsum</p>
-                            <small>dollar sir amet</small>
-                        </div>
-                    </div>
-                    <div class="logbox">
-                    	<div class="whitelog">
-                        	<i class="fa fa-camera-retro"></i>
-                        	<p>Lorem Ipsum</p>
-                            <small>dollar sir amet</small>
-                        </div>
-                        <div class="graylog">
-                        	<img src="app/images/right-sec-img.jpg" alt="">
-                            <p>Lorem Ipsum</p>
-                            <small>dollar sir amet</small>
-                        </div>
-                    </div>
-                    <div class="logbox">
-                    	<div class="whitelog">
-                        	<i class="fa fa-camera-retro"></i>
-                        	<p>Lorem Ipsum</p>
-                            <small>dollar sir amet</small>
-                        </div>
-                        <div class="graylog">
-                        	<img src="app/images/right-sec-img.jpg" alt="">
-                            <p>Lorem Ipsum</p>
-                            <small>dollar sir amet</small>
-                        </div>
-                    </div>
-                    
+                   
                 </div>
             </div>
         </div>

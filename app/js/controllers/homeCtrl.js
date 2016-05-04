@@ -2,8 +2,8 @@ app.controller('homeCtrl', function($scope, dataFactory, ModalService, $filter){
 	
 	$scope.cards = [];
 	
-	dataFactory.getLocalData('app/json/cards.json').success(function(response){
-		$scope.cards = response.result;	
+	dataFactory.getData('/ameego/getAllUserStories').success(function(response){
+		$scope.cards = response.data;	
 		updateAnim();		
 	});
 	
@@ -21,7 +21,7 @@ app.controller('homeCtrl', function($scope, dataFactory, ModalService, $filter){
 	}
 	
 	$scope.loadMore = function() {
-		dataFactory.getLocalData('app/json/cards.json').success(function(response){
+		/*dataFactory.getLocalData('app/json/cards.json').success(function(response){
 			
 			var newCards = response.result;
 			
@@ -31,6 +31,7 @@ app.controller('homeCtrl', function($scope, dataFactory, ModalService, $filter){
 			updateAnim();
 					
 		}); 
+		*/
 	}
 	
 	//$scope.filteredItems = $scope.cards;

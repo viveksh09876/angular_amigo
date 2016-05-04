@@ -20,8 +20,18 @@ app.factory('dataFactory',function($http, $rootScope){
 				url: cUrl, method:'POST', data: data, 
 			});
 		},
+		customHeaderPost: function(url, data){
+			var cUrl = $rootScope.siteUrl + url;
+			return $http({
+				url: cUrl, 
+				method:'POST', 
+				data: data, 
+				headers: { 'Content-Type': false },
+				transformRequest: angular.identity 
+			});
+		},
 		getLocalData: function(url){			
-			
+			delete $http.defaults.headers.common['X-Requested-With'];
 			return $http({
 				url: url, method:'GET'
 			});
