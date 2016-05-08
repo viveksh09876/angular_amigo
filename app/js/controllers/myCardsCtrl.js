@@ -7,6 +7,7 @@ app.controller('myCardsCtrl', function($scope, dataFactory, ModalService, $rootS
 	$scope.categories = [];
 	$scope.place = null;
 	
+	
 	$scope.close = function(result) {
 		$scope.newCard = {};
 		//$element.modal('hide');
@@ -34,14 +35,16 @@ app.controller('myCardsCtrl', function($scope, dataFactory, ModalService, $rootS
 	$scope.selectedCategories = [];
 	$scope.catSelectText = {buttonDefaultText: 'Select Categories'};
 	//http://dotansimha.github.io/angularjs-dropdown-multiselect/#/
-	$scope.catSettings = {
+	$scope.settings = {
 			scrollableHeight: '100px',
 			scrollable: true,
 			showCheckAll: false,
 			showUncheckAll: false,
-			closeOnSelect: true
+			closeOnSelect: true,
+			selectionLimit: 2
 	};
 	
+	 	
 	$scope.showAddCard = function() {
 		
         ModalService.showModal({
@@ -73,6 +76,7 @@ app.controller('myCardsCtrl', function($scope, dataFactory, ModalService, $rootS
 	
 	$scope.captureFile = function(file, errFiles) {
 		$scope.f = file;
+		//console.log(file);
         $scope.errFile = errFiles && errFiles[0];		
 	}
 	
@@ -86,19 +90,22 @@ app.controller('myCardsCtrl', function($scope, dataFactory, ModalService, $rootS
 	
 	
 	$scope.addNewCard = function() {
-	  
+		$scope.showLoading = true;
     	var file = $scope.f;
 		
         if (file) {
             file.upload = Upload.upload({
-                url: 'http://sandboxonline.in/dev/ameego/webmaster/ameego/addCard',
+                url: $rootScope.siteUrl + '/ameego/addCard',
                 data: {file: file, card: $scope.cardData}
             });
 
             file.upload.then(function (response) {
                 $timeout(function () {
                     file.result = response.data;
-					
+					dataFactory.getData('/ameego/getUserStories/'+$rootScope.userDetails.user_id).success(function(response){
+						$scope.myCards = response.data;		
+					});
+					$scope.showLoading = false;
 					//close popup
 					$scope.close('cancel');
 					$document[0].body.classList.remove('modal-open');				

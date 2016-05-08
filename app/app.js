@@ -1,6 +1,6 @@
 var app = angular.module('recoApp', ['ngRoute','angularModalService','angularjs-dropdown-multiselect','ui.bootstrap','google.places','imageupload','ngFileUpload']);
 
-app.config(function($routeProvider){
+app.config(function($routeProvider, $httpProvider){
 	
 	$routeProvider	
 		.when('/', {
@@ -12,13 +12,18 @@ app.config(function($routeProvider){
 			controller: 'myCardsCtrl'
 		});
 		
-		
+$httpProvider.defaults.useXDomain = true;
+delete $httpProvider.defaults.headers.common['X-Requested-With'];
+$httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';	
 		
 	
 }).run(function($rootScope, $location){
 	
-	$rootScope.siteUrl = 'http://sandboxonline.in/dev/ameego/webmaster';
-	//$rootScope.siteUrl = 'http://localhost/Ameego/webmaster';
+//$rootScope.siteUrl = 'http://genesievents.com/demo/webmaster';
+	//$rootScope.siteUrl = 'http://sandboxonline.in/dev/ameego/webmaster';
+	//$rootScope.rootUrl = 'http://genesievents.com/demo';
+	$rootScope.rootUrl = 'http://localhost/Ameego';
+	$rootScope.siteUrl = 'http://localhost/Ameego/webmaster';
 	$rootScope.isLoggedIn = false;
 	$rootScope.userDetails = null;
 	

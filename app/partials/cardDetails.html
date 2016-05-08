@@ -1,38 +1,40 @@
          <!-- common popup -->
-<div class="modal fade popup common" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+<div class="modal fade popup common" role="dialog">
   <div class="modal-dialog modal-lg">
+	
     <div class="modal-content">
-	  <div class="left-sec">
-      <div class="title">
-      <h3>Some Text</h3>
-      <p>By <a href="#">Vivek sharma</a> on <span>28 April, 2016</span></p>
-      </div>
-      <figure><img src="common/images/main-banner.png" alt=""></figure>
-      <p>A shot from a piece we are working on. Here you can see how we go from an Illustrator file through to a final composite in After Effects.</p>
-	  <p>Here we have added particles systems for the crowd, camera flashes and confetti as well as lens effects, lens flare and some grading.A shot from a piece we are working on. Here you can see how we go from an Illustrator file through to a final composite in After Effects.</p>
-	  <p>Here we have added particles systems for the crowd, camera flashes and confetti as well as lens effects, lens flare and some grading.</p>
-      <p>A shot from a piece we are working on. Here you can see how we go from an Illustrator file through to a final composite in After Effects.</p>
-	  <p>Here we have added particles systems for the crowd, camera flashes and confetti as well as lens effects, lens flare and some grading.</p>
-      </div>
-      <div class="right-sec">
-      <ul class="stats">
-      <li><a href="#"><i class="fa fa-eye"></i> 187</a></li>
-      <li><a href="#"><i class="fa fa-heart-o"></i>200</a> </li>
-      </ul>
-      <figure class="map">
-      <h3>Map</h3>
-      <img src="common/images/map.jpg" alt="">
-      </figure>
-      <h3>Tags</h3>
-      <ul class="tags">
-      <li><a href="#">html</a></li>
-      <li><a href="#">css</a></li>
-      <li><a href="#">php</a></li>
-      <li><a href="#">java</a></li>
-      <li><a href="#">perl</a></li>
-      </ul>
-      </div>
-       <a class="close-modal" onclick="$('.modal').modal('hide')"></a>
+		<div class="spinner" ng-show="showLoading">
+			<img src="{{$root.rootUrl}}/app/images/loading_grey.gif" alt="loading..."/>
+		</div>
+		<div class="modal-data" ng-show="!showLoading">	
+			 <div class="left-sec">
+			  <div class="title">
+			  <h3>{{card.title}}</h3>
+			  <p>By <a>{{card.username}}</a> on <span>{{card.created}}</span></p>
+			  </div>
+			  <figure><img src="{{card.pictures}}" alt="{{card.pictures}}"></figure>
+			  <p>{{card.notes}}</p>
+			  
+			  </div>
+			  <div class="right-sec">
+			  <ul class="stats">
+			  <li><a><i class="fa fa-eye"></i> 187</a></li>
+			  <li><a><i class="fa fa-heart-o"></i>200</a> </li>
+			  </ul>
+			  <!--<figure class="map">
+			  <h3>Map</h3>
+			  <img src="common/images/map.jpg" alt="">
+			  </figure>-->
+			  <h3>Tags</h3>
+			  <ul class="tags">
+			  
+			  <li ng-repeat="cats in card.categories"><a href="#">{{cats}}</a></li>
+			  </ul>
+			  </div>
+			   
+		</div>
+		<a class="close-modal" ng-click="close('Cancel')" remove-modal></a>
+  
   </div>
 </div>
 </div>

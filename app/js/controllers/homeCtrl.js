@@ -1,10 +1,12 @@
-app.controller('homeCtrl', function($scope, dataFactory, ModalService, $filter){
+app.controller('homeCtrl', function($scope, dataFactory, ModalService, $filter, $document){
 	
 	$scope.cards = [];
+	$scope.showLoading = true;
 	
 	dataFactory.getData('/ameego/getAllUserStories').success(function(response){
-		$scope.cards = response.data;	
-		updateAnim();		
+		$scope.cards = response.data;
+		$scope.showLoading = false;		
+		updateAnim();
 	});
 	
 	
@@ -54,12 +56,18 @@ app.controller('homeCtrl', function($scope, dataFactory, ModalService, $filter){
 	}
 	
 	
-	$scope.showCardPreview = function() {
+	$scope.showCardPreview = function(id) {
+		
         ModalService.showModal({
             templateUrl: 'app/partials/cardDetails.html',
-            controller: "cardCtrl"
+            controller: "cardCtrl",
+			  inputs: {
+				cardId: id
+			  }
         }).then(function(modal) {
            modal.element.modal();
+		   
+		   
         });
     };
 	

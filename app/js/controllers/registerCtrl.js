@@ -8,10 +8,12 @@ app.controller('registerCtrl', function($scope, $rootScope, close, $element, dat
 	 $scope.user = {"username": "", "password": "", "first_name": "", "last_name": ""};
 	 
 	 $scope.registerUser = function(){
+		 $scope.showLoading = true;
 		 dataFactory.postData('/ameego/register', $scope.user).success(function(response){
 			 
 			 $localstorage.setObject('user', response.data);
 			 $localstorage.set('isLoggedIn', true);
+			 $scope.showLoading = false;
 			 $location.path('/');
 			 $scope.close('cancel');
 			 $rootScope.isLoggedIn = true;

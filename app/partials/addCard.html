@@ -3,6 +3,10 @@
  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
+			<div class="spinner" ng-show="showLoading">
+				<img src="{{$root.rootUrl}}/app/images/loading_white.gif" alt="loading..."/>
+			</div>
+			<div class="modal-data" ng-show="!showLoading">
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="myModalLabel">Add a log</h4>
@@ -18,8 +22,7 @@
                     <div class="formrow">
                         <label>Category</label>
                         <div class="categorybox">
-                            
-							<div ng-dropdown-multiselect="" options="categories" selected-model="selectedCategories" extra-settings="catSettings" checkboxes="true" translation-texts="catSelectText"></div>
+                            <div ng-dropdown-multiselect="" options="categories" selected-model="selectedCategories" checkboxes="true" extra-settings="settings"></div>
 							
 							
 							<!--<ul>
@@ -52,10 +55,12 @@
 						
                         <div class="upload">
 							
-							  <input type="file" ngf-select="captureFile($file, $invalidFiles)" 
+							  <input type="file" name="file" ngf-select="captureFile($file, $invalidFiles)" 
 												accept="image/*" ngf-max-height="1000" ngf-max-size="2MB">
                         	<span>Upload File</span>
+							
                         </div>
+						<img src="{{f.$ngfBlobUrl}}" style="height: 50px; width: 50px;">
                      </div>  
                 </div>
                 <div class="right_pop">
@@ -75,10 +80,11 @@
               </div>
               <div class="modal-footer">
                 <!--<a  class="btn btn-default"><i class="fa fa-trash"></i> Delete Place</a>-->
-                <a ng-click="addNewCard()" class="btn btn-primary"><i class="fa fa-check-circle"></i> Done</a>
+                <a ng-click="addNewCard()" class="btn btn-primary"><i class="fa fa-check-circle"></i> Add Card</a>
               </div>
 				</form>
 			</div>
+		</div>	
   </div>
 </div>
 

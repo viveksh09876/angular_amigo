@@ -6,11 +6,11 @@ app.controller('indexCtrl', function($scope, $rootScope, $localstorage, ModalSer
 	if($localstorage.get('isLoggedIn')) {
 		$rootScope.isLoggedIn = JSON.parse($localstorage.get('isLoggedIn'));
 		if($localstorage.get('user'))
-			$rootScope.userDetails = $localstorage.get('user');
+			$rootScope.userDetails = JSON.parse($localstorage.get('user'));
 		console.log($rootScope.userDetails);	
 	}
 	
-	//console.log($rootScope.isLoggedIn, $localstorage.get('isLoggedIn'));
+
 	
 	$scope.toggleMenu = function(){
 		if($scope.menuLeftClass == '')

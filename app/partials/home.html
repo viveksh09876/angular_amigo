@@ -16,9 +16,13 @@
             </div>
         </div>
         <div class="wrapper">
+		
           <div class="img_container">
-				<ul class="boxout grid effect-2" id="grid">
-					<li class="box"  ng-repeat="card in cards" ng-class="hoverBox" ng-mouseover="hoverBox='active'" data-toggle="modal" data-target=".common">
+				<div class="spinner" ng-show="showLoading">
+					<img src="{{$root.rootUrl}}/app/images/loading_grey.gif" alt="loading..."/>
+				</div>
+				<ul class="boxout grid effect-2" id="grid" ng-show="!showLoading">
+					<li class="box"  ng-repeat="card in cards" ng-class="hoverBox" ng-mouseover="hoverBox='active'" ng-click="showCardPreview(card.id)">
 						<img src="{{card.pictures}}" alt="">
 						<span>{{card.title}}</span>
 						<div class="links">

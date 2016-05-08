@@ -11,8 +11,11 @@ class AmeegoController extends AppController {
     public function beforeFilter() {
 		
         parent::beforeFilter();
-        $this->Auth->allow(array('login','register','getCategories','addCard','getUserStories','getAllUserStories'));
+        $this->Auth->allow(array('login','register','getCategories','addCard','getUserStories','getAllUserStories','getStory'));
         //Configure::write('debug',2);	
+header('Access-Control-Allow-Origin: *'); 
+header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Access-Control-Allow-Origin'); 
+header('Access-Control-Allow-Methods: POST, GET, PUT, DELETE');
     }
 
     public function login() {
@@ -208,10 +211,12 @@ class AmeegoController extends AppController {
 				
 				 $i = 0;
 				foreach($stories as $story) {
+					$data[$i]['id'] = $story['UserStory']['id'];
 					$data[$i]['title'] = $story['UserStory']['title'];
 					$data[$i]['place'] = $story['UserStory']['location'];
 					$data[$i]['notes'] = $story['UserStory']['notes'];
 					$data[$i]['time_spent'] = $story['UserStory']['time_spent'];
+					//$data[$i]['pictures'] = 'http://www.genesievents.com/demo/webmaster/img/places/'.$story['UserStory']['pictures'];
 					$data[$i]['pictures'] = 'http://localhost/Ameego/webmaster/img/places/'.$story['UserStory']['pictures'];
 					$data[$i]['recommend'] = $story['UserStory']['is_recommended'];
 					
@@ -255,11 +260,13 @@ class AmeegoController extends AppController {
 				
 				 $i = 0;
 				foreach($stories as $story) {
+					$data[$i]['id'] = $story['UserStory']['id'];
 					$data[$i]['title'] = $story['UserStory']['title'];
 					$data[$i]['place'] = $story['UserStory']['location'];
 					$data[$i]['notes'] = $story['UserStory']['notes'];
 					$data[$i]['time_spent'] = $story['UserStory']['time_spent'];
-					$data[$i]['pictures'] = 'http://sandboxonline.in/dev/ameego/webmaster/img/places/'.$story['UserStory']['pictures'];
+					//$data[$i]['pictures'] = 'http://www.genesievents.com/demo/webmaster/img/places/'.$story['UserStory']['pictures'];
+					$data[$i]['pictures'] = 'http://localhost/Ameego/webmaster/img/places/'.$story['UserStory']['pictures'];
 					$data[$i]['recommend'] = $story['UserStory']['is_recommended'];
 					
 					$cats = ''; $j = 0;
@@ -280,6 +287,65 @@ class AmeegoController extends AppController {
 			echo json_encode($returnData); die;
 				
 				
+	}
+	
+	
+	public function getStory($story_id = null) {
+		
+		if(!empty($story_id)){
+			
+			$this->UserStory->recursive = 2;
+			$this->StoryCategory->bindModel(array('belongsTo' => array('Category' => array('className' => 'Category', 'foreignKey' => 'category_id'))));
+			$this->UserStory->bindModel(array(
+							'hasMany' => array('StoryCategory' => array('className' => 'StoryCategory', 'foreignKey' => 'story_id')),
+							
+							'belongsTo' => array(
+											'User' => array(
+													'className' => 'User',
+													'foreignKey' => 'user_id'
+											)
+									)));
+
+			$story = $this->UserStory->find('first', array('conditions' => array(
+												'UserStory.id' => $story_id
+										)));
+			//pr($story); die;
+			$data = array();
+			if(!empty($story)) {
+				
+				$i = 0;
+				
+				$data['id'] = $story['UserStory']['id'];
+				$data['title'] = $story['UserStory']['title'];
+				$data['username'] = $story['User']['first_name'].' '.$story['User']['last_name'];
+				$data['place'] = $story['UserStory']['location'];
+				$data['notes'] = $story['UserStory']['notes'];
+				$data['time_spent'] = $story['UserStory']['time_spent'];
+				//$data['pictures'] = 'http://www.genesievents.com/demo/webmaster/img/places/'.$story['UserStory']['pictures'];
+				$data['pictures'] = 'http://localhost/Ameego/webmaster/img/places/'.$story['UserStory']['pictures'];
+				$data['recommend'] = $story['UserStory']['is_recommended'];
+				
+				$cats = array(); $j = 0;
+				if(isset($story['StoryCategory']) && !empty($story['StoryCategory'])) {
+					
+					foreach($story['StoryCategory'] as $ct) {
+						
+						$cats[] = $ct['Category']['name'];
+					}
+					
+				}
+				$data['categories'] = $cats;					
+				$data['created'] = date('d M, Y', strtotime($story['UserStory']['created']));
+			}
+			
+			$returnData = array('status' => true, 'data' => $data);	
+			echo json_encode($returnData); die;
+				
+		}else{
+			$returnData = array('status' => false, 'message' => 'Invalid Request');	
+			echo json_encode($returnData); die;
+		}
+		
 	}
 	
 	

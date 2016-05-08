@@ -2,6 +2,10 @@
 <div class="modal fade popup signin" role="dialog">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
+	<div class="spinner" ng-show="showLoading">
+			<img src="{{$root.rootUrl}}/app/images/loading_grey.gif" alt="loading..."/>
+		</div>
+		<div class="modal-data" ng-show="!showLoading">
       <h3>Sign-in</h3>
       <div class="middle-sec">
       <div class="social-login">
@@ -30,8 +34,10 @@
       </form>
       </div>
       <!--<div class="bottom-sec"><p>New around here? <a href="#" data-toggle="modal" data-target=".signup"  onclick="$('.signin').modal('hide')">Register</a> now.</p></div>-->
-       <a class="close-modal" ng-click="close('Cancel')" remove-modal></a>
-  </div>
+      
+		</div>
+		 <a class="close-modal" ng-click="close('Cancel')" remove-modal></a>
+    </div>
 </div>
 </div>
 <!-- Login popup -->
