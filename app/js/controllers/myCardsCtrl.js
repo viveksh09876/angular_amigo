@@ -123,5 +123,23 @@ app.controller('myCardsCtrl', function($scope, dataFactory, ModalService, $rootS
         }   
     }
 	
+	
+	$scope.reallyDelete = function(id) {
+		dataFactory.postData('/ameego/deleteStory', {uid: $rootScope.userDetails.user_id, cid: id}).success(function(response){
+			if(response.status == true) {
+				
+				var updatedCards = [];
+				
+				for(var i = 0; i < $scope.myCards.length; i++) {
+					if($scope.myCards[i].id != id) {
+						updatedCards.push($scope.myCards[i]);
+					}
+				}
+				
+				$scope.myCards = updatedCards;
+			}
+		});
+	};
+	
 		
 });

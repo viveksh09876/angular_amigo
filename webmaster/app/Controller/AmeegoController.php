@@ -5,13 +5,13 @@ App::uses('AppController', 'Controller');
 class AmeegoController extends AppController {
 
     public $name = 'Ameego';
-    public $uses = array('User', 'Login','Category','UserStory','StoryCategory');
+    public $uses = array('User', 'Login','Category','UserStory','StoryCategory','Tag');
     public $components = array('Core', 'Email');
 
     public function beforeFilter() {
 		
         parent::beforeFilter();
-        $this->Auth->allow(array('login','register','getCategories','addCard','getUserStories','getAllUserStories','getStory'));
+        $this->Auth->allow(array('login','register','getCategories','addCard','getUserStories','getAllUserStories','getStory','deleteStory'));
         //Configure::write('debug',2);	
 header('Access-Control-Allow-Origin: *'); 
 header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Access-Control-Allow-Origin'); 
@@ -203,7 +203,8 @@ header('Access-Control-Allow-Methods: POST, GET, PUT, DELETE');
 			$this->UserStory->bindModel(array('hasMany' => array('StoryCategory' => array('className' => 'StoryCategory', 'foreignKey' => 'story_id'))));
 
 			$stories = $this->UserStory->find('all', array('conditions' => array(
-												'UserStory.user_id' => $user_id
+												'UserStory.user_id' => $user_id,
+												'UserStory.status' => 1
 										),'order' => array('UserStory.created DESC')));
 
 			$data = array();
@@ -216,8 +217,8 @@ header('Access-Control-Allow-Methods: POST, GET, PUT, DELETE');
 					$data[$i]['place'] = $story['UserStory']['location'];
 					$data[$i]['notes'] = $story['UserStory']['notes'];
 					$data[$i]['time_spent'] = $story['UserStory']['time_spent'];
-					//$data[$i]['pictures'] = 'http://www.genesievents.com/demo/webmaster/img/places/'.$story['UserStory']['pictures'];
-					$data[$i]['pictures'] = 'http://localhost/Ameego/webmaster/img/places/'.$story['UserStory']['pictures'];
+					$data[$i]['pictures'] = 'http://www.genesievents.com/demo/webmaster/img/places/'.$story['UserStory']['pictures'];
+					//$data[$i]['pictures'] = 'http://localhost/Ameego/webmaster/img/places/'.$story['UserStory']['pictures'];
 					$data[$i]['recommend'] = $story['UserStory']['is_recommended'];
 					
 					$cats = ''; $j = 0;
@@ -253,7 +254,11 @@ header('Access-Control-Allow-Methods: POST, GET, PUT, DELETE');
 			$this->StoryCategory->bindModel(array('belongsTo' => array('Category' => array('className' => 'Category', 'foreignKey' => 'category_id'))));
 			$this->UserStory->bindModel(array('hasMany' => array('StoryCategory' => array('className' => 'StoryCategory', 'foreignKey' => 'story_id'))));
 
-			$stories = $this->UserStory->find('all', array('order' => array('UserStory.created DESC')));
+			$stories = $this->UserStory->find('all', array(
+											'conditions' => array(
+												'UserStory.status' => 1
+											),
+											'order' => array('UserStory.created DESC')));
 
 			$data = array();
 			if(!empty($stories)) {
@@ -265,8 +270,8 @@ header('Access-Control-Allow-Methods: POST, GET, PUT, DELETE');
 					$data[$i]['place'] = $story['UserStory']['location'];
 					$data[$i]['notes'] = $story['UserStory']['notes'];
 					$data[$i]['time_spent'] = $story['UserStory']['time_spent'];
-					//$data[$i]['pictures'] = 'http://www.genesievents.com/demo/webmaster/img/places/'.$story['UserStory']['pictures'];
-					$data[$i]['pictures'] = 'http://localhost/Ameego/webmaster/img/places/'.$story['UserStory']['pictures'];
+					$data[$i]['pictures'] = 'http://www.genesievents.com/demo/webmaster/img/places/'.$story['UserStory']['pictures'];
+					//$data[$i]['pictures'] = 'http://localhost/Ameego/webmaster/img/places/'.$story['UserStory']['pictures'];
 					$data[$i]['recommend'] = $story['UserStory']['is_recommended'];
 					
 					$cats = ''; $j = 0;
@@ -294,7 +299,14 @@ header('Access-Control-Allow-Methods: POST, GET, PUT, DELETE');
 		
 		if(!empty($story_id)){
 			
-			$this->UserStory->recursive = 2;
+			$this->UserStory->recursive = 3;
+			$this->Category->bindModel(array('hasMany' => array(
+											'Tag' => array(
+													'className' => 'Tag',
+													'foreignKey' => 'category_id'
+											)
+									)));
+									
 			$this->StoryCategory->bindModel(array('belongsTo' => array('Category' => array('className' => 'Category', 'foreignKey' => 'category_id'))));
 			$this->UserStory->bindModel(array(
 							'hasMany' => array('StoryCategory' => array('className' => 'StoryCategory', 'foreignKey' => 'story_id')),
@@ -321,20 +333,32 @@ header('Access-Control-Allow-Methods: POST, GET, PUT, DELETE');
 				$data['place'] = $story['UserStory']['location'];
 				$data['notes'] = $story['UserStory']['notes'];
 				$data['time_spent'] = $story['UserStory']['time_spent'];
-				//$data['pictures'] = 'http://www.genesievents.com/demo/webmaster/img/places/'.$story['UserStory']['pictures'];
-				$data['pictures'] = 'http://localhost/Ameego/webmaster/img/places/'.$story['UserStory']['pictures'];
+				$data['pictures'] = 'http://www.genesievents.com/demo/webmaster/img/places/'.$story['UserStory']['pictures'];
+				//$data['pictures'] = 'http://localhost/Ameego/webmaster/img/places/'.$story['UserStory']['pictures'];
 				$data['recommend'] = $story['UserStory']['is_recommended'];
 				
-				$cats = array(); $j = 0;
+				$cats = array(); $j = 0; $tags = array();
 				if(isset($story['StoryCategory']) && !empty($story['StoryCategory'])) {
 					
 					foreach($story['StoryCategory'] as $ct) {
 						
 						$cats[] = $ct['Category']['name'];
+						
+						if(!empty($ct['Category']['Tag'])) {
+							foreach($ct['Category']['Tag'] as $tg) {
+								$tags[] = $tg['tag'];
+							}
+						}
 					}
 					
+				
+										
 				}
 				$data['categories'] = $cats;					
+				$data['tags'] = $tags;
+				
+				
+				
 				$data['created'] = date('d M, Y', strtotime($story['UserStory']['created']));
 			}
 			
@@ -349,6 +373,34 @@ header('Access-Control-Allow-Methods: POST, GET, PUT, DELETE');
 	}
 	
 	
+	public function deleteStory() {
+		
+		$data = json_decode(json_encode($this->request->input('json_decode')),true);
+		
+		if(!empty($data)) {
+			$story = $this->UserStory->findByIdAndUserId($data['cid'], $data['uid']);
+			if(!empty($story)) {
+				
+				$this->UserStory->id = $story['UserStory']['id'];
+				if($this->UserStory->save(array('status' => '0', 'modified' => date('Y-m-d H:i:s')))){
+					
+					$returnData = array('status' => true, 'message' => 'Success');	
+					echo json_encode($returnData); die;
+					
+				}else{
+					$returnData = array('status' => false, 'message' => 'Some error!');	
+					echo json_encode($returnData); die;
+				}
+				
+			}else{
+				$returnData = array('status' => false, 'message' => 'Wrong Id');	
+				echo json_encode($returnData); die;
+			}
+		}else{
+			$returnData = array('status' => false, 'message' => 'Invalid Request');	
+			echo json_encode($returnData); die;
+		}
+	}
 	
  // die; 
 

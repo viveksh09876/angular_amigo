@@ -106,7 +106,10 @@ h1,h2,h3,h4,h5,h6{ font-weight:normal; margin:0;}
 .logbox .whitelog{ float:left; width:42%; position:relative; padding:10px 4%;}
 .logbox .graylog{ float:left; width:46%; padding:10px 2%; background:#f2f3f4;}
 .logbox .graylog img{ width:100px; float:left; margin:0 10px 0 0;}
-.logbox .whitelog i{ position:absolute; color:#005494; left:-10px; top:36%; font-size:20px;}
+.logbox .whitelog i{ position:absolute; color:#005494; left:-10px; font-size:20px; cursor: pointer}
+.logbox .whitelog i.fa-camera-retro{ top:36%; }
+.logbox .whitelog i.fa-pencil-square-o{  font-size: 23px; top: 65%; color:#1DA076; }
+.logbox .whitelog i.fa-remove{  font-size: 23px; top: 97%; color:#BD2126; }
 .logbox p{ font-size:15px; line-height:20px; padding:10px 0 5px;}
 .logbox small{ display:block; font-size:13px; line-height:15px; color:#9eb1bb;}
 
