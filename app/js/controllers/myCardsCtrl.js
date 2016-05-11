@@ -141,5 +141,20 @@ app.controller('myCardsCtrl', function($scope, dataFactory, ModalService, $rootS
 		});
 	};
 	
+	
+	$scope.showEditCard = function(id) {
+		
+		ModalService.showModal({
+            templateUrl: 'app/partials/editCard.html',
+            controller: 'editCardCtrl',
+			inputs: {
+				cardId: id
+			}
+        }).then(function(modal) {
+			modal.element.modal();			
+        });
+	
+	}
+	
 		
 });

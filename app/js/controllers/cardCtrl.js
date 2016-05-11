@@ -13,7 +13,7 @@ app.controller('cardCtrl', function($scope, close, $element, cardId, dataFactory
  $scope.showLoading = true;
 
 
- dataFactory.getData('/ameego/getStory/'+cardId).success(function(response){
+    dataFactory.getData('/ameego/getStory/'+cardId).success(function(response){
 		$scope.card = response.data;	
 		$scope.showLoading = false;		
 	});

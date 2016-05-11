@@ -20,7 +20,7 @@
                 	<div class="logbox" ng-repeat="mCards in myCards | filter: cardSearch">
                     	<div class="whitelog">
                         	<i class="fa fa-camera-retro"></i>
-							<i class="fa fa-pencil-square-o" title="Edit"></i>
+							<i class="fa fa-pencil-square-o" title="Edit" ng-click="showEditCard(mCards.id)"></i>
 							<i class="fa fa-remove" title="Delete" ng-really-message="Are you sure, you want to delete this card?" ng-really-click="reallyDelete(mCards.id)" item="mCards.id"></i>
                         	<p>{{mCards.title}}</p>
                             <small>{{mCards.notes}}</small>

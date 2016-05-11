@@ -1,6 +1,6 @@
-var app = angular.module('recoApp', ['ngRoute','angularModalService','angularjs-dropdown-multiselect','ui.bootstrap','google.places','imageupload','ngFileUpload']);
+var app = angular.module('recoApp', ['ngRoute','angularModalService','angularjs-dropdown-multiselect','ui.bootstrap','google.places','imageupload','ngFileUpload','ngFacebook']);
 
-app.config(function($routeProvider, $httpProvider){
+app.config(function($routeProvider, $httpProvider, $facebookProvider){
 	
 	$routeProvider	
 		.when('/', {
@@ -12,10 +12,12 @@ app.config(function($routeProvider, $httpProvider){
 			controller: 'myCardsCtrl'
 		});
 		
-$httpProvider.defaults.useXDomain = true;
-delete $httpProvider.defaults.headers.common['X-Requested-With'];
-$httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';	
+	$httpProvider.defaults.useXDomain = true;
+	delete $httpProvider.defaults.headers.common['X-Requested-With'];
+	$httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';	
 		
+		
+	$facebookProvider.setAppId('991937314207970');	
 	
 }).run(function($rootScope, $location){
 	
@@ -39,5 +41,14 @@ $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 			}, 500);
 		}		
     });
+	
+	//fb load sdk
+	(function(d, s, id){
+		 var js, fjs = d.getElementsByTagName(s)[0];
+		 if (d.getElementById(id)) {return;}
+		 js = d.createElement(s); js.id = id;
+		 js.src = "//connect.facebook.net/en_US/sdk.js";
+		 fjs.parentNode.insertBefore(js, fjs);
+	   }(document, 'script', 'facebook-jssdk'));
 	
 });

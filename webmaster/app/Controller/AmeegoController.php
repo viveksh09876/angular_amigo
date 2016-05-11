@@ -11,11 +11,11 @@ class AmeegoController extends AppController {
     public function beforeFilter() {
 		
         parent::beforeFilter();
-        $this->Auth->allow(array('login','register','getCategories','addCard','getUserStories','getAllUserStories','getStory','deleteStory'));
+        $this->Auth->allow(array('login','register','fbLogin','getCategories','addCard','getUserStories','getAllUserStories','getStory','deleteStory','removePhoto'));
         //Configure::write('debug',2);	
-header('Access-Control-Allow-Origin: *'); 
-header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Access-Control-Allow-Origin'); 
-header('Access-Control-Allow-Methods: POST, GET, PUT, DELETE');
+		header('Access-Control-Allow-Origin: *'); 
+		header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Access-Control-Allow-Origin'); 
+		header('Access-Control-Allow-Methods: POST, GET, PUT, DELETE');
     }
 
     public function login() {
@@ -85,10 +85,16 @@ header('Access-Control-Allow-Methods: POST, GET, PUT, DELETE');
 				
             }else{
 				
-				$returnData = array('status' => false, 'message' => 'User already exist with this email id');
-                echo json_encode($returnData);
-                die;
-				
+				if(isset($data['from_fb'])) {
+					unset($user['User']['password']);
+					$returnData = array('status' => true, 'message' => 'User account created successfully!', 'data' => $user['User']);
+					echo json_encode($returnData);
+					die;
+				}else{
+					$returnData = array('status' => false, 'message' => 'User already exist with this email id');
+					echo json_encode($returnData);
+					die;
+				}				
 			}
             
         } else {
@@ -98,6 +104,64 @@ header('Access-Control-Allow-Methods: POST, GET, PUT, DELETE');
             die;
         }
     }
+	
+	
+	
+	public function fbLogin() {
+		
+        $data = json_decode(json_encode($this->request->input('json_decode')),true);
+        if (!empty($data)) {
+
+            $user = $this->User->findByEmail($data['username']);
+            if (count($user) == 0) {
+                
+				$this->User->create();
+			
+				$this->request->data['User']['email'] = $data['username'];
+				$this->request->data['User']['first_name'] = $data['first_name'];
+				$this->request->data['User']['last_name'] = $data['last_name'];
+				$this->request->data['User']['user_added_date']=date('Y-m-d H:i:s');
+				$pass="123456";
+							
+				$this->request->data['User']['password']=AuthComponent::password($pass);		
+				
+				if($savedData=$this->User->save($this->request->data)) {
+					
+					unset($savedData['User']['password']);
+					$returnData = array('status' => true, 'message' => 'User account created successfully!', 'data' => $savedData['User']);
+					echo json_encode($returnData);
+					die;
+					
+				} else {
+					$returnData = array('status' => false, 'message' => 'There is some issue. Please contact administrator.');
+					echo json_encode($returnData);
+					die;
+				}	
+				
+            }else{
+				
+				if(isset($data['from_fb'])) {
+					unset($user['User']['password']);
+					$returnData = array('status' => true, 'message' => 'User account created successfully!', 'data' => $user['User']);
+					echo json_encode($returnData);
+					die;
+				}else{
+					$returnData = array('status' => false, 'message' => 'User already exist with this email id');
+					echo json_encode($returnData);
+					die;
+				}				
+			}
+            
+        } else {
+
+            $returnData = array('status' => false, 'message' => 'Invalid Request');
+            echo json_encode($returnData);
+            die;
+        }
+    }
+	
+	
+	
 
     function forgot_password() {
         
@@ -246,9 +310,7 @@ header('Access-Control-Allow-Methods: POST, GET, PUT, DELETE');
 	}
 	
 	
-	public function getAllUserStories() {
-		
-		
+	public function getAllUserStories() {		
 			
 			$this->UserStory->recursive = 2;
 			$this->StoryCategory->bindModel(array('belongsTo' => array('Category' => array('className' => 'Category', 'foreignKey' => 'category_id'))));
@@ -337,28 +399,25 @@ header('Access-Control-Allow-Methods: POST, GET, PUT, DELETE');
 				//$data['pictures'] = 'http://localhost/Ameego/webmaster/img/places/'.$story['UserStory']['pictures'];
 				$data['recommend'] = $story['UserStory']['is_recommended'];
 				
-				$cats = array(); $j = 0; $tags = array();
+				$cats = $cat_ids = array(); $j = 0; $tags = array();
 				if(isset($story['StoryCategory']) && !empty($story['StoryCategory'])) {
 					
 					foreach($story['StoryCategory'] as $ct) {
 						
 						$cats[] = $ct['Category']['name'];
+						$cat_ids[] = array("id" => $ct['Category']['id']);
 						
 						if(!empty($ct['Category']['Tag'])) {
 							foreach($ct['Category']['Tag'] as $tg) {
 								$tags[] = $tg['tag'];
 							}
 						}
-					}
-					
-				
-										
+					}											
 				}
-				$data['categories'] = $cats;					
-				$data['tags'] = $tags;
 				
-				
-				
+				$data['categories'] = $cats;
+				$data['cat_ids'] = $cat_ids;				
+				$data['tags'] = $tags;				
 				$data['created'] = date('d M, Y', strtotime($story['UserStory']['created']));
 			}
 			
@@ -401,6 +460,122 @@ header('Access-Control-Allow-Methods: POST, GET, PUT, DELETE');
 			echo json_encode($returnData); die;
 		}
 	}
+	
+	
+	public function removePhoto() {
+		$data = json_decode(json_encode($this->request->input('json_decode')),true);
+		
+		if(!empty($data)) {
+			$story = $this->UserStory->findByIdAndUserId($data['cid'], $data['uid']);
+			if(!empty($story)) {	
+				
+				$this->UserStory->id = $story['UserStory']['id'];
+				if($this->UserStory->save(array('pictures' => '', 'modified' => date('Y-m-d H:i:s')))){
+					
+					$returnData = array('status' => true, 'message' => 'Success');	
+					echo json_encode($returnData); die;
+					
+				}else{
+					$returnData = array('status' => false, 'message' => 'Some error!');	
+					echo json_encode($returnData); die;
+				}
+				
+			}else{
+				$returnData = array('status' => false, 'message' => 'Wrong Id');	
+				echo json_encode($returnData); die;
+			}
+		}else{
+			$returnData = array('status' => false, 'message' => 'Invalid Request');	
+			echo json_encode($returnData); die;
+		}
+	}
+	
+	
+	
+	public function editCard() {
+	
+		$data = $_POST['card'];
+				
+		if(isset($_FILES['file'])){
+			//The error validation could be done on the javascript client side.
+			$errors= array();      
+			 	
+			$file_name = $_FILES['file']['name'];
+			$file_size =$_FILES['file']['size'];
+			$file_tmp =$_FILES['file']['tmp_name'];
+			$file_type=$_FILES['file']['type'];   
+			$file_ext = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
+			$fname = time().'_'.$file_name;
+			$extensions = array("jpeg","jpg","png");    
+		
+			if(in_array($file_ext,$extensions )=== false){
+			 $errors[]="image extension not allowed, please choose a JPEG or PNG file.";
+			}
+			if($file_size > 2097152){
+			$errors[]='File size cannot exceed 2 MB';
+			}               
+			if(empty($errors)==true){
+				move_uploaded_file($file_tmp, WWW_ROOT. "img/places/".$fname);
+				
+				
+				
+				
+			}else{
+				print_r($errors);
+			}
+		}
+		
+		
+		$recommend = 0;
+		if($data['recommend'] == true) {
+			$recommend = 1;
+		}
+		
+		$saved_arr = array(
+						
+						'user_id' => $data['user_id'],
+						'title' => $data['title'],
+						'notes' => $data['notes'],
+						'time_spent' => $data['time_spent'],
+						'pictures' => $fname,
+						'is_recommended' => $recommend,
+						'location' => $data['place_name'],
+						'place_id' => $data['place_id'],
+						'created' => date('Y-m-d H:i:s')
+		);
+		
+		
+		$this->UserStory->create();
+		if($story = $this->UserStory->save($saved_arr)){
+			
+			if(!empty($data['categories'])) {
+				
+				$saveCats = array(); $i = 0;
+				$date = date('Y-m-d H:i:s');
+				foreach($data['categories'] as $cat) {
+					$saveCats[$i]['category_id'] = $cat['id'];
+					$saveCats[$i]['story_id'] = $story['UserStory']['id'];
+					$saveCats[$i]['created'] = $date;
+					$i++;
+				}
+				
+				$this->loadModel(StoryCategory);
+				$this->StoryCategory->create();
+				$this->StoryCategory->saveAll($saveCats);
+				
+			}
+			
+			$return_data = array('status' => true, 'message' => 'saved');
+			echo json_encode($return_data); die;
+			
+		}else{
+			$return_data = array('status' => false, 'message' => 'error');
+			echo json_encode($return_data); die;
+		}
+		
+		die;
+	}
+	
 	
  // die; 
 
