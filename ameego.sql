@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: May 10, 2016 at 08:20 AM
+-- Generation Time: May 16, 2016 at 08:17 AM
 -- Server version: 5.6.24
 -- PHP Version: 5.5.24
 
@@ -680,6 +680,54 @@ INSERT INTO `images` (`id`, `report_id`, `image`, `photograph_sample`, `location
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `likes`
+--
+
+CREATE TABLE IF NOT EXISTS `likes` (
+  `id` int(11) unsigned NOT NULL,
+  `user_id` int(11) unsigned NOT NULL,
+  `story_id` int(11) unsigned NOT NULL,
+  `created` datetime NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `likes`
+--
+
+INSERT INTO `likes` (`id`, `user_id`, `story_id`, `created`) VALUES
+(1, 10, 2, '2016-05-15 18:06:09');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `places`
+--
+
+CREATE TABLE IF NOT EXISTS `places` (
+  `id` int(11) unsigned NOT NULL,
+  `story_id` int(11) unsigned NOT NULL,
+  `place_id` varchar(255) NOT NULL,
+  `place_name` varchar(255) NOT NULL,
+  `formatted_address` text NOT NULL,
+  `latitude` varchar(65) NOT NULL,
+  `longitude` varchar(65) NOT NULL,
+  `created` datetime NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `places`
+--
+
+INSERT INTO `places` (`id`, `story_id`, `place_id`, `place_name`, `formatted_address`, `latitude`, `longitude`, `created`) VALUES
+(2, 4, 'ChIJLbZ-NFv9DDkRzk0gTkm3wlI', 'New Delhi', 'New Delhi, Delhi 110001, India', '28.6139391', '77.20902120000005', '2016-05-12 00:48:54'),
+(3, 7, 'ChIJLbZ-NFv9DDkRzk0gTkm3wlI', 'New Delhi', 'New Delhi, Delhi 110001, India', '28.6139391', '77.20902120000005', '2016-05-12 02:01:51'),
+(4, 7, 'ChIJ3w_FQbvxDDkRuph3atJv8OY', 'Ghaziabad', 'Ghaziabad, Uttar Pradesh 201001, India', '28.6691565', '77.4537578', '2016-05-12 02:01:51'),
+(9, 11, 'ChIJezVzMaTlDDkRP8B8yDDO_zc', 'Noida', 'Noida, Uttar Pradesh 201301, India', '28.5355161', '77.3910265', '2016-05-12 02:24:41'),
+(11, 2, 'ChIJezVzMaTlDDkRP8B8yDDO_zc', 'Noida', 'Noida, Uttar Pradesh 201301, India', '28.5355161', '77.3910265', '2016-05-12 02:29:20');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `story_categories`
 --
 
@@ -689,7 +737,7 @@ CREATE TABLE IF NOT EXISTS `story_categories` (
   `category_id` int(11) NOT NULL,
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL
-) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `story_categories`
@@ -697,9 +745,11 @@ CREATE TABLE IF NOT EXISTS `story_categories` (
 
 INSERT INTO `story_categories` (`id`, `story_id`, `category_id`, `created`, `modified`) VALUES
 (1, 1, 1, '2016-05-04 00:10:10', '2016-05-04 00:10:10'),
-(2, 2, 3, '2016-05-04 00:10:39', '2016-05-04 00:10:39'),
-(3, 3, 1, '2016-05-04 00:15:59', '2016-05-04 00:15:59'),
-(4, 3, 2, '2016-05-04 00:15:59', '2016-05-04 00:15:59');
+(14, 2, 2, '2016-05-12 02:29:20', '2016-05-12 02:29:20'),
+(4, 3, 2, '2016-05-04 00:15:59', '2016-05-04 00:15:59'),
+(5, 4, 1, '2016-05-12 00:48:54', '2016-05-12 00:48:54'),
+(6, 4, 2, '2016-05-12 00:48:54', '2016-05-12 00:48:54'),
+(12, 11, 2, '2016-05-12 02:24:41', '2016-05-12 02:24:41');
 
 -- --------------------------------------------------------
 
@@ -756,7 +806,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `user_modified_date` datetime DEFAULT NULL,
   `last_login_date` datetime DEFAULT NULL,
   `last_login_ip` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `users`
@@ -771,7 +821,8 @@ INSERT INTO `users` (`user_id`, `user_role_id`, `about`, `contact_info`, `first_
 (7, NULL, NULL, NULL, 'vivek', 'sh', NULL, '', 'vivek1@yopmail.com', 'ad65b7b356657d5d02915d4f4b9fa51e3dbd9510', 'Active', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2016-05-01 12:48:28', NULL, NULL, NULL),
 (8, NULL, NULL, NULL, 'vivek', 'sh', NULL, '', 'v2@yopmail.com', 'ad65b7b356657d5d02915d4f4b9fa51e3dbd9510', 'Active', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2016-05-01 12:53:19', NULL, NULL, NULL),
 (9, NULL, NULL, NULL, 'vivek', 'sh', NULL, '', 'v3@yopmail.com', 'ad65b7b356657d5d02915d4f4b9fa51e3dbd9510', 'Active', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2016-05-01 12:55:40', NULL, NULL, NULL),
-(10, NULL, NULL, NULL, 'vivek', 'sh', NULL, '', 'v4@yopmail.com', 'ad65b7b356657d5d02915d4f4b9fa51e3dbd9510', 'Active', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2016-05-01 12:56:14', NULL, '2016-05-09 23:57:25', NULL);
+(10, NULL, NULL, NULL, 'vivek', 'sh', NULL, '', 'v4@yopmail.com', 'ad65b7b356657d5d02915d4f4b9fa51e3dbd9510', 'Active', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2016-05-01 12:56:14', NULL, '2016-05-16 00:08:40', NULL),
+(11, NULL, NULL, NULL, 'Vivek', 'Sh', NULL, '', 'viveksh0987@gmail.com', 'ad65b7b356657d5d02915d4f4b9fa51e3dbd9510', 'Active', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2016-05-11 11:50:50', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -813,8 +864,7 @@ CREATE TABLE IF NOT EXISTS `user_stories` (
   `pictures` varchar(255) DEFAULT NULL,
   `tags` varchar(255) DEFAULT NULL,
   `is_recommended` tinyint(4) NOT NULL DEFAULT '1',
-  `likes` int(11) DEFAULT NULL,
-  `views` bigint(20) DEFAULT NULL,
+  `views` int(11) DEFAULT '0',
   `status` tinyint(4) NOT NULL DEFAULT '1',
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL
@@ -824,10 +874,10 @@ CREATE TABLE IF NOT EXISTS `user_stories` (
 -- Dumping data for table `user_stories`
 --
 
-INSERT INTO `user_stories` (`id`, `user_id`, `title`, `location`, `place_id`, `latitude`, `longitude`, `notes`, `time_spent`, `pictures`, `tags`, `is_recommended`, `likes`, `views`, `status`, `created`, `modified`) VALUES
-(1, 10, 'new title', 'Bistro 37', 'ChIJXXO_xMnlDDkR7ggsOfU_fF0', NULL, NULL, 'notes', '3 hours', '1462300810_box3.jpg', NULL, 0, NULL, NULL, 1, '2016-05-04 00:10:10', '2016-05-04 00:10:10'),
-(2, 10, 'test', 'Amrapali Zodiac Noida | Amrapali Flat in Noida', 'ChIJg9wTw3PvDDkRCiJLiFK9C-g', NULL, NULL, 'new notes', '2 hours', '1462300838_box1.jpg', NULL, 0, NULL, NULL, 1, '2016-05-04 00:10:38', '2016-05-04 00:10:38'),
-(3, 10, 'testing new', 'The Taj Mahal Hotel', 'ChIJEaA-2MPiDDkR6C6xllFemnE', NULL, NULL, 'testing', '3 hours', '1462301159_box3.jpg', NULL, 1, NULL, NULL, 0, '2016-05-04 00:15:59', '2016-05-10 00:44:31');
+INSERT INTO `user_stories` (`id`, `user_id`, `title`, `location`, `place_id`, `latitude`, `longitude`, `notes`, `time_spent`, `pictures`, `tags`, `is_recommended`, `views`, `status`, `created`, `modified`) VALUES
+(1, 10, 'new title', 'Bistro 37', 'ChIJXXO_xMnlDDkR7ggsOfU_fF0', NULL, NULL, 'notes', '3 hours', '1462300810_box3.jpg', NULL, 0, 0, 1, '2016-05-04 00:10:10', '2016-05-04 00:10:10'),
+(2, 10, 'test', NULL, 'ChIJg9wTw3PvDDkRCiJLiFK9C-g', NULL, NULL, 'new notes', '2 hours', '1463000360_Tulips.jpg', NULL, 1, 9, 1, '2016-05-12 02:29:20', '2016-05-15 17:20:32'),
+(3, 10, 'testing new', 'The Taj Mahal Hotel', 'ChIJEaA-2MPiDDkR6C6xllFemnE', NULL, NULL, 'testing', '3 hours', '1462301159_box3.jpg', NULL, 1, 0, 0, '2016-05-04 00:15:59', '2016-05-10 00:44:31');
 
 --
 -- Indexes for dumped tables
@@ -843,6 +893,18 @@ ALTER TABLE `categories`
 -- Indexes for table `images`
 --
 ALTER TABLE `images`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `likes`
+--
+ALTER TABLE `likes`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `places`
+--
+ALTER TABLE `places`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -890,10 +952,20 @@ ALTER TABLE `categories`
 ALTER TABLE `images`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=638;
 --
+-- AUTO_INCREMENT for table `likes`
+--
+ALTER TABLE `likes`
+  MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT for table `places`
+--
+ALTER TABLE `places`
+  MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
+--
 -- AUTO_INCREMENT for table `story_categories`
 --
 ALTER TABLE `story_categories`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=15;
 --
 -- AUTO_INCREMENT for table `tags`
 --
@@ -903,7 +975,7 @@ ALTER TABLE `tags`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
+  MODIFY `user_id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT for table `user_roles`
 --

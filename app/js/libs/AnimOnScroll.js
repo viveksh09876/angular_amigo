@@ -142,7 +142,9 @@
 			viewportFactor : 0
 		},
 		_init : function() {
-			this.items = Array.prototype.slice.call( document.querySelectorAll( '#' + this.el.id + ' > li' ) );
+			this.items = Array.prototype.slice.call( document.querySelectorAll( '#' + this.el.id + ' > li.box' ) );
+			
+			
 			this.itemsCount = this.items.length;
 			this.itemsRenderedCount = 0;
 			this.didScroll = false;
@@ -153,7 +155,7 @@
 				
 				// initialize masonry
 				new Masonry( self.el, {
-					itemSelector: 'li',
+					itemSelector: 'li.box',
 					transitionDuration : 0
 				} );
 				
@@ -177,7 +179,9 @@
 		},
 		_scrollPage : function() {
 			var self = this;
+			
 			this.items.forEach( function( el, i ) {
+				
 				if( !classie.has( el, 'shown' ) && !classie.has( el, 'animate' ) && inViewport( el, self.options.viewportFactor ) ) {
 					setTimeout( function() {
 						var perspY = scrollY() + getViewportH() / 2;

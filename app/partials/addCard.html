@@ -20,7 +20,7 @@
                         <input type="text" placeholder="add a title" required ng-model="cardData.title"/>
                     </div>
                     <div class="formrow">
-                        <label>Category</label>
+                        <label>Category<br/><small>Max. 2 selection allowed</small></label>
                         <div class="categorybox">
                             <div ng-dropdown-multiselect="" options="categories" selected-model="selectedCategories" checkboxes="true" extra-settings="settings"></div>
 							
@@ -73,8 +73,20 @@
                         
                     </div>
                     <div class="searchbox">
-                    	<a href="#"><i class="fa fa-search"></i></a>
-                        <input type="text" ng-model="cardData.place" placeholder="Type the name of a place" g-places-autocomplete>
+                        <input type="text" class="google-places" ng-model="cardData.place" placeholder="Type the name of a place" g-places-autocomplete>
+						<a ng-click="cardData.place=''" ng-show="cardData.place.length>0"><i class="fa fa-remove"></i></a>
+                    </div>
+					<div class="formrow">
+                    	<ul class="places-list">
+							<li ng-repeat="pl in cardData.places">
+								<div class="places-box">
+								<a ng-click="removePlace(pl)"><i class="fa fa-remove"></i></a>
+								<p>{{pl.place_name}}</p>
+								<small>{{pl.formatted_address}}</small>
+								</div>
+							</li>
+						</ul>
+                        
                     </div>
                 </div>
               </div>

@@ -1,10 +1,15 @@
-app.controller('homeCtrl', function($scope, dataFactory, ModalService, $filter, $document){
+app.controller('homeCtrl', function($scope, dataFactory, ModalService, $filter, $document, $routeParams, $localstorage, $rootScope){
+	
+	//console.log();
 	
 	$scope.cards = [];
 	$scope.showLoading = true;
+	var original = [];
 	
 	dataFactory.getData('/ameego/getAllUserStories').success(function(response){
+		
 		$scope.cards = response.data;
+		original = response.data;
 		$scope.showLoading = false;		
 		updateAnim();
 	});
@@ -39,10 +44,12 @@ app.controller('homeCtrl', function($scope, dataFactory, ModalService, $filter, 
 	//$scope.filteredItems = $scope.cards;
 	$scope.doSearch = function(){
 		if($scope.searchText == '') {
-			$scope.loadMore();
-			
+			//$scope.loadMore();
+			$scope.cards = original;
 		}else{
-			$scope.cards = $filter('filter')($scope.cards,{text: $scope.searchText});
+			//console.log();
+			
+			$scope.cards = $filter('filter')($scope.cards,{title: $scope.searchText});
 			updateAnim();
 		}
 		
@@ -58,6 +65,15 @@ app.controller('homeCtrl', function($scope, dataFactory, ModalService, $filter, 
 	
 	$scope.showCardPreview = function(id) {
 		
+		dataFactory.getData('/ameego/updateViews/'+id).success(function(response){
+			
+			for(var i=0; i<$scope.cards.length; i++) {
+				if($scope.cards[i].id == id) {
+					$scope.cards[i].views = response.data;
+				}
+			}	
+		});
+		
         ModalService.showModal({
             templateUrl: 'app/partials/cardDetails.html',
             controller: "cardCtrl",
@@ -70,6 +86,44 @@ app.controller('homeCtrl', function($scope, dataFactory, ModalService, $filter, 
 		   
         });
     };
+	
+	
+	$scope.likeCard = function(id) {
+		if($localstorage.get('isLoggedIn')) {
+			
+			dataFactory.postData('/ameego/likeCard',{ cid: id, uid: $rootScope.userDetails.user_id}).success(function(response){
+				
+				
+				
+				ModalService.showModal({
+					templateUrl: 'app/partials/message.html',
+					controller: "messageCtrl",
+					inputs: {
+						text: response.message
+					}
+				}).then(function(modal) {           
+					modal.element.modal();
+					
+				});	
+					
+			});	
+		}else{
+			ModalService.showModal({
+				templateUrl: 'app/partials/login.html',
+				controller: "loginCtrl"
+			}).then(function(modal) {           
+				modal.element.modal();
+				
+			});
+		}	
+	}
+	
+	
+	
+	if($routeParams.storyId != '' && $routeParams.storyId != 'undefined' && $routeParams.storyId != null) {
+		$scope.showCardPreview($routeParams.storyId);
+	}
+	
 	
 });
 

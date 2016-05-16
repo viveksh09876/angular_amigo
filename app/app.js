@@ -10,6 +10,10 @@ app.config(function($routeProvider, $httpProvider, $facebookProvider){
 		.when('/my-cards', {
 			templateUrl: 'app/partials/my-cards.html',
 			controller: 'myCardsCtrl'
+		})
+		.when('/story/:storyId', {
+			templateUrl: 'app/partials/home.html',
+			controller: 'homeCtrl'
 		});
 		
 	$httpProvider.defaults.useXDomain = true;
@@ -17,7 +21,9 @@ app.config(function($routeProvider, $httpProvider, $facebookProvider){
 	$httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';	
 		
 		
-	$facebookProvider.setAppId('991937314207970');	
+	$facebookProvider.setAppId('991937314207970');
+	//$facebookProvider.setAppId('903277806448107');	
+	
 	
 }).run(function($rootScope, $location){
 	

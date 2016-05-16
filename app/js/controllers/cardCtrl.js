@@ -17,6 +17,13 @@ app.controller('cardCtrl', function($scope, close, $element, cardId, dataFactory
 		$scope.card = response.data;	
 		$scope.showLoading = false;		
 	});
+	
+	dataFactory.getData('/ameego/getStory/'+cardId).success(function(response){
+		$scope.card = response.data;	
+		$scope.showLoading = false;		
+	});
+	
+	
  
 
 });

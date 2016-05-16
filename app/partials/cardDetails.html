@@ -18,8 +18,8 @@
 			  </div>
 			  <div class="right-sec">
 			  <ul class="stats">
-			  <li><a><i class="fa fa-eye"></i> 187</a></li>
-			  <li><a><i class="fa fa-heart-o"></i>200</a> </li>
+			  <li><a><i class="fa fa-eye"></i> {{card.views}}</a></li>
+			  <li><a><i class="fa fa-heart-o"></i>{{card.likes}}</a> </li>
 			  </ul>
 			  <!--<figure class="map">
 			  <h3>Map</h3>
@@ -28,7 +28,7 @@
 			  <h3>Tags</h3>
 			  <ul class="tags">
 			  
-			  <li ng-repeat="tags in card.tags"><a href="#">#{{tags}}</a></li>
+			  <li ng-repeat="tags in card.tags track by $index"><a href="#">#{{tags}}</a></li>
 			  </ul>
 			  </div>
 			   

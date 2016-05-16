@@ -5,13 +5,13 @@ App::uses('AppController', 'Controller');
 class AmeegoController extends AppController {
 
     public $name = 'Ameego';
-    public $uses = array('User', 'Login','Category','UserStory','StoryCategory','Tag');
+    public $uses = array('User', 'Login','Category','UserStory','StoryCategory','Tag','Place','Like');
     public $components = array('Core', 'Email');
 
     public function beforeFilter() {
 		
         parent::beforeFilter();
-        $this->Auth->allow(array('login','register','fbLogin','getCategories','addCard','getUserStories','getAllUserStories','getStory','deleteStory','removePhoto'));
+        $this->Auth->allow(array('login','register','fbLogin','getCategories','addCard','getUserStories','getAllUserStories','getStory','deleteStory','removePhoto','deletePlace','updateCard','updateViews','likeCard','getUserLikedStories'));
         //Configure::write('debug',2);	
 		header('Access-Control-Allow-Origin: *'); 
 		header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Access-Control-Allow-Origin'); 
@@ -215,8 +215,6 @@ class AmeegoController extends AppController {
 								'time_spent' => $data['time_spent'],
 								'pictures' => $fname,
 								'is_recommended' => $recommend,
-								'location' => $data['place_name'],
-								'place_id' => $data['place_id'],
 								'created' => date('Y-m-d H:i:s')
 				);
 				
@@ -239,6 +237,25 @@ class AmeegoController extends AppController {
 						$this->StoryCategory->create();
 						$this->StoryCategory->saveAll($saveCats);
 						
+					}
+					
+					
+					if(!empty($data['places'])) {
+						
+						$savePlaces = array(); $j = 0;
+						foreach($data['places'] as $pl) {
+							$savePlaces[$j]['story_id'] = $story['UserStory']['id'];
+							$savePlaces[$j]['place_id'] = $pl['place_id'];
+							$savePlaces[$j]['place_name'] = $pl['place_name'];
+							$savePlaces[$j]['formatted_address'] = $pl['formatted_address'];
+							$savePlaces[$j]['longitude'] = $pl['longitude'];
+							$savePlaces[$j]['latitude'] = $pl['latitude'];
+							$savePlaces[$j]['created'] = $date;
+							$j++;
+						}
+						
+						$this->Place->create();
+						$this->Place->saveAll($savePlaces);
 					}
 					
 					$return_data = array('status' => true, 'message' => 'saved');
@@ -314,7 +331,13 @@ class AmeegoController extends AppController {
 			
 			$this->UserStory->recursive = 2;
 			$this->StoryCategory->bindModel(array('belongsTo' => array('Category' => array('className' => 'Category', 'foreignKey' => 'category_id'))));
-			$this->UserStory->bindModel(array('hasMany' => array('StoryCategory' => array('className' => 'StoryCategory', 'foreignKey' => 'story_id'))));
+			$this->UserStory->bindModel(array('hasMany' => array(
+										'StoryCategory' => array('className' => 'StoryCategory', 
+																'foreignKey' => 'story_id'
+										),
+										'Like' => array('className' => 'Like', 
+																'foreignKey' => 'story_id'
+										))));
 
 			$stories = $this->UserStory->find('all', array(
 											'conditions' => array(
@@ -332,6 +355,7 @@ class AmeegoController extends AppController {
 					$data[$i]['place'] = $story['UserStory']['location'];
 					$data[$i]['notes'] = $story['UserStory']['notes'];
 					$data[$i]['time_spent'] = $story['UserStory']['time_spent'];
+					$data[$i]['views'] = $story['UserStory']['views'];
 					$data[$i]['pictures'] = 'http://www.genesievents.com/demo/webmaster/img/places/'.$story['UserStory']['pictures'];
 					//$data[$i]['pictures'] = 'http://localhost/Ameego/webmaster/img/places/'.$story['UserStory']['pictures'];
 					$data[$i]['recommend'] = $story['UserStory']['is_recommended'];
@@ -345,6 +369,12 @@ class AmeegoController extends AppController {
 						}
 						 $cats = substr($cats, 1);
 					}
+					
+					$like_count = 0;
+					if(isset($story['Like']) && !empty($story['Like'])) {
+						$like_count = count($story['Like']);
+					}
+					$data[$i]['likes'] = $like_count;
 					$data[$i]['categories'] = $cats;
 					$i++;
 				}
@@ -371,7 +401,20 @@ class AmeegoController extends AppController {
 									
 			$this->StoryCategory->bindModel(array('belongsTo' => array('Category' => array('className' => 'Category', 'foreignKey' => 'category_id'))));
 			$this->UserStory->bindModel(array(
-							'hasMany' => array('StoryCategory' => array('className' => 'StoryCategory', 'foreignKey' => 'story_id')),
+							'hasMany' => array(
+										'StoryCategory' => array(
+														'className' => 'StoryCategory', 
+														'foreignKey' => 'story_id'
+										),
+										'Place' => array(
+														'className' => 'Place', 
+														'foreignKey' => 'story_id'
+										),
+										'Like' => array(
+														'className' => 'Like', 
+														'foreignKey' => 'story_id'
+										)		
+							),
 							
 							'belongsTo' => array(
 											'User' => array(
@@ -392,9 +435,10 @@ class AmeegoController extends AppController {
 				$data['id'] = $story['UserStory']['id'];
 				$data['title'] = $story['UserStory']['title'];
 				$data['username'] = $story['User']['first_name'].' '.$story['User']['last_name'];
-				$data['place'] = $story['UserStory']['location'];
+				$data['places'] = $story['Place'];
 				$data['notes'] = $story['UserStory']['notes'];
 				$data['time_spent'] = $story['UserStory']['time_spent'];
+				$data['views'] = $story['UserStory']['views'];
 				$data['pictures'] = 'http://www.genesievents.com/demo/webmaster/img/places/'.$story['UserStory']['pictures'];
 				//$data['pictures'] = 'http://localhost/Ameego/webmaster/img/places/'.$story['UserStory']['pictures'];
 				$data['recommend'] = $story['UserStory']['is_recommended'];
@@ -415,6 +459,11 @@ class AmeegoController extends AppController {
 					}											
 				}
 				
+				$like_count = 0;
+				if(isset($story['Like']) && !empty($story['Like'])) {
+					$like_count = count($story['Like']);
+				}
+				$data['likes'] = $like_count;
 				$data['categories'] = $cats;
 				$data['cat_ids'] = $cat_ids;				
 				$data['tags'] = $tags;				
@@ -492,7 +541,7 @@ class AmeegoController extends AppController {
 	
 	
 	
-	public function editCard() {
+	public function updateCard() {
 	
 		$data = $_POST['card'];
 				
@@ -523,8 +572,25 @@ class AmeegoController extends AppController {
 			}else{
 				print_r($errors);
 			}
+			
+			$uid = $_POST['uid'];
+			$cid = $_POST['cid'];
+			$story = $this->UserStory->findById($cid);	
+			
+			
+		}else{
+			$data = json_decode(json_encode($this->request->input('json_decode')),true);
+			
+			$uid = $data['uid'];
+			$cid = $data['cid'];
+			$data = $data['card'];
+			
+			$story = $this->UserStory->findById($cid);
+			$fname = $story['UserStory']['pictures'];
 		}
 		
+		
+		//pr($data); die;
 		
 		$recommend = 0;
 		if($data['recommend'] == true) {
@@ -533,22 +599,23 @@ class AmeegoController extends AppController {
 		
 		$saved_arr = array(
 						
-						'user_id' => $data['user_id'],
+						
 						'title' => $data['title'],
 						'notes' => $data['notes'],
 						'time_spent' => $data['time_spent'],
 						'pictures' => $fname,
 						'is_recommended' => $recommend,
 						'location' => $data['place_name'],
-						'place_id' => $data['place_id'],
 						'created' => date('Y-m-d H:i:s')
 		);
 		
 		
-		$this->UserStory->create();
-		if($story = $this->UserStory->save($saved_arr)){
+		$this->UserStory->id = $cid;
+		if($this->UserStory->save($saved_arr)){
 			
 			if(!empty($data['categories'])) {
+				
+				$this->StoryCategory->deleteAll(array('StoryCategory.story_id' => $story['UserStory']['id']));
 				
 				$saveCats = array(); $i = 0;
 				$date = date('Y-m-d H:i:s');
@@ -564,6 +631,28 @@ class AmeegoController extends AppController {
 				$this->StoryCategory->saveAll($saveCats);
 				
 			}
+				
+			if(!empty($data['places'])) {
+				
+				$this->Place->deleteAll(array('Place.story_id' => $story['UserStory']['id']));
+				
+				$savePlaces = array(); $j = 0;
+				foreach($data['places'] as $pl) {
+					
+					$savePlaces[$j]['story_id'] = $story['UserStory']['id'];
+					$savePlaces[$j]['place_id'] = $pl['place_id'];
+					$savePlaces[$j]['place_name'] = $pl['place_name'];
+					$savePlaces[$j]['formatted_address'] = $pl['formatted_address'];
+					$savePlaces[$j]['longitude'] = $pl['longitude'];
+					$savePlaces[$j]['latitude'] = $pl['latitude'];
+					$savePlaces[$j]['created'] = $date;
+					$j++;
+				}
+				
+				$this->Place->create();
+				$this->Place->saveAll($savePlaces);
+			}
+			
 			
 			$return_data = array('status' => true, 'message' => 'saved');
 			echo json_encode($return_data); die;
@@ -574,6 +663,128 @@ class AmeegoController extends AppController {
 		}
 		
 		die;
+	}
+	
+	
+	
+	public function deletePlace() {
+		
+		$data = json_decode(json_encode($this->request->input('json_decode')),true);
+		if(!empty($data)) {
+			
+			$place = $this->Place->findByIdAndPlaceId($data['pl_id'], $data['pid']);
+			if(!empty($place)) {
+				
+				$this->Place->delete($data['pl_id']);
+				$return_data = array('status' => true, 'message' => 'success');
+				echo json_encode($return_data); die;
+				
+			}else{
+				$return_data = array('status' => false, 'message' => 'No place found');
+				echo json_encode($return_data); die;
+			}
+			
+		}else{
+			$return_data = array('status' => false, 'message' => 'Invalid request');
+			echo json_encode($return_data); die;
+		}
+		
+	}
+	
+	
+	public function updateViews($id = null) {
+		
+		if(!empty($id)) {
+			
+			$story = $this->UserStory->findById($id);
+			if(!empty($story)) {
+				
+				$newcount = $story['UserStory']['views'] + 1;
+				
+				 if($this->UserStory->updateAll(
+					array('UserStory.views' => 'UserStory.views+1'),                    
+					array('UserStory.id' => $id)
+				)) {
+					$return_data = array('status' => true, 'message' => 'count updated', 'data' => $newcount);
+					echo json_encode($return_data); die;
+				
+				}else{
+					$return_data = array('status' => false, 'message' => 'There is some error!');
+					echo json_encode($return_data); die;
+				}
+				
+				
+			}else{
+				$return_data = array('status' => false, 'message' => 'story not found');
+				echo json_encode($return_data); die;
+			}
+			
+		}else{
+			$return_data = array('status' => false, 'message' => 'Invalid request');
+			echo json_encode($return_data); die;
+		}
+	
+		
+	}
+	
+	
+	public function likeCard() {
+		
+		$data = json_decode(json_encode($this->request->input('json_decode')),true);
+		if(!empty($data)) {
+			
+			$exist = $this->Like->findByUserIdAndStoryId($data['uid'], $data['cid']);	
+			if(empty($exist)) {
+				
+				$arr = array(
+							'user_id' => $data['uid'],
+							'story_id' => $data['cid'],
+							'created' => date('Y-m-d H:i:s')
+						);
+						
+				$this->Like->create();
+				if($this->Like->save($arr)) {
+					$return_data = array('status' => true, 'message' => 'Card added to your favourite card logs');
+					echo json_encode($return_data); die;
+				}else{
+					$return_data = array('status' => false, 'message' => 'There is some error');
+					echo json_encode($return_data); die;
+				}		
+				
+			}else{
+				$return_data = array('status' => true, 'message' => 'Card added to your favourite card logs');
+				echo json_encode($return_data); die;
+			}
+			
+		}else{
+			$return_data = array('status' => false, 'message' => 'Invalid request');
+			echo json_encode($return_data); die;
+		}
+	}
+	
+	
+	public function getUserLikedStories($user_id = null) {
+		
+		if(!empty($user_id)) {
+			
+			$this->Like->bindModel(array(
+								'belongsTo' => array(
+									'UserStory' => array(
+										'className' => 'UserStory',
+										'foreignKey' => 'story_id'
+									)
+								)
+							));
+			$stories = $this->Like->findAllByUserId($user_id);
+			
+			$return_data = array('status' => true, 'message' => 'success', 'data' => $stories);
+			echo json_encode($return_data); die;
+			
+		}else{
+			$return_data = array('status' => false, 'message' => 'Invalid request');
+			echo json_encode($return_data); die;
+		}
+		
 	}
 	
 	

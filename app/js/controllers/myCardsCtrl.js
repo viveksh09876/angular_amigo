@@ -1,12 +1,11 @@
 app.controller('myCardsCtrl', function($scope, dataFactory, ModalService, $rootScope, $http,Upload, $timeout,   $document){
 	
-	
 	$scope.trendingCards = [];
 	$scope.myCards = [];
 	$scope.newCard = {};
 	$scope.categories = [];
-	$scope.place = null;
-	
+	$scope.addedPlaces = [];
+	$scope.likedStories = [];
 	
 	$scope.close = function(result) {
 		$scope.newCard = {};
@@ -21,6 +20,10 @@ app.controller('myCardsCtrl', function($scope, dataFactory, ModalService, $rootS
 	
 	dataFactory.getData('/ameego/getUserStories/'+$rootScope.userDetails.user_id).success(function(response){
 		$scope.myCards = response.data;		
+	});
+	
+	dataFactory.getData('/ameego/getUserLikedStories/'+$rootScope.userDetails.user_id).success(function(response){
+		$scope.likedStories = response.data;		
 	});
 	
 	dataFactory.getData('/ameego/getCategories').success(function(response){
@@ -41,7 +44,12 @@ app.controller('myCardsCtrl', function($scope, dataFactory, ModalService, $rootS
 			showCheckAll: false,
 			showUncheckAll: false,
 			closeOnSelect: true,
-			selectionLimit: 2
+			selectionLimit: 2,
+			smartButtonMaxItems: 2,
+			smartButtonTextConverter: function(itemText, originalItem) {
+				
+				return itemText;
+			}
 	};
 	
 	 	
@@ -64,10 +72,7 @@ app.controller('myCardsCtrl', function($scope, dataFactory, ModalService, $rootS
 				notes: "",
 				time_spent: "",				
 				recommend: "",
-				place: "",
-				place_id: "",
-				place_name: "",
-				place_photo: ""
+				places: []
 			};
 		
 		
@@ -76,17 +81,38 @@ app.controller('myCardsCtrl', function($scope, dataFactory, ModalService, $rootS
 	
 	$scope.captureFile = function(file, errFiles) {
 		$scope.f = file;
-		//console.log(file);
         $scope.errFile = errFiles && errFiles[0];		
 	}
 	
 	
 	$scope.$on('g-places-autocomplete:select', function (event, param) {
-		//console.log(param);
-	  $scope.cardData.place_id = param.place_id;
-	  $scope.cardData.place_name = param.name;
+		
+	  var newPlace = {};
+		
+	  newPlace.place_id = param.place_id;
+	  newPlace.place_name = param.name;
+	  newPlace.latitude = param.geometry.location.lat();
+	  newPlace.longitude = param.geometry.location.lng();
+	  newPlace.formatted_address = param.formatted_address;
+	  
+	  $scope.cardData.places.push(newPlace);
+	  
+	  setTimeout(function(){
+		  $scope.cardData.place = '';
+	  },500);
+	  
 	});
 	
+	
+	$scope.removePlace = function(place) {
+		var updatedPlaces = [];
+		for(var i = 0; i < $scope.cardData.places.length; i++) {
+			if($scope.cardData.places[i].place_id != place.place_id) {
+				updatedPlaces.push($scope.cardData.places[i]);
+			}
+		}	
+		$scope.cardData.places = updatedPlaces;
+	}
 	
 	
 	$scope.addNewCard = function() {
@@ -103,7 +129,11 @@ app.controller('myCardsCtrl', function($scope, dataFactory, ModalService, $rootS
                 $timeout(function () {
                     file.result = response.data;
 					dataFactory.getData('/ameego/getUserStories/'+$rootScope.userDetails.user_id).success(function(response){
-						$scope.myCards = response.data;		
+						$scope.myCards = response.data;	
+						setTimeout(function(){
+							$scope.$apply();
+						},500);
+							
 					});
 					$scope.showLoading = false;
 					//close popup

@@ -11,13 +11,15 @@ app.controller('editCardCtrl', function($scope, close, $element, cardId, dataFac
 	$scope.cardData = {};
 	$scope.showLoading = true;
 	$scope.categories = [];
-    $scope.place = null;
+    $scope.places = [];
 	$scope.selectedCategories = [];
 	$scope.showPhoto = true;
+		
 
 	dataFactory.getData('/ameego/getStory/'+cardId).success(function(response){
 		$scope.cardData = response.data;
-		$scope.selectedCategories = response.data.cat_ids;		
+		$scope.selectedCategories = response.data.cat_ids;	
+			
 		$scope.showLoading = false;		
 	});
 	
@@ -60,14 +62,56 @@ app.controller('editCardCtrl', function($scope, close, $element, cardId, dataFac
 	
 	
 	$scope.$on('g-places-autocomplete:select', function (event, param) {
-		//console.log(param);
-	  $scope.cardData.place_id = param.place_id;
-	  $scope.cardData.place_name = param.name;
+		
+	  var newPlace = {};
+		
+	  newPlace.place_id = param.place_id;
+	  newPlace.place_name = param.name;
+	  newPlace.latitude = param.geometry.location.lat();
+	  newPlace.longitude = param.geometry.location.lng();
+	  newPlace.formatted_address = param.formatted_address;
+	  
+	  $scope.cardData.places.push(newPlace);
+	  
+	  setTimeout(function(){
+		  $scope.cardData.place = '';
+	  },500);
+	  
 	});
 	
-	$scope.addNewCard = function() {
+	
+	$scope.removePlace = function(place) {
+		
+		if(place.id) {
+			dataFactory.postData('/ameego/deletePlace', {pid: place.place_id, pl_id: place.id}).success(function(response){
+				if(response.status == true) {
+					
+					var updatedPlaces = [];
+					for(var i = 0; i < $scope.cardData.places.length; i++) {
+						if($scope.cardData.places[i].place_id != place.place_id) {
+							updatedPlaces.push($scope.cardData.places[i]);
+						}
+					}	
+					$scope.cardData.places = updatedPlaces;
+				}
+			});
+		
+		}else{
+			var updatedPlaces = [];
+			for(var i = 0; i < $scope.cardData.places.length; i++) {
+				if($scope.cardData.places[i].place_id != place.place_id) {
+					updatedPlaces.push($scope.cardData.places[i]);
+				}
+			}	
+			$scope.cardData.places = updatedPlaces;
+		}	
+	}
+	
+	$scope.editCard = function() {
 		$scope.showLoading = true;
     	var file = $scope.f;
+		
+		$scope.cardData.categories = $scope.selectedCategories;
 		
         if (file) {
             file.upload = Upload.upload({
@@ -79,7 +123,10 @@ app.controller('editCardCtrl', function($scope, close, $element, cardId, dataFac
                 $timeout(function () {
                     file.result = response.data;
 					dataFactory.getData('/ameego/getUserStories/'+$rootScope.userDetails.user_id).success(function(response){
-						$scope.myCards = response.data;		
+						$scope.myCards = response.data;	
+						setTimeout(function(){
+							$scope.$apply();
+						},500);
 					});
 					$scope.showLoading = false;
 					//close popup
@@ -96,7 +143,25 @@ app.controller('editCardCtrl', function($scope, close, $element, cardId, dataFac
                 file.progress = Math.min(100, parseInt(100.0 * 
                                          evt.loaded / evt.total));
             });
-        }   
+        }else{
+			
+			dataFactory.postData('/ameego/updateCard',{ card: $scope.cardData, cid: cardId, uid: $rootScope.userDetails.user_id }).success(function(response){
+						$scope.myCards = response.data;		
+						dataFactory.getData('/ameego/getUserStories/'+$rootScope.userDetails.user_id).success(function(response){
+								$scope.myCards = response.data;	
+								$timeout(function(){
+									$scope.$apply();
+								},200);
+						});
+						$scope.showLoading = false;
+						//close popup
+						$scope.close('cancel');
+						$document[0].body.classList.remove('modal-open');				
+						angular.element($document[0].getElementsByClassName('modal-backdrop')).remove();
+						angular.element($document[0].getElementsByClassName('modal')).remove();
+			});
+			
+		}   
     }
 
 });
