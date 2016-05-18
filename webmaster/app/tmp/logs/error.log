@@ -1,0 +1,21 @@
+2016-05-17 23:55:05 Error: [MissingConnectionException] Database connection "Mysql" is missing, or could not be created.
+Exception Attributes: array (
+  'class' => 'Mysql',
+  'message' => 'SQLSTATE[HY000] [1045] Access denied for user \'root\'@\'localhost\' (using password: YES)',
+  'enabled' => true,
+)
+Request URL: /Ameego/webmaster/ameego/getAllUserStories
+Stack Trace:
+#0 D:\xampp\htdocs\Ameego\webmaster\lib\Cake\Model\Datasource\DboSource.php(262): Mysql->connect()
+#1 D:\xampp\htdocs\Ameego\webmaster\lib\Cake\Model\ConnectionManager.php(108): DboSource->__construct(Array)
+#2 D:\xampp\htdocs\Ameego\webmaster\lib\Cake\Model\Model.php(3215): ConnectionManager::getDataSource('default')
+#3 D:\xampp\htdocs\Ameego\webmaster\lib\Cake\Model\Model.php(1108): Model->setDataSource('default')
+#4 D:\xampp\htdocs\Ameego\webmaster\lib\Cake\Model\Model.php(3237): Model->setSource('user_stories')
+#5 D:\xampp\htdocs\Ameego\webmaster\lib\Cake\Model\Model.php(2694): Model->getDataSource()
+#6 D:\xampp\htdocs\Ameego\webmaster\app\Controller\AmeegoController.php(347): Model->find('all', Array)
+#7 [internal function]: AmeegoController->getAllUserStories()
+#8 D:\xampp\htdocs\Ameego\webmaster\lib\Cake\Controller\Controller.php(486): ReflectionMethod->invokeArgs(Object(AmeegoController), Array)
+#9 D:\xampp\htdocs\Ameego\webmaster\lib\Cake\Routing\Dispatcher.php(187): Controller->invokeAction(Object(CakeRequest))
+#10 D:\xampp\htdocs\Ameego\webmaster\lib\Cake\Routing\Dispatcher.php(162): Dispatcher->_invoke(Object(AmeegoController), Object(CakeRequest), Object(CakeResponse))
+#11 D:\xampp\htdocs\Ameego\webmaster\app\webroot\index.php(132): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#12 {main}

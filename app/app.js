@@ -32,6 +32,10 @@ app.config(function($routeProvider, $httpProvider, $facebookProvider){
 	//$rootScope.rootUrl = 'http://genesievents.com/demo';
 	$rootScope.rootUrl = 'http://localhost/Ameego';
 	$rootScope.siteUrl = 'http://localhost/Ameego/webmaster';
+	
+	//$rootScope.rootUrl = 'http://192.241.237.59';
+	//$rootScope.siteUrl = 'http://192.241.237.59/webmaster';
+	
 	$rootScope.isLoggedIn = false;
 	$rootScope.userDetails = null;
 	

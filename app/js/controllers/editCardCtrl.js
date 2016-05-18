@@ -124,13 +124,11 @@ app.controller('editCardCtrl', function($scope, close, $element, cardId, dataFac
                     file.result = response.data;
 					dataFactory.getData('/ameego/getUserStories/'+$rootScope.userDetails.user_id).success(function(response){
 						$scope.myCards = response.data;	
-						setTimeout(function(){
-							$scope.$apply();
-						},500);
+						$scope.close(response.data);
 					});
 					$scope.showLoading = false;
 					//close popup
-					$scope.close('cancel');
+					
 					$document[0].body.classList.remove('modal-open');				
 					angular.element($document[0].getElementsByClassName('modal-backdrop')).remove();
 					angular.element($document[0].getElementsByClassName('modal')).remove();
@@ -149,13 +147,11 @@ app.controller('editCardCtrl', function($scope, close, $element, cardId, dataFac
 						$scope.myCards = response.data;		
 						dataFactory.getData('/ameego/getUserStories/'+$rootScope.userDetails.user_id).success(function(response){
 								$scope.myCards = response.data;	
-								$timeout(function(){
-									$scope.$apply();
-								},200);
+								$scope.close(response.data);
 						});
 						$scope.showLoading = false;
 						//close popup
-						$scope.close('cancel');
+						
 						$document[0].body.classList.remove('modal-open');				
 						angular.element($document[0].getElementsByClassName('modal-backdrop')).remove();
 						angular.element($document[0].getElementsByClassName('modal')).remove();

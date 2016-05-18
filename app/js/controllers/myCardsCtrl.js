@@ -9,7 +9,13 @@ app.controller('myCardsCtrl', function($scope, dataFactory, ModalService, $rootS
 	
 	$scope.close = function(result) {
 		$scope.newCard = {};
-		//$element.modal('hide');
+		if(result.data) {
+			$scope.myCards = result.data;
+			console.log($scope.myCards);
+			$timeout(function(){
+				$scope.$apply();
+			},200);
+		}
 		close(result, 500); // close, but give 500ms for bootstrap to animate
 	 };
 	
@@ -57,120 +63,20 @@ app.controller('myCardsCtrl', function($scope, dataFactory, ModalService, $rootS
 		
         ModalService.showModal({
             templateUrl: 'app/partials/addCard.html',
-            controller: 'myCardsCtrl'
+            controller: 'addCardCtrl'
         }).then(function(modal) {
-			modal.element.modal();			
+			modal.element.modal();	
+			modal.close.then(function(result) {
+				
+				$scope.myCards = result;
+			  });	
         });
 		
     };	
 	
 	
-	$scope.cardData = {
-				user_id: $rootScope.userDetails.user_id,
-				title:"",
-				categories: $scope.selectedCategories,
-				notes: "",
-				time_spent: "",				
-				recommend: "",
-				places: []
-			};
+	
 		
-		
-	$scope.f = null;
-	$scope.errFile = null;
-	
-	$scope.captureFile = function(file, errFiles) {
-		$scope.f = file;
-        $scope.errFile = errFiles && errFiles[0];		
-	}
-	
-	
-	$scope.$on('g-places-autocomplete:select', function (event, param) {
-		
-	  var newPlace = {};
-		
-	  newPlace.place_id = param.place_id;
-	  newPlace.place_name = param.name;
-	  newPlace.latitude = param.geometry.location.lat();
-	  newPlace.longitude = param.geometry.location.lng();
-	  newPlace.formatted_address = param.formatted_address;
-	  
-	  $scope.cardData.places.push(newPlace);
-	  
-	  setTimeout(function(){
-		  $scope.cardData.place = '';
-	  },500);
-	  
-	});
-	
-	
-	$scope.removePlace = function(place) {
-		var updatedPlaces = [];
-		for(var i = 0; i < $scope.cardData.places.length; i++) {
-			if($scope.cardData.places[i].place_id != place.place_id) {
-				updatedPlaces.push($scope.cardData.places[i]);
-			}
-		}	
-		$scope.cardData.places = updatedPlaces;
-	}
-	
-	
-	$scope.addNewCard = function() {
-		$scope.showLoading = true;
-    	var file = $scope.f;
-		
-        if (file) {
-            file.upload = Upload.upload({
-                url: $rootScope.siteUrl + '/ameego/addCard',
-                data: {file: file, card: $scope.cardData}
-            });
-
-            file.upload.then(function (response) {
-                $timeout(function () {
-                    file.result = response.data;
-					dataFactory.getData('/ameego/getUserStories/'+$rootScope.userDetails.user_id).success(function(response){
-						$scope.myCards = response.data;	
-						setTimeout(function(){
-							$scope.$apply();
-						},500);
-							
-					});
-					$scope.showLoading = false;
-					//close popup
-					$scope.close('cancel');
-					$document[0].body.classList.remove('modal-open');				
-					angular.element($document[0].getElementsByClassName('modal-backdrop')).remove();
-					angular.element($document[0].getElementsByClassName('modal')).remove();
-                
-				});
-            }, function (response) {
-                if (response.status > 0)
-                    $scope.errorMsg = response.status + ': ' + response.data;
-            }, function (evt) {
-                file.progress = Math.min(100, parseInt(100.0 * 
-                                         evt.loaded / evt.total));
-            });
-        }   
-    }
-	
-	
-	$scope.reallyDelete = function(id) {
-		dataFactory.postData('/ameego/deleteStory', {uid: $rootScope.userDetails.user_id, cid: id}).success(function(response){
-			if(response.status == true) {
-				
-				var updatedCards = [];
-				
-				for(var i = 0; i < $scope.myCards.length; i++) {
-					if($scope.myCards[i].id != id) {
-						updatedCards.push($scope.myCards[i]);
-					}
-				}
-				
-				$scope.myCards = updatedCards;
-			}
-		});
-	};
-	
 	
 	$scope.showEditCard = function(id) {
 		
@@ -181,7 +87,11 @@ app.controller('myCardsCtrl', function($scope, dataFactory, ModalService, $rootS
 				cardId: id
 			}
         }).then(function(modal) {
-			modal.element.modal();			
+			modal.element.modal();	
+			modal.close.then(function(result) {
+				//console.log(result);
+				$scope.myCards = result;
+			  });	
         });
 	
 	}

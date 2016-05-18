@@ -65,6 +65,20 @@ class DATABASE_CONFIG {
 		'prefix' => '',
 		//'encoding' => 'utf8',
 	);
+	
+	/*
+	
+	public $default = array(
+		'datasource' => 'Database/Mysql',
+		'persistent' => false,
+		'host' => 'localhost',
+		'login' => 'root',
+		'password' => 'reCo!@345',
+		'database' => 'reco',
+		'prefix' => '',
+		//'encoding' => 'utf8',
+	);
+	*/
 
 	
 	

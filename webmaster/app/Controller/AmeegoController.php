@@ -298,8 +298,9 @@ class AmeegoController extends AppController {
 					$data[$i]['place'] = $story['UserStory']['location'];
 					$data[$i]['notes'] = $story['UserStory']['notes'];
 					$data[$i]['time_spent'] = $story['UserStory']['time_spent'];
-					$data[$i]['pictures'] = 'http://www.genesievents.com/demo/webmaster/img/places/'.$story['UserStory']['pictures'];
-					//$data[$i]['pictures'] = 'http://localhost/Ameego/webmaster/img/places/'.$story['UserStory']['pictures'];
+					//$data[$i]['pictures'] = 'http://www.genesievents.com/demo/webmaster/img/places/'.$story['UserStory']['pictures'];
+					$data[$i]['pictures'] = 'http://localhost/Ameego/webmaster/img/places/'.$story['UserStory']['pictures'];
+					//$data[$i]['pictures'] = 'http://192.241.237.59/webmaster/img/places/'.$story['UserStory']['pictures'];
 					$data[$i]['recommend'] = $story['UserStory']['is_recommended'];
 					
 					$cats = ''; $j = 0;
@@ -356,8 +357,10 @@ class AmeegoController extends AppController {
 					$data[$i]['notes'] = $story['UserStory']['notes'];
 					$data[$i]['time_spent'] = $story['UserStory']['time_spent'];
 					$data[$i]['views'] = $story['UserStory']['views'];
-					$data[$i]['pictures'] = 'http://www.genesievents.com/demo/webmaster/img/places/'.$story['UserStory']['pictures'];
-					//$data[$i]['pictures'] = 'http://localhost/Ameego/webmaster/img/places/'.$story['UserStory']['pictures'];
+					//$data[$i]['pictures'] = 'http://www.genesievents.com/demo/webmaster/img/places/'.$story['UserStory']['pictures'];
+					$data[$i]['pictures'] = 'http://localhost/Ameego/webmaster/img/places/'.$story['UserStory']['pictures'];
+					//$data[$i]['pictures'] = 'http://192.241.237.59/webmaster/img/places/'.$story['UserStory']['pictures'];
+					
 					$data[$i]['recommend'] = $story['UserStory']['is_recommended'];
 					
 					$cats = ''; $j = 0;
@@ -439,8 +442,10 @@ class AmeegoController extends AppController {
 				$data['notes'] = $story['UserStory']['notes'];
 				$data['time_spent'] = $story['UserStory']['time_spent'];
 				$data['views'] = $story['UserStory']['views'];
-				$data['pictures'] = 'http://www.genesievents.com/demo/webmaster/img/places/'.$story['UserStory']['pictures'];
-				//$data['pictures'] = 'http://localhost/Ameego/webmaster/img/places/'.$story['UserStory']['pictures'];
+				//$data['pictures'] = 'http://www.genesievents.com/demo/webmaster/img/places/'.$story['UserStory']['pictures'];
+				$data['pictures'] = 'http://localhost/Ameego/webmaster/img/places/'.$story['UserStory']['pictures'];
+				//$data['pictures'] = 'http://192.241.237.59/webmaster/img/places/'.$story['UserStory']['pictures'];
+				
 				$data['recommend'] = $story['UserStory']['is_recommended'];
 				
 				$cats = $cat_ids = array(); $j = 0; $tags = array();
