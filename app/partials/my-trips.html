@@ -1,0 +1,59 @@
+    	<div class="overlay" ng-click="toggleMenu()"></div>
+        <div class="head-sec">
+			<a ng-click="toggleMenu()" class="toggle"><i class="fa fa-navicon"></i></a>
+			 <div class="wrapper">
+				<img src="{{$root.rootUrl}}/app/images/logo.jpeg" alt=""/>
+			</div>
+		</div>
+      	<div class="left_sec">
+            <div class="btns_sec">
+            	<a class="btn">Trip List</a>
+				<a ng-click="showTripList=!showTripList" class="btn">Create Trip</a>
+            </div>
+            <div class="logs-list" ng-show="showTripList">
+            	<h4>Your Trip</h4>
+                <div class="log_container">
+                	<div class="logbox" ng-repeat="mTrip in myTrips">
+                    	<div class="whitelog">
+                        	<i class="fa fa-camera-retro"></i>
+							<i class="fa fa-pencil-square-o" title="Edit" ng-click="showEditTrip(mTrip.id)"></i>
+							<i class="fa fa-remove" title="Delete" ng-really-message="Are you sure, you want to delete this trip?" ng-really-click="reallyDelete(mTrip.id)" item="mTrip.id"></i>
+                        	<p>{{mTrip.title}}</p>
+                            <small>{{mTrip.notes}}</small>
+                        </div>
+                        <div class="graylog">
+                        	<img src="{{mTrip.pictures}}" alt=""/>
+                            <p>{{mTrip.location}}</p>
+                            <small>{{mTrip.categories}}</small>
+                        </div>
+                    </div>
+                   
+                </div>
+            </div>
+        
+		    <div class="logs-list" ng-show="!showTripList">
+            	<h4>Create Trip</h4>
+                <div class="log_container">
+                	<div class="trip-title">
+						<label>Trip Title</label>
+						<input type="text" ng-model="tripDetails.title"/>
+					</div>
+					<div class="logbox">
+                    	
+                    </div>
+                   
+                </div>
+            </div>
+        
+		</div>
+        <div class="right_sec">
+        	<div class="right_search">
+            	<a href="#"><i class="fa fa-search"></i></a>
+                <input type="search" value="Search your saved Pages" onClick="if(this.value=''){this.value=='Search your saved Pages'}" onBlur="if(this.value='Search your saved Pages'){this.value==''}">
+            </div>
+            <ul>
+            	<li ng-repeat="mCard in myCards"><img src="{{mCard.pictures}}" alt=""><a>{{mCard.title}}</a><p>{{mCard.location}}</p></li>
+            </ul>
+        </div>
+        
+    

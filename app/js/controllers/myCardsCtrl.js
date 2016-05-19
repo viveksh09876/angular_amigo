@@ -65,7 +65,10 @@ app.controller('myCardsCtrl', function($scope, dataFactory, ModalService, $rootS
             templateUrl: 'app/partials/addCard.html',
             controller: 'addCardCtrl'
         }).then(function(modal) {
-			modal.element.modal();	
+			modal.element.modal({
+			   backdrop: 'static',
+			   keyboard: false
+		   });	
 			modal.close.then(function(result) {
 				
 				$scope.myCards = result;
@@ -87,7 +90,10 @@ app.controller('myCardsCtrl', function($scope, dataFactory, ModalService, $rootS
 				cardId: id
 			}
         }).then(function(modal) {
-			modal.element.modal();	
+			modal.element.modal({
+			   backdrop: 'static',
+			   keyboard: false
+		   });	
 			modal.close.then(function(result) {
 				//console.log(result);
 				$scope.myCards = result;

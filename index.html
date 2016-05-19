@@ -27,6 +27,8 @@
 				<li><a ng-click="goToLocation('/')">Home <i class="pull-right fa fa-chevron-right"></i></a></li>
 				
 				<li ng-if="$root.isLoggedIn == true"><a ng-click="goToLocation('/my-cards')">My Cards <i class="pull-right fa fa-chevron-right"></i></a></li>
+				
+				<li ng-if="$root.isLoggedIn == true"><a ng-click="goToLocation('/my-trips')">My Trips <i class="pull-right fa fa-chevron-right"></i></a></li>
 			</ul>
 		</div>
 		
@@ -43,7 +45,7 @@
 	<script type="text/javascript" src="app/js/libs/imagesLoaded.js"></script>
 	<script type="text/javascript" src="app/js/libs/ng-file-upload-shim.js"></script>
 	<script type="text/javascript" src="app/js/libs/fileUpload.js"></script>
-	<script src="https://maps.googleapis.com/maps/api/js?libraries=places&language=en&key=AIzaSyCkjaOVFvLTTmfEhqqhwT6J7b8GVueQpYg"></script>
+	<!--<script src="https://maps.googleapis.com/maps/api/js?libraries=places&language=en&key=AIzaSyCkjaOVFvLTTmfEhqqhwT6J7b8GVueQpYg"></script>-->
 	<script type="text/javascript" src="app/js/libs/autocomplete.js"></script>
 	<script type="text/javascript" src="app/js/libs/imageupload.js"></script>
 	<script type="text/javascript" src="app/js/libs/angularjs-dropdown-multiselect.min.js"></script>
@@ -61,6 +63,7 @@
 	<script type="text/javascript" src="app/js/controllers/messageCtrl.js"></script>
 	<script type="text/javascript" src="app/js/controllers/loginCtrl.js"></script>
 	<script type="text/javascript" src="app/js/controllers/cardCtrl.js"></script>
+	<script type="text/javascript" src="app/js/controllers/myTripsCtrl.js"></script>
 	<script type="text/javascript" src="app/js/controllers/addCardCtrl.js"></script>
 	<script type="text/javascript" src="app/js/controllers/editCardCtrl.js"></script>
 	<script type="text/javascript" src="app/js/controllers/homeCtrl.js"></script>

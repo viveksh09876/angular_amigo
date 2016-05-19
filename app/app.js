@@ -11,6 +11,10 @@ app.config(function($routeProvider, $httpProvider, $facebookProvider){
 			templateUrl: 'app/partials/my-cards.html',
 			controller: 'myCardsCtrl'
 		})
+		.when('/my-trips', {
+			templateUrl: 'app/partials/my-trips.html',
+			controller: 'myTripsCtrl'
+		})
 		.when('/story/:storyId', {
 			templateUrl: 'app/partials/home.html',
 			controller: 'homeCtrl'
@@ -53,12 +57,12 @@ app.config(function($routeProvider, $httpProvider, $facebookProvider){
     });
 	
 	//fb load sdk
-	(function(d, s, id){
+	/*(function(d, s, id){
 		 var js, fjs = d.getElementsByTagName(s)[0];
 		 if (d.getElementById(id)) {return;}
 		 js = d.createElement(s); js.id = id;
 		 js.src = "//connect.facebook.net/en_US/sdk.js";
 		 fjs.parentNode.insertBefore(js, fjs);
 	   }(document, 'script', 'facebook-jssdk'));
-	
+	*/
 });
