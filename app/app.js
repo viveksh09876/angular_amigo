@@ -1,4 +1,5 @@
-var app = angular.module('recoApp', ['ngRoute','angularModalService','angularjs-dropdown-multiselect','ui.bootstrap','google.places','imageupload','ngFileUpload','ngFacebook']);
+var app = angular.module('recoApp', ['ngRoute','as.sortable','angularModalService','angularjs-dropdown-multiselect','ui.bootstrap','google.places','imageupload','ngFileUpload','ngFacebook']);
+
 
 app.config(function($routeProvider, $httpProvider, $facebookProvider){
 	
@@ -39,6 +40,10 @@ app.config(function($routeProvider, $httpProvider, $facebookProvider){
 	
 	//$rootScope.rootUrl = 'http://192.241.237.59';
 	//$rootScope.siteUrl = 'http://192.241.237.59/webmaster';
+	
+	//$rootScope.rootUrl = 'http://www.explorereco.com';
+	//$rootScope.siteUrl = 'http://www.explorereco.com/webmaster';
+	
 	
 	$rootScope.isLoggedIn = false;
 	$rootScope.userDetails = null;

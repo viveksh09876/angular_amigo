@@ -1,19 +1,50 @@
-2016-05-17 23:55:05 Error: [MissingConnectionException] Database connection "Mysql" is missing, or could not be created.
+2016-05-22 20:11:52 Error: [MissingControllerException] Controller class ImgController could not be found.
 Exception Attributes: array (
-  'class' => 'Mysql',
-  'message' => 'SQLSTATE[HY000] [1045] Access denied for user \'root\'@\'localhost\' (using password: YES)',
-  'enabled' => true,
+  'class' => 'ImgController',
+  'plugin' => NULL,
 )
-Request URL: /Ameego/webmaster/ameego/getAllUserStories
+Request URL: /Ameego/webmaster/img/places/place-image.jpg
 Stack Trace:
-#0 D:\xampp\htdocs\Ameego\webmaster\lib\Cake\Model\Datasource\DboSource.php(262): Mysql->connect()
-#1 D:\xampp\htdocs\Ameego\webmaster\lib\Cake\Model\ConnectionManager.php(108): DboSource->__construct(Array)
-#2 D:\xampp\htdocs\Ameego\webmaster\lib\Cake\Model\Model.php(3215): ConnectionManager::getDataSource('default')
-#3 D:\xampp\htdocs\Ameego\webmaster\lib\Cake\Model\Model.php(1108): Model->setDataSource('default')
-#4 D:\xampp\htdocs\Ameego\webmaster\lib\Cake\Model\Model.php(3237): Model->setSource('user_stories')
-#5 D:\xampp\htdocs\Ameego\webmaster\lib\Cake\Model\Model.php(2694): Model->getDataSource()
-#6 D:\xampp\htdocs\Ameego\webmaster\app\Controller\AmeegoController.php(347): Model->find('all', Array)
-#7 [internal function]: AmeegoController->getAllUserStories()
+#0 D:\xampp\htdocs\Ameego\webmaster\app\webroot\index.php(132): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2016-05-22 20:12:25 Error: [MissingControllerException] Controller class ImgController could not be found.
+Exception Attributes: array (
+  'class' => 'ImgController',
+  'plugin' => NULL,
+)
+Request URL: /Ameego/webmaster/img/places/place-image.jpg
+Stack Trace:
+#0 D:\xampp\htdocs\Ameego\webmaster\app\webroot\index.php(132): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2016-05-22 20:12:29 Error: [MissingControllerException] Controller class ImgController could not be found.
+Exception Attributes: array (
+  'class' => 'ImgController',
+  'plugin' => NULL,
+)
+Request URL: /Ameego/webmaster/img/places/place-image.jpg
+Stack Trace:
+#0 D:\xampp\htdocs\Ameego\webmaster\app\webroot\index.php(132): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2016-05-22 20:12:48 Error: [MissingControllerException] Controller class ImgController could not be found.
+Exception Attributes: array (
+  'class' => 'ImgController',
+  'plugin' => NULL,
+)
+Request URL: /Ameego/webmaster/img/places/place-image.jpg
+Stack Trace:
+#0 D:\xampp\htdocs\Ameego\webmaster\app\webroot\index.php(132): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2016-05-22 20:20:40 Error: [PDOException] SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'card_id' cannot be null
+Request URL: /Ameego/webmaster/ameego/updateTrip
+Stack Trace:
+#0 D:\xampp\htdocs\Ameego\webmaster\lib\Cake\Model\Datasource\DboSource.php(460): PDOStatement->execute(Array)
+#1 D:\xampp\htdocs\Ameego\webmaster\lib\Cake\Model\Datasource\DboSource.php(426): DboSource->_execute('INSERT INTO `am...', Array)
+#2 D:\xampp\htdocs\Ameego\webmaster\lib\Cake\Model\Datasource\DboSource.php(1008): DboSource->execute('INSERT INTO `am...')
+#3 D:\xampp\htdocs\Ameego\webmaster\lib\Cake\Model\Model.php(1742): DboSource->create(Object(AppModel), Array, Array)
+#4 D:\xampp\htdocs\Ameego\webmaster\lib\Cake\Model\Model.php(2110): Model->save(Array, Array)
+#5 D:\xampp\htdocs\Ameego\webmaster\lib\Cake\Model\Model.php(2047): Model->saveMany(Array, Array)
+#6 D:\xampp\htdocs\Ameego\webmaster\app\Controller\AmeegoController.php(1332): Model->saveAll(Array)
+#7 [internal function]: AmeegoController->updateTrip()
 #8 D:\xampp\htdocs\Ameego\webmaster\lib\Cake\Controller\Controller.php(486): ReflectionMethod->invokeArgs(Object(AmeegoController), Array)
 #9 D:\xampp\htdocs\Ameego\webmaster\lib\Cake\Routing\Dispatcher.php(187): Controller->invokeAction(Object(CakeRequest))
 #10 D:\xampp\htdocs\Ameego\webmaster\lib\Cake\Routing\Dispatcher.php(162): Dispatcher->_invoke(Object(AmeegoController), Object(CakeRequest), Object(CakeResponse))

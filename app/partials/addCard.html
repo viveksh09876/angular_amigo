@@ -1,4 +1,9 @@
-
+<style>
+.modal-body{ overflow-y: scroll;}
+.modal-body label{ font-size: 14px; }
+.radio-group label{  margin: 3px 0 0;}
+.left_pop{ min-height: 301px;}
+</style>
  
  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
           <div class="modal-dialog" role="document">
@@ -13,69 +18,16 @@
               </div>
 			  <form name="form" enctype="multipart/form-data">
               <div class="modal-body">
-				
+				<div class="errMsg" ng-show="showError"><p>{{errMsg}}</p></div>
                 <div class="left_pop">
-                    <div class="formrow">
-                        <label>Title</label>
-                        <input type="text" placeholder="add a title" required ng-model="cardData.title"/>
-                    </div>
-                    <div class="formrow">
-                        <label>Category<br/><small>Max. 2 selection allowed</small></label>
-                        <div class="categorybox">
-                            <div ng-dropdown-multiselect="" options="categories" selected-model="selectedCategories" checkboxes="true" extra-settings="settings"></div>
-							
-							
-							<!--<ul>
-                                <li>
-                                    <input type="radio" name="cat">
-                                    <select name="cats[]">
-                                    	<option ng-repeat="(key, val) in categories" value="{{key}}">{{val}}</option>
-                               
-                                    </select>
-                                </li>
-                                <li>
-                                    <input type="radio" name="cat">
-                                    <select name="cats[]">
-                                    	<option ng-repeat="(key, val) in categories" value="{{key}}">{{val}}</option>
-                                    </select>
-                                </li>
-                            </ul>-->
-                        </div>
-                    </div> 
-                     <div class="formrow">
-                        <label>Notes</label>
-                        <textarea ng-model="cardData.notes"></textarea>
-                     </div>
-                     <div class="formrow">
-                        <label>Time spent</label>
-                        <input type="text" ng-model="cardData.time_spent">
-                     </div>
-                     <div class="formrow">
-                        <label>Add photo</label>
-						
-                        <div class="upload">
-							
-							  <input type="file" name="file" ngf-select="captureFile($file, $invalidFiles)" 
-												accept="image/*" ngf-max-height="1000" ngf-max-size="2MB">
-                        	<span>Upload File</span>
-							
-                        </div>
-						<img src="{{f.$ngfBlobUrl}}" style="height: 50px; width: 50px;">
-                     </div>  
-                </div>
-                <div class="right_pop">
-                	<div class="formrow">
-                    	<a ng-click="cardData.recommend=true" class="likebtn" ng-class="{'active':cardData.recommend == true}"><i class="fa fa-thumbs-o-up"></i> Yes, I Recommend</a>
-                        <a ng-click="cardData.recommend=false" class="likebtn" ng-class="{'active':cardData.recommend == false}"><i class="fa fa-thumbs-o-down"></i> No, Steer Clear</a>
-                    </div>
-                    <div class="formrow">
-                    	<label>Place(s)</label>
-                        
-                    </div>
-                    <div class="searchbox">
-                        <input type="text" class="google-places" ng-model="cardData.place" placeholder="Type the name of a place" g-places-autocomplete>
-						<a ng-click="cardData.place=''" ng-show="cardData.place.length>0"><i class="fa fa-remove"></i></a>
-                    </div>
+					<div class="formrow">
+                    	<label>Place(s)</label>                        
+						<div class="searchbox">
+							<input type="text" class="google-places" ng-model="cardData.place" placeholder="Type the name of a place" g-places-autocomplete>
+							<a ng-click="cardData.place=''" ng-show="cardData.place.length>0"><i class="fa fa-remove"></i></a>
+						</div>
+					</div>
+                    
 					<div class="formrow">
                     	<ul class="places-list">
 							<li ng-repeat="pl in cardData.places">
@@ -85,9 +37,65 @@
 								<small>{{pl.formatted_address}}</small>
 								</div>
 							</li>
-						</ul>
-                        
+						</ul>                        
                     </div>
+                    
+                     <div class="formrow">
+                        <label>Notes</label>
+                        <textarea ng-model="cardData.notes"></textarea>
+                     </div>
+                     <div class="formrow">
+                        <label>Time spent</label>
+                        <input type="text" ng-model="cardData.time_spent">
+                     </div>
+                     <div class="formrow" ng-show="!noPhoto">
+                        <label>Add photo<br/><small>Max. 5 photos allowed</small></label>			
+						
+                        <div class="upload">
+							
+							  <input type="file" name="files[]" ngf-select="captureFile($files, $invalidFiles)" accept="image/*" ngf-max-height="1000" ngf-max-size="2MB" multiple>
+                        	<span>Upload File</span>
+							
+                        </div>
+						
+                     </div> 
+					<div class="formrow" ng-show="!noPhoto">
+						<div class="img-prev" ng-repeat="fl in f" style="float:left; padding-right: 3px;">
+							<img src="{{fl.$ngfBlobUrl}}" style="height: 50px; width: 50px;">
+						</div>		
+					</div>		
+					 <div class="formrow" style="text-align:center;">
+						<label style="width: 100%;">
+							<input type="checkbox" ng-model="noPhoto"/>
+							I don't have a photo<br>
+							<small>You can come back and add one later</small>
+						</label>
+					 </div>
+                </div>
+                <div class="right_pop">
+                	<div class="formrow">
+						<label style="width: 100%;">Recommend if you have ______ at this location</label>
+						<div class="radio-group">
+							<label><input type="radio" value="1" ng-model="cardData.recommend"/>Half a day</label>
+							<label><input type="radio" value="2" ng-model="cardData.recommend"/>A weekend</label>
+							<label><input type="radio" value="3" ng-model="cardData.recommend"/>1 week +</label>
+							<label><input type="radio" value="4" ng-model="cardData.recommend"/>Steer clear regardless</label>
+							<label><input type="radio" value="5" ng-model="cardData.recommend"/>Haven't been yet, hoping so</label>
+						</div>
+                    	
+                    </div>
+                    <div class="formrow">
+                        <label>Title</label>
+                        <input type="text" placeholder="add a title" required ng-model="cardData.title"/>
+                    </div>
+                    <div class="formrow">
+                        <label>Category<br/><small>Max. 2 selection allowed</small></label>
+                        <div class="categorybox">
+                            <div ng-dropdown-multiselect="" options="categories" selected-model="selectedCategories" checkboxes="true" extra-settings="settings"></div>
+							
+                        </div>
+                    </div> 
+					
                 </div>
               </div>
               <div class="modal-footer">

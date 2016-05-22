@@ -356,3 +356,6 @@ Cache::config('_cake_model_', array(
 	'duration' => $duration
 ));
 
+function compareElems($elem1, $elem2) {
+	return strcmp($elem1['title'], $elem2['title']);
+}

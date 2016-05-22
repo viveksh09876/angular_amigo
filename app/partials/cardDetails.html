@@ -12,7 +12,7 @@
 			  <h3>{{card.title}}</h3>
 			  <p>By <a>{{card.username}}</a> on <span>{{card.created}}</span></p>
 			  </div>
-			  <figure><img src="{{card.pictures}}" alt="{{card.pictures}}"></figure>
+			  <figure><img src="{{$root.siteUrl}}{{card.pictures[0]}}" alt="Image"/></figure>
 			  <p>{{card.notes}}</p>
 			  
 			  </div>

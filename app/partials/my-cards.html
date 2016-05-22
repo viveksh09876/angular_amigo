@@ -25,13 +25,13 @@
                 	<div class="logbox" ng-repeat="mCards in myCards | filter: cardSearch">
                     	<div class="whitelog">
                         	<i class="fa fa-camera-retro"></i>
-							<i class="fa fa-pencil-square-o" title="Edit" ng-click="showEditCard(mCards.id)"></i>
+							<!--<i class="fa fa-pencil-square-o" title="Edit" ng-click="showEditCard(mCards.id)"></i>-->
 							<i class="fa fa-remove" title="Delete" ng-really-message="Are you sure, you want to delete this card?" ng-really-click="reallyDelete(mCards.id)" item="mCards.id"></i>
                         	<p>{{mCards.title}}</p>
                             <small>{{mCards.notes}}</small>
                         </div>
                         <div class="graylog">
-                        	<img src="{{mCards.pictures}}" alt=""/>
+                        	<img src="{{$root.siteUrl}}{{mCards.pictures[0]}}" alt=""/>
                             <p>{{mCards.location}}</p>
                             <small>{{mCards.categories}}</small>
                         </div>
@@ -43,20 +43,14 @@
         <div class="right_sec">
         	<div class="right_search">
             	<a href="#"><i class="fa fa-search"></i></a>
-                <input type="search" value="Search your saved Pages" onClick="if(this.value=''){this.value=='Search your saved Pages'}" onBlur="if(this.value='Search your saved Pages'){this.value==''}">
+                <input type="search" placeholder="Search your saved cards" ng-model="saveCardSaerch">
             </div>
             <ul>
-            	<li><img src="app/images/box3.jpg" alt=""><a href="#">Chris Gayle</a><p>China 8</p></li>
-            	<li><img src="app/images/box3.jpg" alt=""><a href="#">Chris Gayle</a><p>China 8</p></li>
-            	<li><img src="app/images/box3.jpg" alt=""><a href="#">Chris Gayle</a><p>China 8</p></li>
-            	<li><img src="app/images/box3.jpg" alt=""><a href="#">Chris Gayle</a><p>China 8</p></li>
-            	<li><img src="app/images/box3.jpg" alt=""><a href="#">Chris Gayle</a><p>China 8</p></li>
-            	<li><img src="app/images/box3.jpg" alt=""><a href="#">Chris Gayle</a><p>China 8</p></li>
-            	<li><img src="app/images/box3.jpg" alt=""><a href="#">Chris Gayle</a><p>China 8</p></li>
-            	<li><img src="app/images/box3.jpg" alt=""><a href="#">Chris Gayle</a><p>China 8</p></li>
-            	<li><img src="app/images/box3.jpg" alt=""><a href="#">Chris Gayle</a><p>China 8</p></li>
-            	<li><img src="app/images/box3.jpg" alt=""><a href="#">Chris Gayle</a><p>China 8</p></li>
-            	<li><img src="app/images/box3.jpg" alt=""><a href="#">Chris Gayle</a><p>China 8</p></li>
+            	<li ng-repeat="mCard in myCards | filter: saveCardSaerch">
+					<img src="{{$root.siteUrl}}{{mCard.pictures[0]}}" alt="" width="60">
+						<a>{{mCard.title}}</a><p>{{mCard.place}}</p>
+				</li>
+            	
             </ul>
         </div>
         

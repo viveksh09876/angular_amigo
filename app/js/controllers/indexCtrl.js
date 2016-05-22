@@ -7,7 +7,7 @@ app.controller('indexCtrl', function($scope, $rootScope, $localstorage, ModalSer
 		$rootScope.isLoggedIn = JSON.parse($localstorage.get('isLoggedIn'));
 		if($localstorage.get('user'))
 			$rootScope.userDetails = JSON.parse($localstorage.get('user'));
-		console.log($rootScope.userDetails);	
+		
 	}
 	
 

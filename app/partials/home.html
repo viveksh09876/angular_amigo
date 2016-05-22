@@ -24,7 +24,7 @@
 				</div>
 				<ul class="boxout grid effect-2" id="grid" ng-show="!showLoading">
 					<li class="box"  ng-repeat="card in cards" ng-class="hoverBox" ng-mouseover="hoverBox='active'">
-						<img src="{{card.pictures}}" alt="" ng-click="showCardPreview(card.id)">
+						<img src="{{$root.siteUrl}}{{card.pictures[0]}}" alt="" ng-click="showCardPreview(card.id)">
 						<span>{{card.title}}</span>
 						<div class="links">
 							<ul>

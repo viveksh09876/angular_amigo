@@ -15,12 +15,8 @@ app.controller('cardCtrl', function($scope, close, $element, cardId, dataFactory
 
     dataFactory.getData('/ameego/getStory/'+cardId).success(function(response){
 		$scope.card = response.data;	
-		$scope.showLoading = false;		
-	});
-	
-	dataFactory.getData('/ameego/getStory/'+cardId).success(function(response){
-		$scope.card = response.data;	
-		$scope.showLoading = false;		
+		$scope.showLoading = false;	
+			
 	});
 	
 	

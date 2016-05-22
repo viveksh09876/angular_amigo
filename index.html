@@ -3,7 +3,7 @@
 	<head>
         <meta charset="utf-8">
         <meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport">
-        <title>Ameego</title>
+        <title>Reco</title>
         <link type="text/css" rel="stylesheet" href="app/fonts/fonts.css">
         <link type="text/css" rel="stylesheet" href="app/fonts/font-awesome.css">
         
@@ -12,7 +12,8 @@
 		<link type="text/css" rel="stylesheet" href="app/css/component.css">
 		<link type="text/css" rel="stylesheet" href="app/css/style.css">
         <link type="text/css" rel="stylesheet" href="app/css/responsive.css">
-<link type="text/css" rel="stylesheet" href="app/css/autocomplete.css">		
+<link type="text/css" rel="stylesheet" href="app/css/autocomplete.css">	
+<link type="text/css" rel="stylesheet" href="app/css/ng-sortable.css">		
 <script type="text/javascript" src="app/js/libs/modernizr.custom.js"></script>		
 	</head>
 <body ng-app="recoApp" ng-controller="indexCtrl">	
@@ -45,15 +46,17 @@
 	<script type="text/javascript" src="app/js/libs/imagesLoaded.js"></script>
 	<script type="text/javascript" src="app/js/libs/ng-file-upload-shim.js"></script>
 	<script type="text/javascript" src="app/js/libs/fileUpload.js"></script>
-	<!--<script src="https://maps.googleapis.com/maps/api/js?libraries=places&language=en&key=AIzaSyCkjaOVFvLTTmfEhqqhwT6J7b8GVueQpYg"></script>-->
+	<script src="https://maps.googleapis.com/maps/api/js?libraries=places&language=en&key=AIzaSyCkjaOVFvLTTmfEhqqhwT6J7b8GVueQpYg"></script>
 	<script type="text/javascript" src="app/js/libs/autocomplete.js"></script>
 	<script type="text/javascript" src="app/js/libs/imageupload.js"></script>
 	<script type="text/javascript" src="app/js/libs/angularjs-dropdown-multiselect.min.js"></script>
+	<script type="text/javascript" src="app/js/libs/ng-sortable.min.js"></script>
 	<script type="text/javascript" src="app/js/libs/classie.js"></script>
 	<script type="text/javascript" src="app/js/libs/AnimOnScroll.js"></script>
 	<script type="text/javascript" src="app/js/libs/angular-modal-service.js"></script>
 	<script type="text/javascript" src="app/js/libs/ui.bootstrap.js"></script>
 	<script type="text/javascript" src="app/js/libs/ngFacebook.js"></script>
+	
 	<script type="text/javascript" src="app/app.js"></script>
 	<script type="text/javascript" src="app/js/directives/directives.js"></script>
 	<script type="text/javascript" src="app/js/services/dataFactory.js"></script>
@@ -64,6 +67,7 @@
 	<script type="text/javascript" src="app/js/controllers/loginCtrl.js"></script>
 	<script type="text/javascript" src="app/js/controllers/cardCtrl.js"></script>
 	<script type="text/javascript" src="app/js/controllers/myTripsCtrl.js"></script>
+	<script type="text/javascript" src="app/js/controllers/tripDetailCtrl.js"></script>
 	<script type="text/javascript" src="app/js/controllers/addCardCtrl.js"></script>
 	<script type="text/javascript" src="app/js/controllers/editCardCtrl.js"></script>
 	<script type="text/javascript" src="app/js/controllers/homeCtrl.js"></script>

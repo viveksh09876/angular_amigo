@@ -8,7 +8,7 @@ app.controller('addCardCtrl', function($scope, close, $element, dataFactory, $ro
 		},200);
 	};
  
-	
+	$scope.noPhoto = false;
 	$scope.showLoading = true;
 	$scope.categories = [];
     $scope.places = [];
@@ -53,8 +53,8 @@ app.controller('addCardCtrl', function($scope, close, $element, dataFactory, $ro
 	$scope.f = null;
 	$scope.errFile = null;
 	
-	$scope.captureFile = function(file, errFiles) {
-		$scope.f = file;
+	$scope.captureFile = function(files, errFiles) {
+		$scope.f = files;
         $scope.errFile = errFiles && errFiles[0];		
 	}
 	
@@ -90,39 +90,72 @@ app.controller('addCardCtrl', function($scope, close, $element, dataFactory, $ro
 	
 	
 	$scope.addNewCard = function() {
-		$scope.showLoading = true;
-    	var file = $scope.f;
 		
-        if (file) {
-            file.upload = Upload.upload({
-                url: $rootScope.siteUrl + '/ameego/addCard',
-                data: {file: file, card: $scope.cardData}
-            });
-
-            file.upload.then(function (response) {
-                $timeout(function () {
-                    file.result = response.data;
-					dataFactory.getData('/ameego/getUserStories/'+$rootScope.userDetails.user_id).success(function(response){
-						$scope.myCards = response.data;	
-						$scope.close(response.data);							
-					});
-					$scope.showLoading = false;
-					//close popup
-					
-					$document[0].body.classList.remove('modal-open');				
-					angular.element($document[0].getElementsByClassName('modal-backdrop')).remove();
-					angular.element($document[0].getElementsByClassName('modal')).remove();
-                
+    	
+		if($scope.cardData.places.length < 1) {
+			$scope.showError = true;
+			$scope.errMsg = 'Please select a place';
+			
+			$timeout(function(){
+				$scope.showError = false;
+			},5000);
+			
+		}else{
+			$scope.showLoading = true;	
+			var files = $scope.f;
+			
+			if (files && !$scope.noPhoto) {
+				
+				files.upload = Upload.upload({
+					url: $rootScope.siteUrl + '/ameego/addCard',
+					data: {file: files, card: $scope.cardData}
 				});
-            }, function (response) {
-                if (response.status > 0)
-                    $scope.errorMsg = response.status + ': ' + response.data;
-            }, function (evt) {
-                file.progress = Math.min(100, parseInt(100.0 * 
-                                         evt.loaded / evt.total));
-            });
-        }   
-    }
+
+				files.upload.then(function (response) {
+					$timeout(function () {
+						files.result = response.data;
+						dataFactory.getData('/ameego/getUserStories/'+$rootScope.userDetails.user_id).success(function(response){
+							$scope.myCards = response.data;	
+							$scope.close(response.data);							
+						});
+						$scope.showLoading = false;
+						//close popup
+						
+						$document[0].body.classList.remove('modal-open');				
+						angular.element($document[0].getElementsByClassName('modal-backdrop')).remove();
+						angular.element($document[0].getElementsByClassName('modal')).remove();
+					
+					});
+					
+				}, function (response) {
+					if (response.status > 0)
+						$scope.errorMsg = response.status + ': ' + response.data;
+				}, function (evt) {
+					files.progress = Math.min(100, parseInt(100.0 * 
+											 evt.loaded / evt.total));
+				});
+				
+			}else{
+				
+				var dat = {file: '', card: $scope.cardData};
+				dataFactory.postData('/ameego/addCard',dat).success(function(response){
+						dataFactory.getData('/ameego/getUserStories/'+$rootScope.userDetails.user_id).success(function(response){
+								$scope.myCards = response.data;	
+								$scope.close(response.data);							
+						});
+						$scope.showLoading = false;
+						//close popup
+						
+						$document[0].body.classList.remove('modal-open');				
+						angular.element($document[0].getElementsByClassName('modal-backdrop')).remove();
+						angular.element($document[0].getElementsByClassName('modal')).remove();
+												
+					});
+			}   	
+				
+		}
+		
+   }
 	
 	
 	$scope.reallyDelete = function(id) {
