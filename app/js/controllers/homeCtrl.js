@@ -49,7 +49,7 @@ app.controller('homeCtrl', function($scope, dataFactory, ModalService, $filter, 
 			$scope.cards = original;
 		}else{
 			//console.log();
-			$scope.showLoading = true;
+			//$scope.showLoading = true;
 			/*dataFactory.postData('/ameego/getSearchCards',{key: $scope.searchText}).success(function(response){
 		
 				$scope.cards = response.data;
@@ -62,8 +62,7 @@ app.controller('homeCtrl', function($scope, dataFactory, ModalService, $filter, 
 		}
 		
 		setTimeout(function(){
-			$scope.$apply();
-			console.log($scope.cards);
+			$scope.$apply();			
 			updateAnim();
 		},200);
 		

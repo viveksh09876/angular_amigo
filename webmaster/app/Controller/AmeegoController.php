@@ -184,6 +184,11 @@ class AmeegoController extends AppController {
 		$data = $_POST['card'];
 		$date = date('Y-m-d H:i:s');
 		
+		if(empty($data)) {
+			$data = json_decode(json_encode($this->request->input('json_decode')),true);
+			$data = $data['card'];
+		}
+		
 		if(!empty($data)){
 			
 			$recommend = 0;
@@ -350,7 +355,7 @@ class AmeegoController extends AppController {
 							$imagesArr[] = '/img/places/'.$img['photo'];	
 						}						
 					}else{
-						$imagesArr[] = '/img/places/place-image.jpg';
+						$imagesArr[] = '/img/places/image_not_available.jpg';
 					}
 					
 					$data[$i]['pictures'] = $imagesArr;
@@ -418,7 +423,7 @@ class AmeegoController extends AppController {
 							$imagesArr[] = '/img/places/'.$img['photo'];	
 						}						
 					}else{
-						$imagesArr[] = '/img/places/place-image.jpg';
+						$imagesArr[] = '/img/places/image_not_available.jpg';
 					}
 					
 					$data[$i]['pictures'] = $imagesArr;					
@@ -514,7 +519,7 @@ class AmeegoController extends AppController {
 						$imagesArr[] = '/img/places/'.$img['photo'];	
 					}						
 				}else{
-					$imagesArr[] = '/img/places/place-image.jpg';
+					$imagesArr[] = '/img/places/image_not_available.jpg';
 				}
 				
 				$data['pictures'] = $imagesArr;
@@ -911,7 +916,7 @@ class AmeegoController extends AppController {
 							$imagesArr[] = '/img/places/'.$img['photo'];	
 						}						
 					}else{
-						$imagesArr[] = '/img/places/place-image.jpg';
+						$imagesArr[] = '/img/places/image_not_available.jpg';
 					}
 					
 					$data[$i]['pictures'] = $imagesArr;
@@ -977,7 +982,7 @@ class AmeegoController extends AppController {
 								$imagesArr[] = '/img/places/'.$img['photo'];	
 							}						
 						}else{
-							$imagesArr[] = '/img/places/place-image.jpg';
+							$imagesArr[] = '/img/places/image_not_available.jpg';
 						}
 						
 						$data[$i]['pictures'] = $imagesArr;
@@ -1152,7 +1157,7 @@ class AmeegoController extends AppController {
 								$imagesArr[] = '/img/places/'.$img['photo'];	
 							}						
 						}else{
-							$imagesArr[] = '/img/places/place-image.jpg';
+							$imagesArr[] = '/img/places/image_not_available.jpg';
 						}
 					
 						$tripCards[$j]['pictures'] = $imagesArr;
@@ -1270,7 +1275,7 @@ class AmeegoController extends AppController {
 							$imagesArr[] = '/img/places/'.$img['photo'];	
 						}						
 					}else{
-						$imagesArr[] = '/img/places/place-image.jpg';
+						$imagesArr[] = '/img/places/image_not_available.jpg';
 					}
 				
 					$tripCards[$j]['pictures'] = $imagesArr;

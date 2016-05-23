@@ -26,9 +26,9 @@ app.config(function($routeProvider, $httpProvider, $facebookProvider){
 	$httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';	
 		
 		
-	$facebookProvider.setAppId('991937314207970');
+	$facebookProvider.setAppId('991937314207970'); //local
 	//$facebookProvider.setAppId('903277806448107');	
-	
+	$facebookProvider.setAppId('997437293625019'); //live
 	
 }).run(function($rootScope, $location){
 	
@@ -62,12 +62,12 @@ app.config(function($routeProvider, $httpProvider, $facebookProvider){
     });
 	
 	//fb load sdk
-	/*(function(d, s, id){
+	(function(d, s, id){
 		 var js, fjs = d.getElementsByTagName(s)[0];
 		 if (d.getElementById(id)) {return;}
 		 js = d.createElement(s); js.id = id;
 		 js.src = "//connect.facebook.net/en_US/sdk.js";
 		 fjs.parentNode.insertBefore(js, fjs);
 	   }(document, 'script', 'facebook-jssdk'));
-	*/
+	
 });
