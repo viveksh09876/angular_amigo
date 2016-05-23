@@ -15,12 +15,17 @@ app.controller('editCardCtrl', function($scope, close, $element, cardId, dataFac
 	$scope.selectedCategories = [];
 	$scope.showPhoto = true;
 	$scope.noPhoto = false;
+	
 		
 
 	dataFactory.getData('/ameego/getStory/'+cardId).success(function(response){
 		$scope.cardData = response.data;
 		$scope.selectedCategories = response.data.cat_ids;	
-		console.log(response);	
+		
+		if($scope.cardData.noPhoto) {
+			$scope.noPhoto = true;
+		}
+		$scope.cardData.place = $scope.cardData.places[0].place_name;
 		$scope.showLoading = false;		
 	});
 	
@@ -45,8 +50,8 @@ app.controller('editCardCtrl', function($scope, close, $element, cardId, dataFac
 		selectionLimit: 2
 	};
 	
-	$scope.removePhoto = function() {
-		dataFactory.postData('/ameego/removePhoto',{ cid: cardId, uid: $rootScope.userDetails.user_id}).success(function(response){
+	$scope.removePhoto = function(pic) {
+		dataFactory.postData('/ameego/removePhoto',{ cid: cardId, pic: pic}).success(function(response){
 			$scope.showPhoto = false;	
 			$scope.showLoading = false;		
 		});
@@ -120,46 +125,36 @@ app.controller('editCardCtrl', function($scope, close, $element, cardId, dataFac
 			
 		}else{	
 			
-			$scope.showLoading = true;
 			var files = $scope.f;
-			
-			$scope.cardData.categories = $scope.selectedCategories;
-			
-			if (files && !$scope.noPhoto) {
-				files.upload = Upload.upload({
-					url: $rootScope.siteUrl + '/ameego/updateCard',
-					data: {file: files, card: $scope.cardData, cid: cardId, uid: $rootScope.userDetails.user_id}
-				});
-
-				files.upload.then(function (response) {
-					$timeout(function () {
-						files.result = response.data;
-						dataFactory.getData('/ameego/getUserStories/'+$rootScope.userDetails.user_id).success(function(response){
-							$scope.myCards = response.data;	
-							$scope.close(response.data);
-						});
-						$scope.showLoading = false;
-						//close popup
-						
-						$document[0].body.classList.remove('modal-open');				
-						angular.element($document[0].getElementsByClassName('modal-backdrop')).remove();
-						angular.element($document[0].getElementsByClassName('modal')).remove();
-					
-					});
-				}, function (response) {
-					if (response.status > 0)
-						$scope.errorMsg = response.status + ': ' + response.data;
-				}, function (evt) {
-					files.progress = Math.min(100, parseInt(100.0 * 
-											 evt.loaded / evt.total));
-				});
-			}else{
+			if(files==null  && !$scope.noPhoto) {
 				
-				dataFactory.postData('/ameego/updateCard',{ card: $scope.cardData, cid: cardId, uid: $rootScope.userDetails.user_id }).success(function(response){
-							$scope.myCards = response.data;		
+				$scope.showError = true;
+				$scope.errMsg = 'Please upload photo or check to upload photo later';
+			
+				$timeout(function(){
+					$scope.showError = false;
+				},5000);
+					
+			}else{
+			
+			
+				$scope.showLoading = true;
+				
+				
+				$scope.cardData.categories = $scope.selectedCategories;
+				
+				if (files && !$scope.noPhoto) {
+					files.upload = Upload.upload({
+						url: $rootScope.siteUrl + '/ameego/updateCard',
+						data: {file: files, card: $scope.cardData, cid: cardId, uid: $rootScope.userDetails.user_id}
+					});
+
+					files.upload.then(function (response) {
+						$timeout(function () {
+							files.result = response.data;
 							dataFactory.getData('/ameego/getUserStories/'+$rootScope.userDetails.user_id).success(function(response){
-									$scope.myCards = response.data;	
-									$scope.close(response.data);
+								$scope.myCards = response.data;	
+								$scope.close(response.data);
 							});
 							$scope.showLoading = false;
 							//close popup
@@ -167,7 +162,31 @@ app.controller('editCardCtrl', function($scope, close, $element, cardId, dataFac
 							$document[0].body.classList.remove('modal-open');				
 							angular.element($document[0].getElementsByClassName('modal-backdrop')).remove();
 							angular.element($document[0].getElementsByClassName('modal')).remove();
-				});
+						
+						});
+					}, function (response) {
+						if (response.status > 0)
+							$scope.errorMsg = response.status + ': ' + response.data;
+					}, function (evt) {
+						files.progress = Math.min(100, parseInt(100.0 * 
+												 evt.loaded / evt.total));
+					});
+				}else{
+					
+					dataFactory.postData('/ameego/updateCard',{ card: $scope.cardData, cid: cardId, uid: $rootScope.userDetails.user_id }).success(function(response){
+								$scope.myCards = response.data;		
+								dataFactory.getData('/ameego/getUserStories/'+$rootScope.userDetails.user_id).success(function(response){
+										$scope.myCards = response.data;	
+										$scope.close(response.data);
+								});
+								$scope.showLoading = false;
+								//close popup
+								
+								$document[0].body.classList.remove('modal-open');				
+								angular.element($document[0].getElementsByClassName('modal-backdrop')).remove();
+								angular.element($document[0].getElementsByClassName('modal')).remove();
+					});
+			}
 			}
 			
 		}   

@@ -1,41 +1,5 @@
-2016-05-22 20:11:52 Error: [MissingControllerException] Controller class ImgController could not be found.
-Exception Attributes: array (
-  'class' => 'ImgController',
-  'plugin' => NULL,
-)
-Request URL: /Ameego/webmaster/img/places/place-image.jpg
-Stack Trace:
-#0 D:\xampp\htdocs\Ameego\webmaster\app\webroot\index.php(132): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
-#1 {main}
-2016-05-22 20:12:25 Error: [MissingControllerException] Controller class ImgController could not be found.
-Exception Attributes: array (
-  'class' => 'ImgController',
-  'plugin' => NULL,
-)
-Request URL: /Ameego/webmaster/img/places/place-image.jpg
-Stack Trace:
-#0 D:\xampp\htdocs\Ameego\webmaster\app\webroot\index.php(132): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
-#1 {main}
-2016-05-22 20:12:29 Error: [MissingControllerException] Controller class ImgController could not be found.
-Exception Attributes: array (
-  'class' => 'ImgController',
-  'plugin' => NULL,
-)
-Request URL: /Ameego/webmaster/img/places/place-image.jpg
-Stack Trace:
-#0 D:\xampp\htdocs\Ameego\webmaster\app\webroot\index.php(132): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
-#1 {main}
-2016-05-22 20:12:48 Error: [MissingControllerException] Controller class ImgController could not be found.
-Exception Attributes: array (
-  'class' => 'ImgController',
-  'plugin' => NULL,
-)
-Request URL: /Ameego/webmaster/img/places/place-image.jpg
-Stack Trace:
-#0 D:\xampp\htdocs\Ameego\webmaster\app\webroot\index.php(132): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
-#1 {main}
-2016-05-22 20:20:40 Error: [PDOException] SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'card_id' cannot be null
-Request URL: /Ameego/webmaster/ameego/updateTrip
+2016-05-24 02:06:29 Error: [PDOException] SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'story_id' cannot be null
+Request URL: /Ameego/webmaster/ameego/updateCard
 Stack Trace:
 #0 D:\xampp\htdocs\Ameego\webmaster\lib\Cake\Model\Datasource\DboSource.php(460): PDOStatement->execute(Array)
 #1 D:\xampp\htdocs\Ameego\webmaster\lib\Cake\Model\Datasource\DboSource.php(426): DboSource->_execute('INSERT INTO `am...', Array)
@@ -43,118 +7,10 @@ Stack Trace:
 #3 D:\xampp\htdocs\Ameego\webmaster\lib\Cake\Model\Model.php(1742): DboSource->create(Object(AppModel), Array, Array)
 #4 D:\xampp\htdocs\Ameego\webmaster\lib\Cake\Model\Model.php(2110): Model->save(Array, Array)
 #5 D:\xampp\htdocs\Ameego\webmaster\lib\Cake\Model\Model.php(2047): Model->saveMany(Array, Array)
-#6 D:\xampp\htdocs\Ameego\webmaster\app\Controller\AmeegoController.php(1332): Model->saveAll(Array)
-#7 [internal function]: AmeegoController->updateTrip()
+#6 D:\xampp\htdocs\Ameego\webmaster\app\Controller\AmeegoController.php(666): Model->saveAll(Array)
+#7 [internal function]: AmeegoController->updateCard()
 #8 D:\xampp\htdocs\Ameego\webmaster\lib\Cake\Controller\Controller.php(486): ReflectionMethod->invokeArgs(Object(AmeegoController), Array)
 #9 D:\xampp\htdocs\Ameego\webmaster\lib\Cake\Routing\Dispatcher.php(187): Controller->invokeAction(Object(CakeRequest))
 #10 D:\xampp\htdocs\Ameego\webmaster\lib\Cake\Routing\Dispatcher.php(162): Dispatcher->_invoke(Object(AmeegoController), Object(CakeRequest), Object(CakeResponse))
 #11 D:\xampp\htdocs\Ameego\webmaster\app\webroot\index.php(132): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
 #12 {main}
-2016-05-23 01:23:38 Error: [MissingControllerException] Controller class ImgController could not be found.
-Exception Attributes: array (
-  'class' => 'ImgController',
-  'plugin' => NULL,
-)
-Request URL: /Ameego/webmaster/img/places/place-image.jpg
-Stack Trace:
-#0 D:\xampp\htdocs\Ameego\webmaster\app\webroot\index.php(132): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
-#1 {main}
-2016-05-23 01:23:46 Error: [MissingControllerException] Controller class ImgController could not be found.
-Exception Attributes: array (
-  'class' => 'ImgController',
-  'plugin' => NULL,
-)
-Request URL: /Ameego/webmaster/img/places/place-image.jpg
-Stack Trace:
-#0 D:\xampp\htdocs\Ameego\webmaster\app\webroot\index.php(132): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
-#1 {main}
-2016-05-23 01:25:10 Error: [MissingControllerException] Controller class ImgController could not be found.
-Exception Attributes: array (
-  'class' => 'ImgController',
-  'plugin' => NULL,
-)
-Request URL: /Ameego/webmaster/img/places/image_not_available.jpg
-Stack Trace:
-#0 D:\xampp\htdocs\Ameego\webmaster\app\webroot\index.php(132): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
-#1 {main}
-2016-05-23 01:25:51 Error: [MissingControllerException] Controller class ImgController could not be found.
-Exception Attributes: array (
-  'class' => 'ImgController',
-  'plugin' => NULL,
-)
-Request URL: /Ameego/webmaster/img/places/image_not_available.jpg
-Stack Trace:
-#0 D:\xampp\htdocs\Ameego\webmaster\app\webroot\index.php(132): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
-#1 {main}
-2016-05-23 01:26:07 Error: [MissingControllerException] Controller class ImgController could not be found.
-Exception Attributes: array (
-  'class' => 'ImgController',
-  'plugin' => NULL,
-)
-Request URL: /Ameego/webmaster/img/places/image_not_available.jpg
-Stack Trace:
-#0 D:\xampp\htdocs\Ameego\webmaster\app\webroot\index.php(132): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
-#1 {main}
-2016-05-23 01:32:55 Error: [MissingControllerException] Controller class ImgController could not be found.
-Exception Attributes: array (
-  'class' => 'ImgController',
-  'plugin' => NULL,
-)
-Request URL: /Ameego/webmaster/img/places/place-image.jpg
-Stack Trace:
-#0 D:\xampp\htdocs\Ameego\webmaster\app\webroot\index.php(132): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
-#1 {main}
-2016-05-23 01:33:14 Error: [MissingControllerException] Controller class ImgController could not be found.
-Exception Attributes: array (
-  'class' => 'ImgController',
-  'plugin' => NULL,
-)
-Request URL: /Ameego/webmaster/img/places/place-image.jpg
-Stack Trace:
-#0 D:\xampp\htdocs\Ameego\webmaster\app\webroot\index.php(132): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
-#1 {main}
-2016-05-23 01:34:13 Error: [MissingControllerException] Controller class ImgController could not be found.
-Exception Attributes: array (
-  'class' => 'ImgController',
-  'plugin' => NULL,
-)
-Request URL: /Ameego/webmaster/img/places/place-image.jpg
-Stack Trace:
-#0 D:\xampp\htdocs\Ameego\webmaster\app\webroot\index.php(132): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
-#1 {main}
-2016-05-23 01:35:09 Error: [MissingControllerException] Controller class ImgController could not be found.
-Exception Attributes: array (
-  'class' => 'ImgController',
-  'plugin' => NULL,
-)
-Request URL: /Ameego/webmaster/img/places/place-image.jpg
-Stack Trace:
-#0 D:\xampp\htdocs\Ameego\webmaster\app\webroot\index.php(132): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
-#1 {main}
-2016-05-23 01:35:26 Error: [MissingControllerException] Controller class ImgController could not be found.
-Exception Attributes: array (
-  'class' => 'ImgController',
-  'plugin' => NULL,
-)
-Request URL: /Ameego/webmaster/img/places/place-image.jpg
-Stack Trace:
-#0 D:\xampp\htdocs\Ameego\webmaster\app\webroot\index.php(132): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
-#1 {main}
-2016-05-23 01:36:15 Error: [MissingControllerException] Controller class ImgController could not be found.
-Exception Attributes: array (
-  'class' => 'ImgController',
-  'plugin' => NULL,
-)
-Request URL: /Ameego/webmaster/img/places/place-image.jpg
-Stack Trace:
-#0 D:\xampp\htdocs\Ameego\webmaster\app\webroot\index.php(132): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
-#1 {main}
-2016-05-23 01:36:54 Error: [MissingControllerException] Controller class ImgController could not be found.
-Exception Attributes: array (
-  'class' => 'ImgController',
-  'plugin' => NULL,
-)
-Request URL: /Ameego/webmaster/img/places/place-image.jpg
-Stack Trace:
-#0 D:\xampp\htdocs\Ameego\webmaster\app\webroot\index.php(132): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
-#1 {main}

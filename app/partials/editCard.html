@@ -13,7 +13,7 @@
 			</div>
 			<div class="modal-data" ng-show="!showLoading">
               <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" ng-click="close('Cancel')" remove-modal><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="myModalLabel">Edit log</h4>
               </div>
 			  <form name="form" enctype="multipart/form-data">
@@ -64,11 +64,11 @@
 							<img src="{{fl.$ngfBlobUrl}}" style="height: 50px; width: 50px;">
 						</div>		
 					</div>		
-					 <div class="formrow" ng-show="showPhoto">
-                        <div ng-repeat="pic in cardData.pictures" style="float:left; padding-right: 3px;">
-						<img src="{{$root.siteUrl}}{{pic}}"  style="height: 100px; width: 100px;">
+					 <div class="formrow" ng-show="showPhoto" ng-if="!noPhoto">
+                        <div ng-repeat="pic in cardData.pictures" ng-if="!cardData.noPhoto" style="float:left; padding-right: 3px;">
+						<img src="{{$root.siteUrl}}{{pic}}"  style="height: 80px; width: 80px;">
 						<br/>
-						<a ng-click="removePhoto()" style="font-size:13px;">Remove Photo <i class="fa fa-remove"></i></a>
+						<a ng-click="removePhoto(pic)" style="font-size:11px;">Remove Photo <i class="fa fa-remove"></i></a>
 						</div>
                      </div> 
 					 <div class="formrow" style="text-align:center;">

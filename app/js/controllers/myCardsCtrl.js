@@ -71,7 +71,11 @@ app.controller('myCardsCtrl', function($scope, dataFactory, ModalService, $rootS
 		   });	
 			modal.close.then(function(result) {
 				
-				$scope.myCards = result;
+				if(result != 'Cancel') {
+					
+					$scope.myCards = result;	
+				}
+				
 			  });	
         });
 		
@@ -95,8 +99,10 @@ app.controller('myCardsCtrl', function($scope, dataFactory, ModalService, $rootS
 			   keyboard: false
 		   });	
 			modal.close.then(function(result) {
-				//console.log(result);
-				$scope.myCards = result;
+				if(result != 'Cancel') {
+					
+					$scope.myCards = result;	
+				}
 			  });	
         });
 	
