@@ -1,4 +1,4 @@
-app.controller('addCardCtrl', function($scope, close, $element, dataFactory, $rootScope, Upload, $timeout, $document) {
+app.controller('addCardCtrl', function($scope, close, $element, dataFactory, $rootScope, Upload, $timeout, $document,ModalService) {
 
 	$scope.close = function(result) {
 		$element.modal('hide');
@@ -52,10 +52,16 @@ app.controller('addCardCtrl', function($scope, close, $element, dataFactory, $ro
 
 	$scope.f = null;
 	$scope.errFile = null;
+	var is_error = false;
 	
 	$scope.captureFile = function(files, errFiles) {
 		$scope.f = files;
-        $scope.errFile = errFiles && errFiles[0];		
+        $scope.errFile = errFiles && errFiles[0];
+		if(errFiles[0]){
+			is_error = true;
+		}else{
+			is_error = false;
+		}		
 	}
 	
 	
@@ -92,7 +98,15 @@ app.controller('addCardCtrl', function($scope, close, $element, dataFactory, $ro
 	$scope.addNewCard = function() {
 		
     	
-		if($scope.cardData.places.length < 1) {
+		if(is_error) {
+		
+			$scope.showError = true;
+			$scope.errMsg = 'Only jpg, png files allowed. Max. file size should be 1MB.';	
+			$timeout(function(){
+				$scope.showError = false;
+			},5000);
+		
+		}else if($scope.cardData.places.length < 1) {
 			$scope.showError = true;
 			$scope.errMsg = 'Please select a place';
 			
@@ -136,6 +150,20 @@ app.controller('addCardCtrl', function($scope, close, $element, dataFactory, $ro
 							$document[0].body.classList.remove('modal-open');				
 							angular.element($document[0].getElementsByClassName('modal-backdrop')).remove();
 							angular.element($document[0].getElementsByClassName('modal')).remove();
+							
+							$timeout(function(){
+								ModalService.showModal({
+									templateUrl: 'app/partials/message.html',
+									controller: "messageCtrl",
+									inputs: {
+										text: 'Card created successfully'
+									}
+								}).then(function(modal) {           
+									modal.element.modal();
+									
+								});	
+							},200);
+							
 						
 						});
 						
@@ -161,6 +189,20 @@ app.controller('addCardCtrl', function($scope, close, $element, dataFactory, $ro
 							$document[0].body.classList.remove('modal-open');				
 							angular.element($document[0].getElementsByClassName('modal-backdrop')).remove();
 							angular.element($document[0].getElementsByClassName('modal')).remove();
+							
+							$timeout(function(){
+								ModalService.showModal({
+									templateUrl: 'app/partials/message.html',
+									controller: "messageCtrl",
+									inputs: {
+										text: 'Card created successfully'
+									}
+								}).then(function(modal) {           
+									modal.element.modal();
+									
+								});	
+							},200);
+
 												
 					});
 				}

@@ -1,4 +1,4 @@
-app.controller('editCardCtrl', function($scope, close, $element, cardId, dataFactory, $rootScope, Upload, $timeout, $document) {
+app.controller('editCardCtrl', function($scope, close, $element, cardId, dataFactory, $rootScope, Upload, $timeout, $document, ModalService) {
   
 	$scope.close = function(result) {
 		$element.modal('hide');
@@ -22,7 +22,8 @@ app.controller('editCardCtrl', function($scope, close, $element, cardId, dataFac
 		$scope.cardData = response.data;
 		$scope.selectedCategories = response.data.cat_ids;	
 		
-		if($scope.cardData.noPhoto) {
+		if($scope.cardData.noPhoto == 1) {
+		
 			$scope.noPhoto = true;
 		}
 		$scope.cardData.place = $scope.cardData.places[0].place_name;
@@ -59,10 +60,17 @@ app.controller('editCardCtrl', function($scope, close, $element, cardId, dataFac
  
 	$scope.f = null;
 	$scope.errFile = null;
+	var is_error = false;
 	
 	$scope.captureFile = function(files, errFiles) {
-		$scope.f = files;
+		$scope.f = files;		
+		if(errFiles[0]){
+			is_error = true;
+		}else{
+			is_error = false;
+		}
         $scope.errFile = errFiles && errFiles[0];		
+		
 	}
 	
 	
@@ -114,7 +122,15 @@ app.controller('editCardCtrl', function($scope, close, $element, cardId, dataFac
 	
 	$scope.editCard = function() {
 		
-		if($scope.cardData.places.length < 1) {
+		if(is_error) {
+		
+			$scope.showError = true;
+			$scope.errMsg = 'Only jpg, png files allowed. Max. file size should be 1MB.';	
+			$timeout(function(){
+				$scope.showError = false;
+			},5000);
+		
+		}else if($scope.cardData.places.length < 1) {
 			
 			$scope.showError = true;
 			$scope.errMsg = 'Please select a place';
@@ -126,7 +142,9 @@ app.controller('editCardCtrl', function($scope, close, $element, cardId, dataFac
 		}else{	
 			
 			var files = $scope.f;
-			if(files==null  && !$scope.noPhoto) {
+			console.log(files);
+			console.log($scope.noPhoto);
+			if(files=='' && !$scope.noPhoto) {
 				
 				$scope.showError = true;
 				$scope.errMsg = 'Please upload photo or check to upload photo later';
@@ -137,9 +155,7 @@ app.controller('editCardCtrl', function($scope, close, $element, cardId, dataFac
 					
 			}else{
 			
-			
 				$scope.showLoading = true;
-				
 				
 				$scope.cardData.categories = $scope.selectedCategories;
 				
@@ -162,6 +178,20 @@ app.controller('editCardCtrl', function($scope, close, $element, cardId, dataFac
 							$document[0].body.classList.remove('modal-open');				
 							angular.element($document[0].getElementsByClassName('modal-backdrop')).remove();
 							angular.element($document[0].getElementsByClassName('modal')).remove();
+							
+							$timeout(function(){
+								ModalService.showModal({
+									templateUrl: 'app/partials/message.html',
+									controller: "messageCtrl",
+									inputs: {
+										text: 'Card updated successfully'
+									}
+								}).then(function(modal) {           
+									modal.element.modal();
+									
+								});	
+							},200);
+
 						
 						});
 					}, function (response) {
@@ -185,6 +215,20 @@ app.controller('editCardCtrl', function($scope, close, $element, cardId, dataFac
 								$document[0].body.classList.remove('modal-open');				
 								angular.element($document[0].getElementsByClassName('modal-backdrop')).remove();
 								angular.element($document[0].getElementsByClassName('modal')).remove();
+								
+							$timeout(function(){
+								ModalService.showModal({
+									templateUrl: 'app/partials/message.html',
+									controller: "messageCtrl",
+									inputs: {
+										text: 'Card updated successfully'
+									}
+								}).then(function(modal) {           
+									modal.element.modal();
+									
+								});	
+							},200);
+
 					});
 			}
 			}

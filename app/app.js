@@ -28,7 +28,7 @@ app.config(function($routeProvider, $httpProvider, $facebookProvider){
 		
 	$facebookProvider.setAppId('991937314207970'); //local
 	//$facebookProvider.setAppId('903277806448107');	
-	$facebookProvider.setAppId('997437293625019'); //live
+	//$facebookProvider.setAppId('997437293625019'); //live
 	
 }).run(function($rootScope, $location){
 	

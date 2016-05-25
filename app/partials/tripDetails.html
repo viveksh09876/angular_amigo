@@ -1,4 +1,10 @@
-         <!-- common popup -->
+ <style>
+ #map_canvas {
+    width: 450px;
+    height: 450px;
+}
+ </style>   
+   <!-- common popup -->
 <div class="modal fade popup common" role="dialog">
   <div class="modal-dialog modal-lg">
 	
@@ -19,7 +25,7 @@
 							<p>{{tripData.notes}}</p>
 						</div>
 						
-						<div class="logbox" ng-repeat="tCard in tripData.cards">
+						<div class="logbox" ng-repeat="tCard in tripData.cards" ng-show="listView">
 							<div>
 								<div class="whitelog" ng-if="tCard.id!='a'">								
 									<p>{{tCard.title}}</p>
@@ -35,6 +41,9 @@
 								</div>
 							</div>
 						</div>
+						<div class="logbox" ng-show="!listView">
+							<div id="map_canvas"></div>
+						</div>
 					</div>
 				</div>
             </div>
@@ -46,4 +55,3 @@
 </div>
 </div>
 <!-- common popup -->
- 

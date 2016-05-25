@@ -386,9 +386,10 @@ class AmeegoController extends AppController {
 				if(!empty($story['Image'])) {		
 					foreach($story['Image'] as $img) {
 						$imagesArr[] = '/img/places/'.$img['photo'];	
-					}						
+					}	
+					$data['noPhoto'] = 0;	
 				}else{
-					$data['noPhoto'] = true;
+					$data['noPhoto'] = 1;
 					$imagesArr[] = '/img/places/image_not_available.jpg';
 				}
 				
