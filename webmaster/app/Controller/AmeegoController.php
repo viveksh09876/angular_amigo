@@ -1241,6 +1241,7 @@ class AmeegoController extends AppController {
 			
 			
 			$tripCards = array();
+			$cities = array();
 			
 			if(!empty($tp['TripCard'])) {
 				$j = 0; $day = array();
@@ -1276,6 +1277,8 @@ class AmeegoController extends AppController {
 					$tripCards[$j]['notes'] = $tc['UserStory']['notes'];
 					$tripCards[$j]['place'] = $tc['UserStory']['Place']['place_name'];
 					
+					$cities[] = $tc['UserStory']['Place'];
+					
 					$imagesArr = array();
 				
 					if(!empty($tc['UserStory']['Image'])) {		
@@ -1293,6 +1296,7 @@ class AmeegoController extends AppController {
 			}
 			
 			$userTrips['cards'] = $tripCards;
+			$userTrips['cities'] = $cities;
 			
 			$return_data = array('status' => true, 'message' => 'success', 'data' => $userTrips);
 			echo json_encode($return_data); die;

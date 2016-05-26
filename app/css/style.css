@@ -257,3 +257,10 @@ padding: 5px 15px; border:none;}
 #sortable-container .btns_sec a.active{opacity: 1;}
 .create-placeholder{ text-align:center; color: #aaa; padding: 10px;}
 .modal-footer{ border-top: none;}
+ #map_canvas {width: 850px; height: 440px; }
+ .popup .modal-content .head_popup{ display: block; margin-bottom: 41px; padding: 10px;}
+ .popup .modal-content .head_popup h3{ float:left;  }
+ .popup .modal-content .head_popup .btns_sec{ float:right; width: auto; margin:0;  }
+ .popup .modal-content .head_popup .btns_sec a{ opacity: 0.5;}
+ .popup .modal-content .head_popup .btns_sec a.active{ opacity: 1;}
+ .popup .modal-content .trip_notes{color: #999999; font-size: 14px; padding: 10px;}

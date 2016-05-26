@@ -1,10 +1,4 @@
- <style>
- #map_canvas {
-    width: 450px;
-    height: 450px;
-}
- </style>   
-   <!-- common popup -->
+<!-- common popup -->
 <div class="modal fade popup common" role="dialog">
   <div class="modal-dialog modal-lg">
 	
@@ -20,11 +14,19 @@
 						<img src="{{$root.rootUrl}}/app/images/loading_white.gif" alt="loading..."/>
 					</div>
 					<div ng-show="!showLoading">
-						<div class="headingcontent">
-							<h3>{{tripData.title}}</h3>
-							<p>{{tripData.notes}}</p>
+						<div class="headingcontent head_popup" style="clear:both;">
+							
+							
+								<h3>{{tripData.title}}</h3>
+								<div class="btns_sec">
+									<a ng-click="listView=true" class="btn" ng-class="{ 'active':listView }">List View</a>
+									<a ng-click="listView=false" class="btn" ng-class="{ 'active':!listView }">Map View</a>
+								</div>
+								
+							
 						</div>
-						
+						<div class="trip_notes">{{tripData.notes}}</div>
+							
 						<div class="logbox" ng-repeat="tCard in tripData.cards" ng-show="listView">
 							<div>
 								<div class="whitelog" ng-if="tCard.id!='a'">								

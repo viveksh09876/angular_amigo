@@ -144,7 +144,10 @@ app.controller('myTripsCtrl', function($scope, dataFactory, ModalService, $filte
 				tripId: id
 			}
 		}).then(function(modal) {           
-			modal.element.modal();				
+			modal.element.modal({
+			   backdrop: 'static',
+			   keyboard: false
+		   });					
 		});	
 	}
 	
