@@ -1,4 +1,4 @@
-var app = angular.module('recoApp', ['ngRoute','as.sortable','angularModalService','angularjs-dropdown-multiselect','ui.bootstrap','google.places','imageupload','ngFileUpload','ngFacebook']);
+var app = angular.module('recoApp', ['ngRoute','as.sortable','angularModalService','angularjs-dropdown-multiselect','ui.bootstrap','google.places','imageupload','ngFileUpload','ngFacebook','ngTagsInput','720kb.socialshare']);
 
 
 app.config(function($routeProvider, $httpProvider, $facebookProvider){
@@ -17,6 +17,10 @@ app.config(function($routeProvider, $httpProvider, $facebookProvider){
 			controller: 'myTripsCtrl'
 		})
 		.when('/story/:storyId', {
+			templateUrl: 'app/partials/home.html',
+			controller: 'homeCtrl'
+		})
+		.when('/trip/:tripId', {
 			templateUrl: 'app/partials/home.html',
 			controller: 'homeCtrl'
 		});

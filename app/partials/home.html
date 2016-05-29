@@ -13,7 +13,11 @@
 				<img src="{{$root.rootUrl}}/app/images/logo.jpeg" alt=""/>
                 <h3>Discover awesome things to do, food to eat, and places to stay</h3>
                 
-                <div class="search_box"><a href="#"><i class="fa fa-search"></i></a><input type="search" placeholder="Type the name of a place or a key word" ng-change="doSearch()" ng-model="searchText"></div>
+                <div class="search_box"><a href="#">
+					<i class="fa fa-search"></i></a>
+
+					<tags-input ng-model="searchKeys" placeholder="Type the name of a place, title, category or a key word to search card" replace-spaces-with-dashes="false" on-tag-added="doSearch()" on-tag-removed="doSearch()"></tags-input>
+				<!--<input type="search" placeholder="Type the name of a place or a key word" ng-change="doSearch()" ng-model="searchText">--></div>
             </div>
         </div>
         <div class="wrapper">
@@ -29,7 +33,21 @@
 						<div class="links">
 							<ul>
 								<li><a><i class="fa fa-eye"></i> {{card.views}}</a></li>
-								<li><a ng-click="likeCard(card.id)"><i class="fa fa-heart-o"></i>{{card.likes}}</a> </li>
+								<li><a ng-click="likeCard(card.id)"><i class="fa {{card.liked}}"></i>{{card.likes}}</a> </li>
+								<li><a class="btn btn-medium font-bold"
+									 socialshare
+									socialshare-provider="facebook"
+									socialshare-type="feed"
+									socialshare-via="997437293625019"
+									socialshare-media="{{$root.siteUrl}}{{card.pictures[0]}}"
+									socialshare-text="{{card.title}}"
+									socialshare-caption="{{card.notes}}"
+									socialshare-url="{{$root.rootUrl}}/#/story/{{card.id}}"				
+									socialshare-popup-height="300"
+									socialshare-popup-width="400"
+									socialshare-trigger="click">
+									<i class="fa fa-facebook"></i>Share 
+								  </a></li>
 								<li><a ng-click="showCardPreview(card.id)">Read more..</a></li>
 							</ul>
 						</div>

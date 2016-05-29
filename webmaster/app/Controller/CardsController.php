@@ -1,10 +1,10 @@
 <?php
-class CategoriesController extends AppController {
+class CardsController extends AppController {
 	
-    public $name = 'Categories';
+    public $name = 'Cards';
     public $helpers = array('Form', 'Html', 'Js','Core','Session');
     public $paginate = array('limit' => 10);
-    public $uses=array('Category','Tag');
+    public $uses=array('UserStory');
     public $layout='default';
     function beforeFilter(){
         parent::beforeFilter();
@@ -12,7 +12,23 @@ class CategoriesController extends AppController {
     }	
 
     function admin_index() {
-        $this->set('Categories',$this->paginate('Category'));
+		
+		$this->UserStory->bindModel(array(
+							'hasMany' => array(
+								'Place' => array(
+										'className' => 'Place',
+										'foreignKey' => 'story_id'			
+								),
+								'Image' => array(
+										'className' => 'Image',
+										'foreignKey' => 'story_id'			
+								)
+							)
+						));
+		$this->paginate['order'] = array('UserStory.id' => 'DESC');
+					
+		$cards = $this->paginate('UserStory');
+        $this->set('Cards',$cards);
     }
     
     function admin_add() {
@@ -87,14 +103,14 @@ class CategoriesController extends AppController {
     }
 
     function admin_delete($id=null){
-        $this->Category->id=$id;
-        if(!$this->Category->exists()){
+        $this->UserStory->id=$id;
+        if(!$this->UserStory->exists()){
             $this->Session->setFlash(__('Invalid access', true),'default',array('class'=>'alert alert-danger'));
             $this->redirect(array('action'=>'index'));
         }
-        $this->Category->delete($id);
-        $this->Session->setFlash(__('Category deleted successfully', true),'default',array('class'=>'alert alert-success'));
-        $this->redirect(array('action'=>'index'));
+        $this->UserStory->delete($id);
+        $this->Session->setFlash(__('Card deleted successfully', true),'default',array('class'=>'alert alert-success'));
+        $this->redirect(array('action'=>'index','admin' => true));
     }
      
 	function admin_view($id = null) {		

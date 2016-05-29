@@ -61,7 +61,7 @@
                                                                                 $roles[$Rolesx['UserRole']['user_role_id']]=$Rolesx['UserRole']['user_role_name'];
                                                                         }
                                                                 }
-                                                                echo $this->Form->input('user_role_id', array('label'=>'User Type','options'=>$roles,'class'=>'form-control','label'=>false,'empty'=>'Select','onchange'=>'getbrands(this.value)'));?>
+                                                                echo $this->Form->input('user_role_id', array('label'=>'User Type','options'=>$roles,'class'=>'form-control','label'=>false,'empty'=>'Select'));?>
                                                             </div>
                                                         
 
@@ -82,24 +82,8 @@
 
 
                                                             <div class="row">
-                                                                    <div class="col-md-4">
-                                                                            <div class="form-group">
-                                                                                    <label class="control-label">
-                                                                                            Zip Code
-                                                                                    </label>
-                                                                                    <input class="form-control" type="text" name="data[User][zipcode]" id="zipcode" value="<?php echo $this->request->data['User']['zipcode'] ?>">
-                                                                            </div>
-                                                                    </div>
-                                                                    <div class="col-md-5">
-                                                                            <div class="form-group">
-                                                                                    <label class="control-label">
-                                                                                            City 
-                                                                                    </label>
-                                                                                    <input class="form-control tooltips" type="text" data-original-title="We'll display it when you write reviews" data-rel="tooltip"  title="" data-placement="top" name="data[User][city]" id="city" value="<?php echo $this->request->data['User']['city'] ?>">
-                                                                            </div>
-                                                                    </div>
-                                     
-
+                                                                    
+                                                                   
 
                                                     </div>
                                             </div>

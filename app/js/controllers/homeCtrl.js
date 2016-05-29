@@ -5,8 +5,14 @@ app.controller('homeCtrl', function($scope, dataFactory, ModalService, $filter, 
 	$scope.cards = [];
 	$scope.showLoading = true;
 	var original = [];
+	$scope.searchKeys = [];
 	
-	dataFactory.getData('/ameego/getAllUserStories').success(function(response){
+	var uid = '';
+	if($rootScope.userDetails) {		
+		uid = $rootScope.userDetails.user_id;
+	}
+	
+	dataFactory.getData('/ameego/getAllUserStories/'+uid).success(function(response){
 		
 		$scope.cards = response.data;
 		original = response.data;
@@ -44,19 +50,19 @@ app.controller('homeCtrl', function($scope, dataFactory, ModalService, $filter, 
 	
 	//$scope.filteredItems = $scope.cards;
 	$scope.doSearch = function(){
-		if($scope.searchText == '') {
+		if($scope.searchKeys.length == 0) {
 			//$scope.loadMore();
 			$scope.cards = original;
 		}else{
-			//console.log();
-			//$scope.showLoading = true;
-			/*dataFactory.postData('/ameego/getSearchCards',{key: $scope.searchText}).success(function(response){
-		
+			
+			$scope.showLoading = true;
+			dataFactory.postData('/ameego/getSearchCards',{key: $scope.searchKeys}).success(function(response){
+				//console.log(response.data);
 				$scope.cards = response.data;
 				$scope.showLoading = false;		
 				updateAnim();
 				
-			});*/
+			});
 			$scope.cards = $filter('filter')($scope.cards,{title: $scope.searchText});
 			updateAnim();
 		}
@@ -98,6 +104,21 @@ app.controller('homeCtrl', function($scope, dataFactory, ModalService, $filter, 
     };
 	
 	
+	$scope.showViewTrip = function(id) {
+		ModalService.showModal({
+			templateUrl: 'app/partials/tripDetails.html',
+			controller: "tripDetailCtrl",
+			inputs: {
+				tripId: id
+			}
+		}).then(function(modal) {           
+			modal.element.modal({
+			   backdrop: 'static',
+			   keyboard: false
+		   });					
+		});	
+	}
+	
 	$scope.likeCard = function(id) {
 		if($localstorage.get('isLoggedIn')) {
 			
@@ -132,6 +153,10 @@ app.controller('homeCtrl', function($scope, dataFactory, ModalService, $filter, 
 	
 	if($routeParams.storyId != '' && $routeParams.storyId != 'undefined' && $routeParams.storyId != null) {
 		$scope.showCardPreview($routeParams.storyId);
+	}
+	
+	if($routeParams.tripId != '' && $routeParams.tripId != 'undefined' && $routeParams.tripId != null) {
+		$scope.showViewTrip($routeParams.tripId);
 	}
 	
 	

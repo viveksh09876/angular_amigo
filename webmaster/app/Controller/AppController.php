@@ -66,7 +66,7 @@ class AppController extends Controller {
   		
    		$this->set('loggedIn', $this->Auth->loggedIn());
    		$this->set('loggedUser', $this->Auth->user());  
-        $this->set('title_for_layout','AMOEBA | ADMIN PANEL');
+        $this->set('title_for_layout','RECO | ADMIN PANEL');
    		
   	}
   	

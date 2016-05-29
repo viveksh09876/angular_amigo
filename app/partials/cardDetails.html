@@ -19,7 +19,22 @@
 			  <div class="right-sec">
 			  <ul class="stats">
 			  <li><a><i class="fa fa-eye"></i> {{card.views}}</a></li>
-			  <li><a><i class="fa fa-heart-o"></i>{{card.likes}}</a> </li>
+			  <li><a ng-click="likeCard(card.id)"><i class="fa {{card.liked}}"></i>{{card.likes}}</a> </li>
+			  <li><a class="btn btn-medium font-bold"
+									 socialshare
+									socialshare-provider="facebook"
+									socialshare-type="feed"
+									socialshare-via="997437293625019"
+									socialshare-media="{{$root.siteUrl}}{{card.pictures[0]}}"
+									socialshare-text="{{card.title}}"
+									socialshare-caption="{{card.notes}}"
+									socialshare-url="{{$root.rootUrl}}/#/story/{{card.id}}"
+									
+									socialshare-popup-height="300"
+									socialshare-popup-width="400"
+									socialshare-trigger="click">
+									<i class="fa fa-facebook"></i> 
+								  </a></li>
 			  </ul>
 			  <!--<figure class="map">
 			  <h3>Map</h3>

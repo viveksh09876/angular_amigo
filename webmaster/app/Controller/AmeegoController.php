@@ -11,7 +11,7 @@ class AmeegoController extends AppController {
     public function beforeFilter() {
 		
         parent::beforeFilter();
-        $this->Auth->allow(array('login','register','fbLogin','getCategories','addCard','getUserStories','getAllUserStories','getStory','deleteStory','removePhoto','deletePlace','updateCard','updateViews','likeCard','getUserLikedStories','getUserSavedCards','saveTrip','getUserTrips','getTripData','updateTrip','deleteTrip','getSearchCards'));
+        $this->Auth->allow(array('login','register','fbLogin','getCategories','addCard','getUserStories','getAllUserStories','getStory','deleteStory','removePhoto','deletePlace','updateCard','updateViews','likeCard','getUserLikedStories','getUserSavedCards','saveTrip','getUserTrips','getTripData','updateTrip','deleteTrip','getSearchCards','searchCards'));
 		
         //Configure::write('debug',2);	
 		header('Access-Control-Allow-Origin: *'); 
@@ -253,7 +253,7 @@ class AmeegoController extends AppController {
 	}
 	
 	
-	public function getAllUserStories() {		
+	public function getAllUserStories($user_id = null) {		
 			
 			$this->UserStory->recursive = 2;
 			$this->StoryCategory->bindModel(array('belongsTo' => array('Category' => array('className' => 'Category', 'foreignKey' => 'category_id'))));
@@ -273,7 +273,13 @@ class AmeegoController extends AppController {
 												'UserStory.status' => 1
 											),
 											'order' => array('UserStory.created DESC')));
-
+			
+			if(!empty($user_id)) {
+				$likes = $this->Like->find('list',array('conditions' => array('Like.user_id' => $user_id),
+														'fields' => array('Like.story_id')));											
+			}
+			
+			
 			$data = array();
 			if(!empty($stories)) {
 				
@@ -284,6 +290,14 @@ class AmeegoController extends AppController {
 					$data[$i]['notes'] = $story['UserStory']['notes'];
 					$data[$i]['time_spent'] = $story['UserStory']['time_spent'];
 					$data[$i]['views'] = $story['UserStory']['views'];
+					$data[$i]['liked'] = 'fa-heart-o';
+					
+					if(!empty($likes)) {
+						if(in_array($story['UserStory']['id'], $likes)) {
+							$data[$i]['liked'] = 'fa-heart';
+						}
+					}
+					
 					
 					$imagesArr = array();
 					
@@ -324,7 +338,7 @@ class AmeegoController extends AppController {
 	}
 	
 	
-	public function getStory($story_id = null) {
+	public function getStory($story_id = null, $user_id = null) {
 		
 		if(!empty($story_id)){
 			
@@ -367,7 +381,14 @@ class AmeegoController extends AppController {
 			$story = $this->UserStory->find('first', array('conditions' => array(
 												'UserStory.id' => $story_id
 										)));
-			//pr($story); die;
+			
+			if(!empty($user_id)) {
+				$likes = $this->Like->find('first',array('conditions' => array(
+													'Like.user_id' => $user_id,
+													'Like.story_id' => $story_id),
+														'fields' => array('Like.story_id')));											
+			}
+			
 			$data = array();
 			if(!empty($story)) {
 				
@@ -380,7 +401,11 @@ class AmeegoController extends AppController {
 				$data['notes'] = $story['UserStory']['notes'];
 				$data['time_spent'] = $story['UserStory']['time_spent'];
 				$data['views'] = $story['UserStory']['views'];
-				
+				$data['liked'] = 'fa-heart-o';
+				if(!empty($likes)) {
+					$data['liked'] = 'fa-heart';
+				}
+					
 				$imagesArr = array();
 				
 				if(!empty($story['Image'])) {		
@@ -1405,16 +1430,124 @@ class AmeegoController extends AppController {
 	public function getSearchCards() {
 		
 		$data = json_decode(json_encode($this->request->input('json_decode')),true);
-		/*if(!empty($data)) {
+		if(!empty($data)) {
 			
-			$cards = $this->UserStory->find('all', array(
-									'conditions' => array(
-										'title LIKE ' => '%'.$data['key'].'%'
-									)
-								));
+			$keys = array();
+			if(!empty($data['key'])) {
+				foreach($data['key'] as $ky) {
+					$keys[] = $ky['text'];
+				}
+			}
+			//$key = $data['key'];
 			
-		}*/
+			$sql = "select U.id from user_stories U inner join places P ON (P.story_id = U.id) left join story_categories SC ON (U.id = SC.story_id) inner join categories C ON (C.id = SC.category_id) left join tags T ON (T.category_id = C.id) where U.title like '%".$keys[0]."%' ";
+			
+			foreach($keys as $k){
+				$sql .= " OR U.title like '%".$k."%' ";
+				$sql .= " OR P.place_name like '%".$k."%' ";
+				$sql .= " OR C.name like '%".$k."%' ";
+				$sql .= " OR T.tag like '%".$k."%' ";
+			}
+
+			$sql.= "  AND U.status=1";
+			
+			//echo $sql; die;
+			$sids = $this->UserStory->query($sql);
+			
+			$story_ids = array();
+			if(!empty($sids)) {
+				
+				foreach($sids as $id) {
+					if(!in_array($id['U']['id'], $story_ids)) {
+						$story_ids[] = $id['U']['id'];
+					}					
+				}
+				
+				$this->UserStory->recursive = 2;
+				$this->StoryCategory->bindModel(array('belongsTo' => array('Category' => array('className' => 'Category', 'foreignKey' => 'category_id'))));
+				$this->UserStory->bindModel(array('hasMany' => array(
+											'StoryCategory' => array('className' => 'StoryCategory', 
+																	'foreignKey' => 'story_id'
+											),
+											'Like' => array('className' => 'Like', 
+																	'foreignKey' => 'story_id'
+											),
+											'Image' => array('className' => 'Image', 
+																	'foreignKey' => 'story_id'
+											))));
+				if(count($story_ids) > 1) {
+					$param = 'IN';	
+				}else{
+					$param = '';
+				}	
+				 							
+				$stories = $this->UserStory->find('all', array(
+												'conditions' => array(
+													'UserStory.id '.$param.' ' => $story_ids
+												)));
+
+				$data = array();
+				if(!empty($stories)) {
+					
+					 $i = 0;
+					foreach($stories as $story) {
+						$data[$i]['id'] = $story['UserStory']['id'];
+						$data[$i]['title'] = $story['UserStory']['title'];
+						$data[$i]['notes'] = $story['UserStory']['notes'];
+						$data[$i]['time_spent'] = $story['UserStory']['time_spent'];
+						$data[$i]['views'] = $story['UserStory']['views'];
+						
+						$imagesArr = array();
+						
+						if(!empty($story['Image'])) {		
+							foreach($story['Image'] as $img) {
+								$imagesArr[] = '/img/places/'.$img['photo'];	
+							}						
+						}else{
+							$imagesArr[] = '/img/places/image_not_available.jpg';
+						}
+						
+						$data[$i]['pictures'] = $imagesArr;					
+						$data[$i]['recommend'] = $story['UserStory']['is_recommended'];
+						
+						$cats = ''; $j = 0;
+						if(isset($story['StoryCategory']) && !empty($story['StoryCategory'])) {
+							
+							foreach($story['StoryCategory'] as $ct) {	
+								$cats.= ', '.$ct['Category']['name'];
+							}
+							$cats = substr($cats, 1);
+						}
+						
+						$like_count = 0;
+						if(isset($story['Like']) && !empty($story['Like'])) {
+							$like_count = count($story['Like']);
+						}
+						$data[$i]['likes'] = $like_count;
+						$data[$i]['categories'] = $cats;
+						$i++;
+					}
+				}
+				
+				$returnData = array('status' => true, 'data' => $data);	
+				echo json_encode($returnData); die;
+				
+				
+			}else{
+				$returnData = array('status' => true, 'data' => array());	
+				echo json_encode($returnData); die;
+				
+			}
+			
+			
+		}else{
+			$returnData = array('status' => false, 'message' => 'Invalid Request!');	
+			echo json_encode($returnData); die;
+		}
 	}
+	
+	
+	
 	
  // die; 
 

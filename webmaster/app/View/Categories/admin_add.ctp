@@ -1,3 +1,11 @@
+<style>
+.tag_field{
+	 float: left;
+    margin-right: 7px;
+    width: 85%;	
+}
+</style>
+
 <div class="wrap-content container" id="container">
         <!-- start: PAGE TITLE -->
         <section id="page-title">
@@ -14,7 +22,8 @@
                 <div class="row">
          <div class="col-md-12">
 
-        <?php echo $this->Form->create('Category',array('id'=>'form')) ?>
+        <?php echo $this->Form->create('Category',array('id'=>'form')); ?>
+			<input type="hidden" id="num_inputs" value="1"/>
                 <div class="row">
                         <div class="col-md-12">
                                 <div class="errorHandler alert alert-danger no-display">
@@ -42,6 +51,38 @@
                                 </div>
                         </div>
                 </div>
+				<div class="row">
+                       <div class="col-md-6">
+                                <div class="form-group">
+                                        <label class="control-label">
+                                                Category Tags </span>
+                                        </label>
+                                        
+                                </div>
+                         </div>
+				</div>
+				<div class="tag_inputs">
+					<div class="row">		
+							 <div class="col-md-6">
+								<div class="form-group">
+									<div class="input text">
+										<input type="text" id="tag_1" maxlength="255" class="form-control tag_field" placeholder="Tag name" name="data[Tag][1][name]">
+										<a href="javascript://" onclick="removeTag(1)">Delete</a>	
+									</div>
+									
+								</div>
+							</div>
+					</div>
+				</div>
+				<div class="row">	
+						<div class="col-md-12">
+							<div class="form-group">
+								<a href="javascript://" onclick="addTag()">Add more Tags</a>
+							</div>
+						</div>
+						 
+                </div>
+                
                 <div class="row">
 
                         <div class="col-md-12">
@@ -103,6 +144,19 @@ $(element).closest('.form-group').removeClass('has-error');
 });
 });
 
+
+function addTag(){
+	var num = $('#num_inputs').val();
+	num = parseInt(num)+1;
+	$('.tag_inputs').append('<div class="row" id="div_'+num+'"><div class="col-md-6"><div class="form-group"><div class="input text"><input type="text" id="tag_'+num+'" maxlength="255" class="form-control tag_field" placeholder="Tag name" name="data[Tag]['+num+'][name]"/><a href="javascript://" onclick="removeTag('+num+')">Delete</a></div></div></div</div>');
+	
+	$('#num_inputs').val(num);
+}
+
+function removeTag(num) {
+	
+	$('#div_'+num).remove();
+}
 
 </script>
 

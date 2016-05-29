@@ -19,6 +19,18 @@
 							
 								<h3>{{tripData.title}}</h3>
 								<div class="btns_sec">
+									<a class="btn active" socialshare
+									socialshare-provider="facebook"
+									socialshare-type="feed"
+									socialshare-via="997437293625019"
+									socialshare-media="{{$root.siteUrl}}{{tripData.cards[0].pictures[0]}}"
+									socialshare-text="{{tripData.title}}"
+									socialshare-caption="{{tripData.notes}}"
+									socialshare-url="{{$root.rootUrl}}/#/trip/{{tripData.id}}"
+									
+									socialshare-popup-height="300"
+									socialshare-popup-width="400"
+									socialshare-trigger="click">Share on Facebook</a>
 									<a ng-click="listView=true" class="btn" ng-class="{ 'active':listView }">List View</a>
 									<a ng-click="listView=false" class="btn" ng-class="{ 'active':!listView }">Map View</a>
 								</div>

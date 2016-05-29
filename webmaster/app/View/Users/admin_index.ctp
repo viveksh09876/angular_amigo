@@ -41,10 +41,9 @@
                                                     <th class="hidden-xs">Username</th>
                                                     <th>Email</th>
                                                     <th class="hidden-xs">Role</th>
-                                                    <th class="hidden-xs">Phone</th>
+                                                   
                                                     <th>User Status</th>
-                                                    <th class="hidden-xs">Last Login Date</th>
-                                                    <th class="hidden-xs">Last Login Ip</th>
+                                                    
                                                     <th>Actions</th>
                                             </tr>
                                     </thead>
@@ -61,11 +60,10 @@
                                                     <td ><?php echo $user['User']['username']; ?></td>
                                                     <td><?php echo $user['User']['email']; ?></td>
                                                     <td ><?php echo $user['UserRole']['user_role_name']; ?></td>
-                                                    <td><?php echo $user['User']['phone']; ?></td>
+                                                    
                                                     
                                                     <td><?php echo $user['User']['user_status']; ?></td>
-                                                     <td><?php echo $user['User']['last_login_date']; ?></td>
-                                                    <td><?php echo $user['User']['last_login_ip']; ?></td>
+                                                  
                                                     <td style="width:100px"><div>
                                                             <a href="<?php echo $this->webroot;?>admin/users/edit/<?php echo $user['User']['user_id']; ?>" class="btn btn-transparent btn-xs"  tooltip="Edit"><i class="fa fa-pencil"></i></a>
                                                              <a href="<?php echo $this->webroot;?>admin/users/view/<?php echo $user['User']['user_id']; ?>" class="btn btn-transparent btn-xs"  tooltip="View"><i class="fa fa-eye"></i></a>

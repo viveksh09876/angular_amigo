@@ -74,18 +74,59 @@
                                 </ul>
 
                         </li>
+						
+				<li <?php if($this->name=='Cards'){?> class="active open" <?php }?>>
+                        <a href="javascript:void(0)">
+                                        <div class="item-content">
+                                                <div class="item-media">
+                                                       <i class="fa fa-bars" aria-hidden="true"></i>
+
+                                                </div>
+                                                <div class="item-inner">
+                                                        <span class="title"> Cards </span><i class="icon-arrow"></i>
+                                                </div>
+                                        </div>
+                                </a>
+                                <ul class="sub-menu">
+                                        
+                                        <li <?php if(($this->action=='admin_index') &&  ($this->name=='Cards')){?> class="active" <?php }?>>
+                                                <a href="<?php echo $this->webroot;?>admin/cards/index">
+                                                        <span class="title"> List Cards</span>
+                                                </a>
+                                        </li>
+
+                                </ul>
+
+                        </li>
+
+				<li <?php if($this->name=='Trips'){?> class="active open" <?php }?>>
+                        <a href="javascript:void(0)">
+                                        <div class="item-content">
+                                                <div class="item-media">
+                                                       <i class="fa fa-bars" aria-hidden="true"></i>
+
+                                                </div>
+                                                <div class="item-inner">
+                                                        <span class="title"> Trips </span><i class="icon-arrow"></i>
+                                                </div>
+                                        </div>
+                                </a>
+                                <ul class="sub-menu">
+                                        
+                                        <li <?php if(($this->action=='admin_index') &&  ($this->name=='Trips')){?> class="active" <?php }?>>
+                                                <a href="<?php echo $this->webroot;?>admin/trips/index">
+                                                        <span class="title"> List Trips</span>
+                                                </a>
+                                        </li>
+
+                                </ul>
+
+                        </li>
 
                 </ul>
                 <!-- end: MAIN NAVIGATION MENU -->
 
-                <!-- start: DOCUMENTATION BUTTON -->
-                <div class="wrapper">
-                        <a href="javascript:void(0)" class="button-o">
-
-                                <span>AMEEGO</span>
-                        </a>
-                </div>
-                <!-- end: DOCUMENTATION BUTTON -->
+                
         </nav>
 </div>
 </div>

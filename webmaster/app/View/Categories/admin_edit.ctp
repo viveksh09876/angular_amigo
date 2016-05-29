@@ -1,3 +1,10 @@
+<style>
+.tag_field{
+	 float: left;
+    margin-right: 7px;
+    width: 85%;	
+}
+</style>
 <div class="wrap-content container" id="container">
         <!-- start: PAGE TITLE -->
         <section id="page-title">
@@ -14,7 +21,9 @@
                 <div class="row">
          <div class="col-md-12">
 
-        <?php echo $this->Form->create('Category',array('id'=>'form')) ?>
+        <?php echo $this->Form->create('Category',array('id'=>'form')); ?>
+			<input type="hidden" id="num_inputs" value="<?php echo count($cData['Tag']); ?>"/>
+			<input type="hidden" name="data[Category][id]" value="<?php echo $cData['Category']['id']; ?>"/>
                 <div class="row">
                         <div class="col-md-12">
                                 <div class="errorHandler alert alert-danger no-display">
@@ -42,7 +51,42 @@
                                 </div>
                         </div>
                 </div>
-                <div class="row">
+				
+				<div class="row">
+                       <div class="col-md-6">
+                                <div class="form-group">
+                                        <label class="control-label">
+                                                Category Tags </span>
+                                        </label>
+                                        
+                                </div>
+                         </div>
+				</div>
+				<div class="tag_inputs">
+					<?php $i=1; foreach($cData['Tag'] as $tg){  ?>
+					<div class="row" id="div_<?php echo $i; ?>">		
+							 <div class="col-md-6">
+								<div class="form-group">
+									<div class="input text">
+										<input type="text" id="tag_<?php echo $i; ?>" maxlength="255" class="form-control tag_field" placeholder="Tag name" value="<?php echo $tg['tag']; ?>" name="data[Tag][<?php echo $i; ?>][name]">
+										<a href="javascript://" onclick="removeTag(<?php echo $i; ?>)">Delete</a>	
+									</div>
+									
+								</div>
+							</div>
+					</div>
+					<?php $i++; } ?>
+				</div>
+				<div class="row">	
+						<div class="col-md-12">
+							<div class="form-group">
+								<a href="javascript://" onclick="addTag()">Add more Tags</a>
+							</div>
+						</div>
+						 
+                </div>
+                
+				<div class="row">
 
                         <div class="col-md-12">
                                 <button class="btn btn-primary btn-wide pull-right" type="submit">
@@ -103,6 +147,18 @@ $(element).closest('.form-group').removeClass('has-error');
 });
 });
 
+function addTag(){
+	var num = $('#num_inputs').val();
+	num = parseInt(num)+1;
+	$('.tag_inputs').append('<div class="row" id="div_'+num+'"><div class="col-md-6"><div class="form-group"><div class="input text"><input type="text" id="tag_'+num+'" maxlength="255" class="form-control tag_field" placeholder="Tag name" name="data[Tag]['+num+'][name]"/><a href="javascript://" onclick="removeTag('+num+')">Delete</a></div></div></div</div>');
+	
+	$('#num_inputs').val(num);
+}
+
+function removeTag(num) {
+	
+	$('#div_'+num).remove();
+}
 
 </script>
 

@@ -1,10 +1,10 @@
 <?php
-class CategoriesController extends AppController {
+class TripsController extends AppController {
 	
-    public $name = 'Categories';
+    public $name = 'Trips';
     public $helpers = array('Form', 'Html', 'Js','Core','Session');
     public $paginate = array('limit' => 10);
-    public $uses=array('Category','Tag');
+    public $uses=array('Trip','UserStory','Place', 'TripCard');
     public $layout='default';
     function beforeFilter(){
         parent::beforeFilter();
@@ -12,7 +12,45 @@ class CategoriesController extends AppController {
     }	
 
     function admin_index() {
-        $this->set('Categories',$this->paginate('Category'));
+		
+		$this->Trip->recursive = 3;
+		$this->UserStory->bindModel(array(
+					'hasMany' => array(
+							'Place' => array(
+								'className' => 'Place',
+								'foreignKey' => 'story_id',
+								'fields' => array('Place.place_name')
+							)
+					)
+		));
+		$this->TripCard->bindModel(array(
+					'belongsTo' => array(
+							'UserStory' => array(
+								'className' => 'UserStory',
+								'foreignKey' => 'card_id'		
+							) 
+					)
+		));	
+		$this->Trip->bindModel(array(
+						'hasMany' => array(
+							'TripCard' => array(
+								'className' => 'TripCard',
+								'foreignKey' => 'trip_id'
+							)
+						),
+						'belongsTo' => array(
+							'User' => array(
+									'className' => 'User',
+									'foreignKey' => 'user_id',
+									'fields' => array('User.first_name','User.last_name','User.email')
+							)
+						)
+					));				
+		$this->paginate['order'] = array('Trip.id' => 'DESC');
+					
+		$trips = $this->paginate('Trip');
+		
+        $this->set('trips',$trips);
     }
     
     function admin_add() {
@@ -87,14 +125,14 @@ class CategoriesController extends AppController {
     }
 
     function admin_delete($id=null){
-        $this->Category->id=$id;
-        if(!$this->Category->exists()){
+        $this->Trip->id=$id;
+        if(!$this->Trip->exists()){
             $this->Session->setFlash(__('Invalid access', true),'default',array('class'=>'alert alert-danger'));
             $this->redirect(array('action'=>'index'));
         }
-        $this->Category->delete($id);
-        $this->Session->setFlash(__('Category deleted successfully', true),'default',array('class'=>'alert alert-success'));
-        $this->redirect(array('action'=>'index'));
+        $this->Trip->delete($id);
+        $this->Session->setFlash(__('Trip deleted successfully', true),'default',array('class'=>'alert alert-success'));
+        $this->redirect(array('action'=>'index','admin' => true));
     }
      
 	function admin_view($id = null) {		

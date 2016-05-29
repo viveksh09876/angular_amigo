@@ -123,13 +123,10 @@ class UsersController extends AppController {
 			}	      
 		}
 		
-		$roles=$this->UserRole->find('all',array('conditions'=>array('user_role_status'=>'Active','user_role_id !='=>'1'),'order'=>array('user_role_id'=>'asc')));
+		$roles=$this->UserRole->find('all',array('conditions'=>array('user_role_status'=>'Active'),'order'=>array('user_role_id'=>'asc')));
 		$this->set('Roles',$roles);
                 
-        $brands=$this->User->find('all',array('conditions'=>array('User.user_status'=>'Active','User.user_role_id'=>'3'),'order'=>array('first_name'=>'asc')));
-		$this->set('Brands',$brands);
-		
-		
+      		
 		
 	
 	}
@@ -177,10 +174,9 @@ class UsersController extends AppController {
 			$this->request->data = $data;
 		}
 	
-		$roles=$this->UserRole->find('all',array('conditions'=>array('user_role_status'=>'Active','user_role_id !='=>'1'),'order'=>array('user_role_id'=>'asc')));
+		$roles=$this->UserRole->find('all',array('conditions'=>array('user_role_status'=>'Active'),'order'=>array('user_role_id'=>'asc')));
 		$this->set('Roles',$roles);
-		$brands=$this->User->find('all',array('conditions'=>array('User.user_status'=>'Active','User.user_role_id'=>'3'),'order'=>array('first_name'=>'asc')));
-		$this->set('Brands',$brands);
+		
 	}
 
 	

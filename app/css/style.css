@@ -44,6 +44,7 @@ h1,h2,h3,h4,h5,h6{ font-weight:normal; margin:0;}
 .right_container .head-sec ul li a { color: #005494; font-size: 14px;  line-height: 18px; opacity: 0.8; text-decoration: none; cursor:pointer}
 .right_container .head-sec  ul li:last-child{border:none}
 .right_container .search_box{ display:inline-block; vertical-align:middle; background:#fff; width:75%; border:2px solid #005494; height:20px; border-radius:20px; padding:5px 10px;}
+.right_container .search_box tags-input{ float:left;}
 .right_container .search_box a{ font-size:19px; float:left; color:#005494; margin:0 5px;}
 .right_container .search_box input[type="search"]{ background:none; border:none; height:20px; line-height:20px; float:right; width:95%;}
 
@@ -109,6 +110,7 @@ h1,h2,h3,h4,h5,h6{ font-weight:normal; margin:0;}
 .logbox .graylog img{ width:100px; float:left; margin:0 10px 0 0;}
 .logbox .whitelog i{ position:absolute; color:#005494; left:-10px; font-size:20px; cursor: pointer}
 .logbox .whitelog i.fa-camera-retro{ top:36%; }
+.logbox .whitelog i.fa-facebook{ top:36%; left: -7px; }
 .logbox .whitelog i.fa-pencil-square-o{  font-size: 23px; top: 65%; color:#1DA076; }
 .logbox .whitelog i.fa-remove{  font-size: 23px; top: 97%; color:#BD2126; }
 .logbox p{ font-size:15px; line-height:20px; padding:10px 0 5px;}

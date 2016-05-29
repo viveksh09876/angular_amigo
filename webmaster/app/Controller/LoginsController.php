@@ -33,7 +33,7 @@ class LoginsController extends AppController {
 				
 				/*--Redirect User as per Role they have--*/
 				$curUserRoleId =$this->Auth->user('user_role_id');
-			        $isFirstLogin=$this->User->findByUserId($this->Auth->user('user_id'),array('is_first_login'));
+			        $isFirstLogin=$this->User->findByUserId($this->Auth->user('user_id'));
 					
 					
 				if($curUserRoleId == '1'){ 
@@ -52,7 +52,7 @@ class LoginsController extends AppController {
 			//$this->redirect($this->Auth->redirect());	
 		}
 		 
-		$this->set('title_for_layout','AMOEBA');
+		$this->set('title_for_layout','Reco Admin');
               
 	}	
 	

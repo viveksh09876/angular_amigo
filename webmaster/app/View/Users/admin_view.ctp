@@ -51,18 +51,7 @@
                                     </a></td>
                                     <td></td>
                             </tr>
-                            <tr>
-                                    <td>phone:</td>
-                                    <td><?php if($User['User']['phone']) echo $User['User']['phone'];
-                                               else echo 'NA';?></td>
-                                 
-                            </tr>
-                             <tr>
-                                    <td>City:</td>
-                                    <td><?php if($User['User']['city']) echo $User['User']['city'];
-                                               else echo 'NA';?></td>
-                                    
-                            </tr>
+                            
 
                     </tbody>
                     </table>
@@ -73,14 +62,7 @@
                         </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                                <td>User Modified Date</td>
-                                <td>
-                                <a href="javascript:void(0)">
-                                        <?php echo $User['User']['user_modified_date']; ?>
-                                </a></td>
-                               
-                        </tr>
+                    
                     <tr>
                                 <td>User Added Date</td>
                                 <td>
@@ -89,24 +71,7 @@
                                 </a></td>
                                
                         </tr>
-                        <tr>
-                                <td>Position</td>
-                                <td>
-                                <a href="javascript:void(0)">
-                                        <?php echo $User['UserRole']['user_role_name']; ?>
-                                </a></td>
-                              
-                        </tr>
-                        <tr>
-                                <td>Last Logged In</td>
-                                <td> <?php echo $User['User']['last_login_date']; ?></td>
-                                <td></td>
-                        </tr>
-                        <tr>
-                                <td>Last Logged Ip</td>
-                                <td><?php echo $User['User']['last_login_ip']; ?></td>
-                               
-                        </tr>
+                        
 
                         <tr>
                                 <td>Status</td>

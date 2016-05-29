@@ -12,11 +12,10 @@
                 </section>
 <div class="container-fluid container-fullw bg-white">
 
-       
+       <h3>Welcome to Reco Admin Panel</h3>
 </div>
                 </div>
 						</div>
                 <!-- end: DASHBOARD TITLE -->
                
         </div>
- <script type="text/javascript" src="http://www.google.com/jsapi"></script>
