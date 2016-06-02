@@ -115,28 +115,40 @@ class CardsController extends AppController {
      
 	function admin_view($id = null) {		
 		
-		if (!$this->Category->findById($id)){
-			$this->Session->setFlash(__('Invalid Category', true),'default',array('class'=>'alert alert-danger'));
+		if (!$this->UserStory->findById($id)){
+			$this->Session->setFlash(__('Invalid Card', true),'default',array('class'=>'alert alert-danger'));
 			$this->redirect($this->referer());
 			die;
 		}
 		
-		$this->Category->bindModel(array(
+		$this->UserStory->bindModel(array(
 								'hasMany' => array(
-									'Tag' => array(
-											'className' => 'Tag',
-											'foreignKey' => 'category_id'
+									'Place' => array(
+											'className' => 'Place',
+											'foreignKey' => 'story_id'
+									),
+									'Image' => array(
+											'className' => 'Image',
+											'foreignKey' => 'story_id'
+									),
+									'Like' => array(
+											'className' => 'Like',
+											'foreignKey' => 'story_id'
+									)
+								),
+								'belongsTo' => array(
+									'User' => array(
+											'className' => 'User',
+											'foreignKey' => 'user_id',
+											'fields' => array('User.first_name','User.last_name','User.email')
 									)
 								)
 						));
 		
-		$category = $this->Category->find('first',
-										array(
-											'conditions'=>array('Category.id'=>$id)
-												)
-											);	
-											
-		$this->set('category', $category);
-	
+		$card = $this->UserStory->findById($id);
+		$this->set('card', $card);
+		//pr($card); die;
+		
+		
 	}
 }

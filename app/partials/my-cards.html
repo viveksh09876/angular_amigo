@@ -2,8 +2,8 @@
         <div class="head-sec">
 			<a ng-click="toggleMenu()" class="toggle"><i class="fa fa-navicon"></i></a>
 			 <div class="wrapper">
-				<img src="{{$root.rootUrl}}/app/images/logo.jpeg" alt=""/>
-			</div>
+			<a href="#/" class="logo-a" style="font: 700 34px/1 'Open Sans Condensed',sans-serif; color: #fff">reco<!--<img src="{{$root.rootUrl}}/app/images/logo.jpeg" alt=""/>--></a>
+                </div>
 		</div>
       	<div class="left_sec">
         	<div class="trending_box">
@@ -55,12 +55,12 @@
         <div class="right_sec">
         	<div class="right_search">
             	<a href="#"><i class="fa fa-search"></i></a>
-                <input type="search" placeholder="Search your saved cards" ng-model="saveCardSaerch">
+                <input type="search" placeholder="Search your logs and saved cards" ng-model="saveCardSaerch">
             </div>
             <ul>
-            	<li ng-repeat="mCard in myCards | filter: saveCardSaerch">
-					<img src="{{$root.siteUrl}}{{mCard.pictures[0]}}" alt="" width="60">
-						<a>{{mCard.title}}</a><p>{{mCard.place}}</p>
+            	<li ng-repeat="msCard in mySavedCards | filter: saveCardSaerch" ng-if="msCard.id!='a'">
+					<img src="{{$root.siteUrl}}{{msCard.pictures[0]}}" alt="" style="max-height: 60px; max-width: 60px; border-radius: 0;">
+						<a>{{msCard.title}}</a><p>{{msCard.place}}</p>
 				</li>
             	
             </ul>

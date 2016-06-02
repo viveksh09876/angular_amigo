@@ -49,8 +49,8 @@
 										<td class="hidden-xs"><?php echo $cate['Trip']['created']; ?></td>
                                         <td style="width:100px">
                                             <div>
-                                                <!--<a href="<?php echo $this->webroot;?>admin/trips/edit/<?php echo $cate['Trip']['id']; ?>" class="btn btn-transparent btn-xs"  tooltip="Edit"><i class="fa fa-pencil"></i></a>
-												<a href="<?php echo $this->webroot;?>admin/trips/view/<?php echo $cate['Trip']['id']; ?>" class="btn btn-transparent btn-xs"  tooltip="View"><i class="fa fa-eye"></i></a>-->
+                                                <!--<a href="<?php echo $this->webroot;?>admin/trips/edit/<?php echo $cate['Trip']['id']; ?>" class="btn btn-transparent btn-xs"  tooltip="Edit"><i class="fa fa-pencil"></i></a>-->
+												<a href="<?php echo $this->webroot;?>admin/trips/view/<?php echo $cate['Trip']['id']; ?>" class="btn btn-transparent btn-xs"  tooltip="View"><i class="fa fa-eye"></i></a>
                                                 <a  onclick="show_warning('<?php echo $cate['Trip']['id']; ?>')" href="javascript:void(0);" class="btn btn-transparent btn-xs tooltips"  tooltip="Remove"><i class="fa fa-times fa fa-white"></i></a>
                                             </div>
                                         </td>

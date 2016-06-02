@@ -1,4 +1,4 @@
-app.controller('tripDetailCtrl', function($scope, close, $element, tripId, dataFactory) {
+app.controller('tripDetailCtrl', function($scope, close, $element, tripId, dataFactory, $timeout) {
   
 	$scope.close = function(result) {
 		
@@ -11,16 +11,25 @@ app.controller('tripDetailCtrl', function($scope, close, $element, tripId, dataF
 	};
  
 	$scope.listView = false;
-	$scope.tripData = {};
+	
 	$scope.showLoading = true;
 
     dataFactory.getData('/ameego/getTripData/'+tripId).success(function(response){
 		$scope.tripData = response.data;
 		//console.log($scope.tripData);	
 		$scope.showLoading = false;	
-		$scope.initialise();	
+			
 	});
 	
+	$scope.$watch('tripData',function(newVal, oldVal){
+		console.log(newVal);
+		if(newVal != '' && newVal != 'undefined' && newVal != null) {
+			$timeout(function(){
+				$scope.initialise();
+			},500);
+			
+		}	
+	});
 	
 	
 	$scope.initialise = function() {

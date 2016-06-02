@@ -137,28 +137,53 @@ class TripsController extends AppController {
      
 	function admin_view($id = null) {		
 		
-		if (!$this->Category->findById($id)){
-			$this->Session->setFlash(__('Invalid Category', true),'default',array('class'=>'alert alert-danger'));
+		if (!$this->Trip->findById($id)){
+			$this->Session->setFlash(__('Invalid Trip', true),'default',array('class'=>'alert alert-danger'));
 			$this->redirect($this->referer());
 			die;
 		}
 		
-		$this->Category->bindModel(array(
-								'hasMany' => array(
-									'Tag' => array(
-											'className' => 'Tag',
-											'foreignKey' => 'category_id'
-									)
-								)
-						));
-		
-		$category = $this->Category->find('first',
-										array(
-											'conditions'=>array('Category.id'=>$id)
-												)
-											);	
-											
-		$this->set('category', $category);
+		$this->Trip->recursive = 3;
+		$this->UserStory->bindModel(array(
+					'hasMany' => array(
+							'Place' => array(
+								'className' => 'Place',
+								'foreignKey' => 'story_id',
+								'fields' => array('Place.place_name')
+							),
+							'Image' => array(
+								'className' => 'Image',
+								'foreignKey' => 'story_id'		
+							)
+					)
+		));
+		$this->TripCard->bindModel(array(
+					'belongsTo' => array(
+							'UserStory' => array(
+								'className' => 'UserStory',
+								'foreignKey' => 'card_id'		
+							) 
+					)
+		));	
+		$this->Trip->bindModel(array(
+						'hasMany' => array(
+							'TripCard' => array(
+								'className' => 'TripCard',
+								'foreignKey' => 'trip_id'
+							)
+						),
+						'belongsTo' => array(
+							'User' => array(
+									'className' => 'User',
+									'foreignKey' => 'user_id',
+									'fields' => array('User.first_name','User.last_name','User.email')
+							)
+						)
+					));	
+					
+		$trip = $this->Trip->findById($id);		
+		$this->set('trip', $trip);
+		//pr($trip); die;	
 	
 	}
 }

@@ -28,6 +28,10 @@ app.controller('myCardsCtrl', function($scope, dataFactory, ModalService, $rootS
 		$scope.myCards = response.data;		
 	});
 	
+	dataFactory.getData('/ameego/getUserSavedCards/'+$rootScope.userDetails.user_id).success(function(response){
+		$scope.mySavedCards = response.data;				
+	});
+	
 	dataFactory.getData('/ameego/getUserLikedStories/'+$rootScope.userDetails.user_id).success(function(response){
 		$scope.likedStories = response.data;		
 	});

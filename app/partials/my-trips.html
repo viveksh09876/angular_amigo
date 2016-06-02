@@ -2,8 +2,8 @@
         <div class="head-sec">
 			<a ng-click="toggleMenu()" class="toggle"><i class="fa fa-navicon"></i></a>
 			 <div class="wrapper">
-				<img src="{{$root.rootUrl}}/app/images/logo.jpeg" alt=""/>
-			</div>
+			<a href="#/" class="logo-a" style="font: 700 34px/1 'Open Sans Condensed',sans-serif; color: #fff">reco<!--<img src="{{$root.rootUrl}}/app/images/logo.jpeg" alt=""/>--></a>
+                </div>
 		</div>
     <div id="sortable-container">
 		<div class="left_sec">
@@ -111,14 +111,14 @@
         <div class="right_sec">
         	<div class="right_search">
             	<a href="#"><i class="fa fa-search"></i></a>
-                <input type="search" placeholder="Search your saved cards" ng-model="saveCardSaerch">
+                <input type="search" placeholder="Search your logs and saved cards" ng-model="saveCardSaerch">
             </div>
             
 			<ul as-sortable="sortableCloneOptions" data-ng-model="itemsList.myCards">
             	
 				<li ng-repeat="mCard in itemsList.myCards | filter: saveCardSaerch" as-sortable-item>
 					<div as-sortable-item-handle ng-if="mCard.id!='a'">
-						<img src="{{$root.siteUrl}}{{mCard.pictures[0]}}" alt="" width="60">
+						<img src="{{$root.siteUrl}}{{mCard.pictures[0]}}" alt="" style="max-height: 60px; max-width: 60px; border-radius: 0;">
 						<a>{{mCard.title}}</a><p>{{mCard.place}}</p>
 					</div>
 					<div class="daybreak-list" as-sortable-item-handle ng-if="mCard.id=='a'">
