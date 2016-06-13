@@ -12,7 +12,8 @@ app.controller('addCardCtrl', function($scope, close, $element, dataFactory, $ro
 	$scope.showLoading = true;
 	$scope.categories = [];
     $scope.places = [];
-	$scope.selectedCategories = [];
+	$scope.selectedCategories = {};
+	$scope.categoryTags = [];
 	$scope.showPhoto = true;
 	$scope.cardData = {
 				user_id: $rootScope.userDetails.user_id,
@@ -21,7 +22,8 @@ app.controller('addCardCtrl', function($scope, close, $element, dataFactory, $ro
 				notes: "",
 				time_spent: "",				
 				recommend: "",
-				places: []
+				places: [],
+				tags: $scope.categoryTags
 			};	
 		
 	dataFactory.getData('/ameego/getCategories').success(function(response){
@@ -33,6 +35,8 @@ app.controller('addCardCtrl', function($scope, close, $element, dataFactory, $ro
 		}
 		$scope.showLoading = false;
 	});
+	
+	
 
 	
 	$scope.catSelectText = {buttonDefaultText: 'Select Categories'};
@@ -43,12 +47,23 @@ app.controller('addCardCtrl', function($scope, close, $element, dataFactory, $ro
 			showCheckAll: false,
 			showUncheckAll: false,
 			closeOnSelect: true,
-			selectionLimit: 2,
+			selectionLimit: 1,
 			smartButtonMaxItems: 2,
 			smartButtonTextConverter: function(itemText, originalItem) {		
 				return itemText;
 			}
 	};
+	
+	$scope.$watchCollection('selectedCategories', function(newVal, oldVal){
+		$scope.showLoading = true;
+		if(newVal.id) {
+			dataFactory.getData('/ameego/getCategoryTags/'+newVal.id).success(function(response){
+				$scope.cardData.tags = response.data;
+				$scope.showLoading = false;
+			});
+		}		
+	});
+	
 
 	$scope.f = null;
 	$scope.errFile = null;
@@ -96,8 +111,8 @@ app.controller('addCardCtrl', function($scope, close, $element, dataFactory, $ro
 	
 	
 	$scope.addNewCard = function() {
-		
-    	
+		console.log($scope.cardData);
+    	/*
 		if(is_error) {
 		
 			$scope.showError = true;
@@ -212,7 +227,7 @@ app.controller('addCardCtrl', function($scope, close, $element, dataFactory, $ro
 			  	
 				
 		}
-		
+		*/
    }
 	
 	

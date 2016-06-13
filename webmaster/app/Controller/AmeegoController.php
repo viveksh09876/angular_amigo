@@ -11,7 +11,7 @@ class AmeegoController extends AppController {
     public function beforeFilter() {
 		
         parent::beforeFilter();
-        $this->Auth->allow(array('login','register','fbLogin','getCategories','addCard','getUserStories','getAllUserStories','getStory','deleteStory','removePhoto','deletePlace','updateCard','updateViews','likeCard','getUserLikedStories','getUserSavedCards','saveTrip','getUserTrips','getTripData','updateTrip','deleteTrip','getSearchCards','searchCards'));
+        $this->Auth->allow(array('login','register','fbLogin','getCategories','addCard','getUserStories','getAllUserStories','getStory','deleteStory','removePhoto','deletePlace','updateCard','updateViews','likeCard','getUserLikedStories','getUserSavedCards','saveTrip','getUserTrips','getTripData','updateTrip','deleteTrip','getSearchCards','searchCards','getCategoryTags'));
 		
         //Configure::write('debug',2);	
 		header('Access-Control-Allow-Origin: *'); 
@@ -1546,6 +1546,31 @@ class AmeegoController extends AppController {
 		}
 	}
 	
+	public function getCategoryTags($cat_id = null) {
+		
+		if(!empty($cat_id)) {
+			
+			$tags = $this->Tag->findAllByCategoryId($cat_id);
+			$tagArr = array(); $i=0;
+			
+			if(!empty($tags)) {
+				foreach($tags as $tg) {
+					$tagArr[$i]['id'] = $tg['Tag']['id'];
+					$tagArr[$i]['tag'] = $tg['Tag']['tag'];
+					$tagArr[$i]['isChecked'] = false;
+					$i++;
+				}
+			}
+			
+			$returnData = array('status' => true, 'data' => $tagArr);	
+			echo json_encode($returnData); die;
+			
+		}else{
+			$returnData = array('status' => false, 'message' => 'Invalid Request!');	
+			echo json_encode($returnData); die;
+		}
+		
+	}
 	
 	
 	
