@@ -269,4 +269,10 @@ padding: 5px 15px; border:none;}
  .popup .modal-content .trip_notes{color: #999999; font-size: 14px; padding: 10px;}
  
 .grey-overlay{ background: #ccc; opacity: 0.5; padding: 5px 2px; border-radius: 4px;} 
- 
+.whitelog-left{ float: left; width:90%; }
+.whitelog-right{ float: right; position: relative;}
+.whitelog-right i { color: #24335a;  cursor: pointer;  font-size: 20px;  left: -10px;  position: relative;}
+.whitelog-right i.fa-facebook { top: 36%;}
+.whitelog-right i.fa-pencil-square-o { color: #1da076;  font-size: 23px;  top: 65%;}
+.whitelog-right i.fa-remove { color: #bd2126;  font-size: 23px;  top: 97%;}
+.incomplete-card{ background: #ccc !important;}

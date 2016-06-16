@@ -1,13 +1,14 @@
 
     	<div class="overlay" ng-click="toggleMenu()"></div>
         <div class="head-sec" ng-class="headSecClass">
-            <a class="toggle" ng-click="toggleMenu()"><i class="fa fa-navicon"></i></a>
+            <!--<a class="toggle" ng-click="toggleMenu()"><i class="fa fa-navicon"></i></a>-->
             <div class="wrapper">
 				<ul ng-show="$root.isLoggedIn == false || !$root.isLoggedIn">
 					<li><a ng-click="showLogin()">Login</a></li>
 					<li><a ng-click="showRegister()">Signup</a></li>
                 </ul>
 				<ul ng-show="$root.isLoggedIn == true">
+					<li><a href="#/my-trips">My Reco</a></li>
 					<li><a ng-click="logout()">Logout</a></li>
                 </ul>
 				<a href="#/" class="logo-a" style="font: 700 34px/1 'Open Sans Condensed',sans-serif; color: #fff">reco<!--<img src="{{$root.rootUrl}}/app/images/logo.jpeg" alt=""/>--></a>

@@ -1,0 +1,20 @@
+2016-06-16 01:05:33 Error: Fatal Error (4): syntax error, unexpected 'foreach' (T_FOREACH) in [D:\xampp\htdocs\Ameego\webmaster\app\Controller\AmeegoController.php, line 608]
+2016-06-16 01:05:33 Error: Fatal Error (4): syntax error, unexpected 'foreach' (T_FOREACH) in [D:\xampp\htdocs\Ameego\webmaster\app\Controller\AmeegoController.php, line 608]
+2016-06-16 01:05:33 Error: [FatalErrorException] syntax error, unexpected 'foreach' (T_FOREACH)
+Request URL: /Ameego/webmaster/ameego/getUserTrips/10
+Stack Trace:
+#0 D:\xampp\htdocs\Ameego\webmaster\lib\Cake\Error\ErrorHandler.php(184): ErrorHandler::handleFatalError(4, 'syntax error, u...', 'D:\\xampp\\htdocs...', 608)
+#1 [internal function]: ErrorHandler::handleError(4, 'syntax error, u...', 'D:\\xampp\\htdocs...', 608, Array)
+#2 D:\xampp\htdocs\Ameego\webmaster\lib\Cake\Core\App.php(926): call_user_func('ErrorHandler::h...', 4, 'syntax error, u...', 'D:\\xampp\\htdocs...', 608, Array)
+#3 D:\xampp\htdocs\Ameego\webmaster\lib\Cake\Core\App.php(899): App::_checkFatalError()
+#4 [internal function]: App::shutdown()
+#5 {main}
+2016-06-16 01:05:33 Error: [FatalErrorException] syntax error, unexpected 'foreach' (T_FOREACH)
+Request URL: /Ameego/webmaster/ameego/getUserSavedCards/10
+Stack Trace:
+#0 D:\xampp\htdocs\Ameego\webmaster\lib\Cake\Error\ErrorHandler.php(184): ErrorHandler::handleFatalError(4, 'syntax error, u...', 'D:\\xampp\\htdocs...', 608)
+#1 [internal function]: ErrorHandler::handleError(4, 'syntax error, u...', 'D:\\xampp\\htdocs...', 608, Array)
+#2 D:\xampp\htdocs\Ameego\webmaster\lib\Cake\Core\App.php(926): call_user_func('ErrorHandler::h...', 4, 'syntax error, u...', 'D:\\xampp\\htdocs...', 608, Array)
+#3 D:\xampp\htdocs\Ameego\webmaster\lib\Cake\Core\App.php(899): App::_checkFatalError()
+#4 [internal function]: App::shutdown()
+#5 {main}

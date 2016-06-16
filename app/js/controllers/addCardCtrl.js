@@ -17,13 +17,15 @@ app.controller('addCardCtrl', function($scope, close, $element, dataFactory, $ro
 	$scope.showPhoto = true;
 	$scope.cardData = {
 				user_id: $rootScope.userDetails.user_id,
+				card_type: 2,
 				title:"",
 				categories: $scope.selectedCategories,
 				notes: "",
 				time_spent: "",				
-				recommend: "",
+				recommend: 1,
 				places: [],
-				tags: $scope.categoryTags
+				tags: $scope.categoryTags,
+				status: 1
 			};	
 		
 	dataFactory.getData('/ameego/getCategories').success(function(response){
@@ -56,6 +58,7 @@ app.controller('addCardCtrl', function($scope, close, $element, dataFactory, $ro
 	
 	$scope.$watchCollection('selectedCategories', function(newVal, oldVal){
 		$scope.showLoading = true;
+		
 		if(newVal.id) {
 			dataFactory.getData('/ameego/getCategoryTags/'+newVal.id).success(function(response){
 				$scope.cardData.tags = response.data;
@@ -111,8 +114,7 @@ app.controller('addCardCtrl', function($scope, close, $element, dataFactory, $ro
 	
 	
 	$scope.addNewCard = function() {
-		console.log($scope.cardData);
-    	/*
+		    	
 		if(is_error) {
 		
 			$scope.showError = true;
@@ -131,7 +133,7 @@ app.controller('addCardCtrl', function($scope, close, $element, dataFactory, $ro
 			
 		}else{
 			var files = $scope.f;
-			if(files==null  && !$scope.noPhoto) {
+			if(files==null  && !$scope.noPhoto && $scope.cardData.card_type == 2 && $scope.cardData.status != 3) {
 				
 				$scope.showError = true;
 				$scope.errMsg = 'Please upload photo or check to upload photo later';
@@ -206,11 +208,18 @@ app.controller('addCardCtrl', function($scope, close, $element, dataFactory, $ro
 							angular.element($document[0].getElementsByClassName('modal')).remove();
 							
 							$timeout(function(){
+								
+								var txt = 'Card created successfully';
+								
+								if($scope.cardData.status == 3) {
+									txt = 'Card details saved successfully';
+								}
+							
 								ModalService.showModal({
 									templateUrl: 'app/partials/message.html',
 									controller: "messageCtrl",
 									inputs: {
-										text: 'Card created successfully'
+										text: txt
 									}
 								}).then(function(modal) {           
 									modal.element.modal();
@@ -222,12 +231,9 @@ app.controller('addCardCtrl', function($scope, close, $element, dataFactory, $ro
 					});
 				}
 			} 
-			
-				
-			  	
 				
 		}
-		*/
+		
    }
 	
 	
@@ -247,5 +253,11 @@ app.controller('addCardCtrl', function($scope, close, $element, dataFactory, $ro
 			}
 		});
 	};
+	
+	
+	$scope.finalizeLater = function(){
+		$scope.cardData.status = 3;
+		$scope.addCard();
+	}
 	
 });	

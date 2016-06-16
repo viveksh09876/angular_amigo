@@ -5,7 +5,7 @@ App::uses('AppController', 'Controller');
 class AmeegoController extends AppController {
 
     public $name = 'Ameego';
-    public $uses = array('User', 'Login','Category','UserStory','StoryCategory','Tag','Place','Like','Trip','TripCard','Image');
+    public $uses = array('User', 'Login','Category','UserStory','StoryCategory','Tag','Place','Like','Trip','TripCard','Image','StoryTag');
     public $components = array('Core', 'Email');
 
     public function beforeFilter() {
@@ -351,6 +351,9 @@ class AmeegoController extends AppController {
 									)));
 									
 			$this->StoryCategory->bindModel(array('belongsTo' => array('Category' => array('className' => 'Category', 'foreignKey' => 'category_id'))));
+			
+			$this->StoryTag->bindModel(array('belongsTo' => array('Tag' => array('className' => 'Tag', 'foreignKey' => 'tag_id'))));
+			
 			$this->UserStory->bindModel(array(
 							'hasMany' => array(
 										'StoryCategory' => array(
@@ -368,6 +371,10 @@ class AmeegoController extends AppController {
 										'Image' => array(
 														'className' => 'Image', 
 														'foreignKey' => 'story_id'
+										),
+										'StoryTag' => array(
+														'className' => 'StoryTag',
+														'foreignKey' => 'story_id'
 										)		
 							),
 							
@@ -381,7 +388,7 @@ class AmeegoController extends AppController {
 			$story = $this->UserStory->find('first', array('conditions' => array(
 												'UserStory.id' => $story_id
 										)));
-			
+			//pr($story); die;
 			if(!empty($user_id)) {
 				$likes = $this->Like->find('first',array('conditions' => array(
 													'Like.user_id' => $user_id,
@@ -396,11 +403,13 @@ class AmeegoController extends AppController {
 				
 				$data['id'] = $story['UserStory']['id'];
 				$data['title'] = $story['UserStory']['title'];
+				$data['card_type'] = $story['UserStory']['card_type'];
 				$data['username'] = $story['User']['first_name'].' '.$story['User']['last_name'];
 				$data['places'] = $story['Place'];
 				$data['notes'] = $story['UserStory']['notes'];
 				$data['time_spent'] = $story['UserStory']['time_spent'];
 				$data['views'] = $story['UserStory']['views'];
+				$data['status'] = $story['UserStory']['status'];
 				$data['liked'] = 'fa-heart-o';
 				if(!empty($likes)) {
 					$data['liked'] = 'fa-heart';
@@ -418,11 +427,20 @@ class AmeegoController extends AppController {
 					$imagesArr[] = '/img/places/image_not_available.jpg';
 				}
 				
-				$data['pictures'] = $imagesArr;
-				
+				$data['pictures'] = $imagesArr;				
 				$data['recommend'] = $story['UserStory']['is_recommended'];
 				
-				$cats = $cat_ids = array(); $j = 0; $tags = array();
+				$cats = $cat_ids = array(); $j = 0; $tags = $tag_ids = array();
+				
+				$storyTags = array(); 
+				if(isset($story['StoryTag']) && !empty($story['StoryTag'])) {					
+					foreach($story['StoryTag'] as $st) {
+						$storyTags[] = $st['Tag'];	
+						$tag_ids[] = $st['Tag']['id'];
+					}											
+				}
+				
+				
 				if(isset($story['StoryCategory']) && !empty($story['StoryCategory'])) {
 					
 					foreach($story['StoryCategory'] as $ct) {
@@ -432,11 +450,18 @@ class AmeegoController extends AppController {
 						
 						if(!empty($ct['Category']['Tag'])) {
 							foreach($ct['Category']['Tag'] as $tg) {
-								$tags[] = $tg['tag'];
+								
+								$tg['isChecked'] = false;
+								if(in_array($tg['id'], $tag_ids)) {
+									$tg['isChecked'] = true;
+								}
+								$tags[] = $tg;
 							}
 						}
 					}											
 				}
+				
+				
 				
 				$like_count = 0;
 				if(isset($story['Like']) && !empty($story['Like'])) {
@@ -445,7 +470,7 @@ class AmeegoController extends AppController {
 				$data['likes'] = $like_count;
 				$data['categories'] = $cats;
 				$data['cat_ids'] = $cat_ids;				
-				$data['tags'] = $tags;				
+				$data['tags'] = $tags;							
 				$data['created'] = date('d M, Y', strtotime($story['UserStory']['created']));
 			}
 			
@@ -529,20 +554,31 @@ class AmeegoController extends AppController {
 		}
 		
 		if(!empty($data)){
+			//pr($data); die;
+			//$recommend = 0;
+			/*if($data['recommend'] == true) {
+				$recommend = 1;
+			}*/
 			
-			$recommend = 0;
-			if($data['recommend'] == true) {
+			if(isset($data['recommend']) && !empty($data['recommend'])){
+				$recommend = $data['recommend'];
+			}else{
 				$recommend = 1;
 			}
 			
 			$saved_arr = array(
 							'user_id' => $data['user_id'],
+							'card_type' => $data['card_type'],
 							'title' => $data['title'],
 							'notes' => $data['notes'],
 							'time_spent' => $data['time_spent'],
 							'is_recommended' => $recommend,
 							'created' => date('Y-m-d H:i:s')
 			);
+			
+			if(isset($data['status'])) {
+				$saved_arr['status'] = $data['status'];
+			}
 			
 			
 			$this->UserStory->create();
@@ -552,16 +588,36 @@ class AmeegoController extends AppController {
 					
 					$saveCats = array(); $i = 0;
 					
-					foreach($data['categories'] as $cat) {
-						$saveCats[$i]['category_id'] = $cat['id'];
+					foreach($data['categories'] as $key => $cat) {
+						$saveCats[$i]['category_id'] = $cat;
 						$saveCats[$i]['story_id'] = $story['UserStory']['id'];
 						$saveCats[$i]['created'] = $date;
 						$i++;
 					}
 					
-					$this->loadModel(StoryCategory);
+					$this->loadModel('StoryCategory');
 					$this->StoryCategory->create();
 					$this->StoryCategory->saveAll($saveCats);
+					
+				}
+				
+				if(!empty($data['tags']) && $data['card_type'] == 2) {
+					
+					$saveTags = array(); $i = 0;
+					//pr($data['tags']); die
+					foreach($data['tags'] as $tg) {
+						
+						if($tg['isChecked'] == true) {
+							$saveTags[$i]['tag_id'] = $tg['id'];
+							$saveTags[$i]['story_id'] = $story['UserStory']['id'];
+							$saveTags[$i]['created'] = $date;
+							$i++;
+						}
+					}
+					
+					$this->loadModel('StoryTag');
+					$this->StoryTag->create();
+					$this->StoryTag->saveAll($saveTags);
 					
 				}
 				
@@ -593,7 +649,7 @@ class AmeegoController extends AppController {
 		}
 		
 		
-		if(isset($_FILES['file']) && !empty($_FILES['file'])){
+		if(isset($_FILES['file']) && !empty($_FILES['file']) && $data['card_type'] == 2){
 			//The error validation could be done on the javascript client side.
 			$errors= array();      
 			
@@ -667,9 +723,11 @@ class AmeegoController extends AppController {
 			$saved_arr = array(					
 				'title' => $data['title'],
 				'notes' => $data['notes'],
+				'card_type' => $data['card_type'],
 				'time_spent' => $data['time_spent'],
 				'is_recommended' => $data['recommend'],
 				'location' => $data['place_name'],
+				'status' => $data['status'],
 				'created' => date('Y-m-d H:i:s')
 			);
 			
@@ -682,8 +740,9 @@ class AmeegoController extends AppController {
 					
 					$saveCats = array(); $i = 0;
 					$date = date('Y-m-d H:i:s');
-					foreach($data['categories'] as $cat) {
-						$saveCats[$i]['category_id'] = $cat['id'];
+					
+					foreach($data['categories'] as $key => $cat) {
+						$saveCats[$i]['category_id'] = $cat;
 						$saveCats[$i]['story_id'] = $story['UserStory']['id'];
 						$saveCats[$i]['created'] = $date;
 						$i++;
@@ -692,6 +751,26 @@ class AmeegoController extends AppController {
 					$this->loadModel(StoryCategory);
 					$this->StoryCategory->create();
 					$this->StoryCategory->saveAll($saveCats);
+					
+				}
+				
+				if(!empty($data['tags']) && $data['card_type'] == 2) {
+					
+					$this->StoryTag->deleteAll(array('StoryTag.story_id' => $story['UserStory']['id']));
+					
+					$saveTags = array(); $i = 0;
+					
+					foreach($data['tags'] as $tg) {
+						if($tg['isChecked'] == true) {
+							$saveTags[$i]['tag_id'] = $tg['id'];
+							$saveTags[$i]['story_id'] = $story['UserStory']['id'];
+							$saveTags[$i]['created'] = $date;
+							$i++;
+						}
+					}
+					
+					$this->StoryTag->create();
+					$this->StoryTag->saveAll($saveTags);
 					
 				}
 					
@@ -918,17 +997,21 @@ class AmeegoController extends AppController {
 									'Image' => array(
 												'className' => 'Image', 
 												'foreignKey' => 'story_id'
-									)
+									),
+									'Place' => array(
+												'className' => 'Place', 
+												'foreignKey' => 'story_id'
+									)									
 								)));
 
 			$stories = $this->UserStory->find('all', array('conditions' => array(
 												'UserStory.user_id' => $user_id,
-												'UserStory.status' => 1
+												'UserStory.status !=' => 0
 										),'order' => array('UserStory.created DESC')));
 			
 			$data = array();
 			$card_ids = array();
-			
+			//pr($stories); die;
 			if(!empty($stories)) {
 				
 				 $i = 0;
@@ -936,11 +1019,13 @@ class AmeegoController extends AppController {
 					
 					$card_ids[] = $story['UserStory']['id'];
 					$data[$i]['id'] = $story['UserStory']['id'];
-					$data[$i]['title'] = $story['UserStory']['title'];
-					$data[$i]['place'] = $story['UserStory']['location'];
+					$data[$i]['title'] = $story['Place'][0]['place_name'];
+					$data[$i]['place'] = $story['Place'][0]['place_name'];
 					$data[$i]['notes'] = $story['UserStory']['notes'];
 					$data[$i]['time_spent'] = $story['UserStory']['time_spent'];
 					$data[$i]['recommend'] = $story['UserStory']['is_recommended'];
+					$data[$i]['status'] = $story['UserStory']['status'];
+					$data[$i]['is_user_card'] = 1;
 					
 					$imagesArr = array();
 					
@@ -973,15 +1058,31 @@ class AmeegoController extends AppController {
 			
 			$this->StoryCategory->bindModel(array('belongsTo' => array('Category' => array('className' => 'Category', 'foreignKey' => 'category_id'))));
 			$this->UserStory->bindModel(array('hasMany' => array(
-									'StoryCategory' => array(
-												'className' => 'StoryCategory', 
-												'foreignKey' => 'story_id'
-									),
-									'Image' => array(
-												'className' => 'Image', 
-												'foreignKey' => 'story_id'
-									)
-								)));
+															'StoryCategory' => array(
+																		'className' => 'StoryCategory', 
+																		'foreignKey' => 'story_id'
+															),
+															'Image' => array(
+																		'className' => 'Image', 
+																		'foreignKey' => 'story_id'
+															),
+															'Place' => array(
+																		'className' => 'Place', 
+																		'foreignKey' => 'story_id'
+															)
+													),
+											'belongsTo' => array(
+															'User' => array(
+																'className' => 'User',
+																'foreignKey' => 'user_id',
+																'fields' => array('User.first_name',
+																				  'User.last_name',
+																				  'User.email',
+																				  'User.user_id')
+															)
+													)		
+								));
+								
 			$this->Like->bindModel(array(
 								'belongsTo' => array(
 									'UserStory' => array(
@@ -992,7 +1093,7 @@ class AmeegoController extends AppController {
 							));
 			
 			$stories = $this->Like->findAllByUserId($user_id);
-			
+			//pr($stories); die;
 			if(!empty($stories)) {
 				
 				foreach($stories as $story) {
@@ -1001,12 +1102,15 @@ class AmeegoController extends AppController {
 						
 						$card_ids[] = $story['UserStory']['id'];
 						$data[$i]['id'] = $story['UserStory']['id'];
-						$data[$i]['title'] = $story['UserStory']['title'];
-						$data[$i]['place'] = $story['UserStory']['location'];
+						$data[$i]['title'] = $story['UserStory']['Place'][0]['place_name'];
+						$data[$i]['place'] = $story['UserStory']['Place'][0]['place_name'];
 						$data[$i]['notes'] = $story['UserStory']['notes'];
 						$data[$i]['time_spent'] = $story['UserStory']['time_spent'];
 						
 						$data[$i]['recommend'] = $story['UserStory']['is_recommended'];
+						$data[$i]['status'] = $story['UserStory']['status'];
+						$data[$i]['is_user_card'] = 0;
+						$data[$i]['username'] = $story['UserStory']['User']['first_name'].' '.$story['UserStory']['User']['last_name'];
 						
 						$imagesArr = array();
 					

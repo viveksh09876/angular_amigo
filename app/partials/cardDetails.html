@@ -14,7 +14,9 @@
 			  </div>
 			  <figure><img src="{{$root.siteUrl}}{{card.pictures[0]}}" alt="Image"/></figure>
 			  <p>{{card.notes}}</p>
-			  
+			  <ul>
+				<li ng-repeat="tag in card.tags" ng-if="tag.isChecked == true"><a href="#">#{{tags.tag}}</a></li>
+			  </ul>
 			  </div>
 			  <div class="right-sec">
 			  <ul class="stats">
@@ -43,7 +45,7 @@
 			  <h3>Tags</h3>
 			  <ul class="tags">
 			  
-			  <li ng-repeat="tags in card.tags track by $index"><a href="#">#{{tags}}</a></li>
+				<li ng-repeat="tags in card.tags track by $index"><a href="#">#{{tags}}</a></li>
 			  </ul>
 			  </div>
 			   

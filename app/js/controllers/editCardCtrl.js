@@ -12,7 +12,8 @@ app.controller('editCardCtrl', function($scope, close, $element, cardId, dataFac
 	$scope.showLoading = true;
 	$scope.categories = [];
     $scope.places = [];
-	$scope.selectedCategories = [];
+	$scope.selectedCategories = {};
+	$scope.categoryTags = [];
 	$scope.showPhoto = true;
 	$scope.noPhoto = false;
 	
@@ -20,8 +21,12 @@ app.controller('editCardCtrl', function($scope, close, $element, cardId, dataFac
 
 	dataFactory.getData('/ameego/getStory/'+cardId).success(function(response){
 		$scope.cardData = response.data;
-		$scope.selectedCategories = response.data.cat_ids;	
 		
+		if(response.data.cat_ids.length > 0) {
+			$scope.selectedCategories.id = response.data.cat_ids[0].id;
+		}
+		//$scope.selectedCategories = response.data.cat_ids;	
+		console.log('response',$scope.selectedCategories);
 		if($scope.cardData.noPhoto == 1) {
 		
 			$scope.noPhoto = true;
@@ -41,15 +46,31 @@ app.controller('editCardCtrl', function($scope, close, $element, cardId, dataFac
 	
 	
 	$scope.catSelectText = {buttonDefaultText: 'Select Categories'};
-
+	//http://dotansimha.github.io/angularjs-dropdown-multiselect/#/
 	$scope.settings = {
-		scrollableHeight: '100px',
-		scrollable: true,
-		showCheckAll: false,
-		showUncheckAll: false,
-		closeOnSelect: true,
-		selectionLimit: 2
+			scrollableHeight: '100px',
+			scrollable: true,
+			showCheckAll: false,
+			showUncheckAll: false,
+			closeOnSelect: true,
+			selectionLimit: 1,
+			smartButtonMaxItems: 2,
+			smartButtonTextConverter: function(itemText, originalItem) {		
+				return itemText;
+			}
 	};
+	
+	$scope.$watchCollection('selectedCategories', function(newVal, oldVal){		
+		
+		if(newVal.id && oldVal.length > 0) {
+			$scope.showLoading = true;
+			dataFactory.getData('/ameego/getCategoryTags/'+newVal.id).success(function(response){
+				$scope.cardData.tags = response.data;
+				$scope.showLoading = false;
+			});
+		}		
+	});
+	
 	
 	$scope.removePhoto = function(pic) {
 		dataFactory.postData('/ameego/removePhoto',{ cid: cardId, pic: pic}).success(function(response){
@@ -142,9 +163,7 @@ app.controller('editCardCtrl', function($scope, close, $element, cardId, dataFac
 		}else{	
 			
 			var files = $scope.f;
-			console.log(files);
-			console.log($scope.noPhoto);
-			if(files=='' && !$scope.noPhoto) {
+			if(files =='' && !$scope.noPhoto && $scope.cardData.card_type == 2 && $scope.cardData.status != 3) {
 				
 				$scope.showError = true;
 				$scope.errMsg = 'Please upload photo or check to upload photo later';
@@ -180,11 +199,14 @@ app.controller('editCardCtrl', function($scope, close, $element, cardId, dataFac
 							angular.element($document[0].getElementsByClassName('modal')).remove();
 							
 							$timeout(function(){
+							
+								var txt = 'Card updated successfully';
+																
 								ModalService.showModal({
 									templateUrl: 'app/partials/message.html',
 									controller: "messageCtrl",
 									inputs: {
-										text: 'Card updated successfully'
+										text: txt
 									}
 								}).then(function(modal) {           
 									modal.element.modal();
@@ -235,5 +257,11 @@ app.controller('editCardCtrl', function($scope, close, $element, cardId, dataFac
 			
 		}   
     }
+	
+	
+	$scope.finalizeLater = function(){
+		$scope.cardData.status = 3;
+		$scope.editCard();
+	}
 
 });

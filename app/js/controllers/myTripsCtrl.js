@@ -6,7 +6,9 @@ app.controller('myTripsCtrl', function($scope, dataFactory, ModalService, $filte
 	$scope.tripDetails = { tripTitle: '', tripNotes: ''};
 	$scope.showLoading = false;
 	$scope.showEditTrip = false;
+	$scope.showCreateTrip = false;
 	$scope.tripData = {};
+	$scope.trendingCards = [];
 	
 	getTripList();
 	
@@ -15,15 +17,23 @@ app.controller('myTripsCtrl', function($scope, dataFactory, ModalService, $filte
         myCards: []
     };
 	
-	dataFactory.getData('/ameego/getUserSavedCards/'+$rootScope.userDetails.user_id).success(function(response){
-		$scope.myCards = response.data;	
-		
-		$scope.itemsList = {
-			tripCards: [],
-			myCards: $scope.myCards
-		};	
-			
+	dataFactory.getLocalData('app/json/trending.json').success(function(response){
+		$scope.trendingCards = response.result;		
 	});
+	
+	function getUserSavedCards() {
+		dataFactory.getData('/ameego/getUserSavedCards/'+$rootScope.userDetails.user_id).success(function(response){
+			$scope.myCards = response.data;	
+			
+			$scope.itemsList = {
+				tripCards: [],
+				myCards: $scope.myCards
+			};	
+				
+		});
+	}
+	
+	getUserSavedCards();
 	
 	function getTripList(user_id) {
 		dataFactory.getData('/ameego/getUserTrips/'+$rootScope.userDetails.user_id).success(function(response){
@@ -152,6 +162,9 @@ app.controller('myTripsCtrl', function($scope, dataFactory, ModalService, $filte
 	}
 	
 	
+	
+	
+	
 	$scope.reallyDelete = function(id) {
 		dataFactory.postData('/ameego/deleteTrip', {uid: $rootScope.userDetails.user_id, tid: id}).success(function(response){
 			if(response.status == true) {
@@ -165,6 +178,71 @@ app.controller('myTripsCtrl', function($scope, dataFactory, ModalService, $filte
 				}
 				
 				$scope.myTrips = updatedTrips;
+			}
+		});
+	};
+	
+	
+	$scope.showAddCard = function() {
+		
+        ModalService.showModal({
+            templateUrl: 'app/partials/addCard.html',
+            controller: 'addCardCtrl'
+        }).then(function(modal) {
+			modal.element.modal({
+			   backdrop: 'static',
+			   keyboard: false
+		   });	
+			modal.close.then(function(result) {
+				
+				if(result != 'Cancel') {
+					
+					$scope.myCards = result;	
+				}
+				
+			  });	
+        });
+		
+    };
+	
+	$scope.showEditCard = function(id) {
+		
+		ModalService.showModal({
+            templateUrl: 'app/partials/editCard.html',
+            controller: 'editCardCtrl',
+			inputs: {
+				cardId: id
+			}
+        }).then(function(modal) {
+			modal.element.modal({
+			   backdrop: 'static',
+			   keyboard: false
+		   });	
+			modal.close.then(function(result) {
+				if(result != 'Cancel') {
+					getUserSavedCards();
+					//$scope.myCards = result;	
+				}
+			  });	
+        });
+	
+	}
+	
+	
+	
+	$scope.reallyDeleteCard = function(id) {
+		dataFactory.postData('/ameego/deleteStory', {uid: $rootScope.userDetails.user_id, cid: id}).success(function(response){
+			if(response.status == true) {
+				
+				var updatedCards = [];
+				
+				for(var i = 0; i < $scope.myCards.length; i++) {
+					if($scope.myCards[i].id != id) {
+						updatedCards.push($scope.myCards[i]);
+					}
+				}
+				
+				getUserSavedCards();
 			}
 		});
 	};
