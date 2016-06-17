@@ -196,8 +196,8 @@ app.controller('myTripsCtrl', function($scope, dataFactory, ModalService, $filte
 			modal.close.then(function(result) {
 				
 				if(result != 'Cancel') {
-					
-					$scope.myCards = result;	
+					getUserSavedCards();
+					//$scope.myCards = result;	
 				}
 				
 			  });	

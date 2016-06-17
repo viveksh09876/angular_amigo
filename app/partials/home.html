@@ -30,12 +30,13 @@
 				<ul class="boxout grid effect-2" id="grid" ng-show="!showLoading">
 					<li class="box"  ng-repeat="card in cards" ng-class="hoverBox" ng-mouseover="hoverBox='active'">
 						<img src="{{$root.siteUrl}}{{card.pictures[0]}}" alt="" ng-click="showCardPreview(card.id)">
-						<span>{{card.title}}</span>
+						<span>{{card.place}} <br/><small class="card_hover">{{card.categories}}</small><br/><p class="card_username">@{{card.username}}</p></span>
+						
 						<div class="links">
 							<ul>
 								<li><a><i class="fa fa-eye"></i> {{card.views}}</a></li>
 								<li><a ng-click="likeCard(card.id)"><i class="fa {{card.liked}}"></i>{{card.likes}}</a> </li>
-								<li><a class="btn btn-medium font-bold"
+								<!--<li><a class="btn btn-medium font-bold"
 									 socialshare
 									socialshare-provider="facebook"
 									socialshare-type="feed"
@@ -48,7 +49,7 @@
 									socialshare-popup-width="400"
 									socialshare-trigger="click">
 									<i class="fa fa-facebook"></i>Share 
-								  </a></li>
+								  </a></li>-->
 								<li><a ng-click="showCardPreview(card.id)">Read more..</a></li>
 							</ul>
 						</div>

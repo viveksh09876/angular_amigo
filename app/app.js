@@ -30,23 +30,23 @@ app.config(function($routeProvider, $httpProvider, $facebookProvider){
 	$httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';	
 		
 		
-	$facebookProvider.setAppId('991937314207970'); //local
+	//$facebookProvider.setAppId('991937314207970'); //local
 	//$facebookProvider.setAppId('903277806448107');	
-	//$facebookProvider.setAppId('997437293625019'); //live
+	$facebookProvider.setAppId('997437293625019'); //live
 	
 }).run(function($rootScope, $location){
 	
 //$rootScope.siteUrl = 'http://genesievents.com/demo/webmaster';
 	//$rootScope.siteUrl = 'http://sandboxonline.in/dev/ameego/webmaster';
 	//$rootScope.rootUrl = 'http://genesievents.com/demo';
-	$rootScope.rootUrl = 'http://localhost/Ameego';
-	$rootScope.siteUrl = 'http://localhost/Ameego/webmaster';
+	//$rootScope.rootUrl = 'http://localhost/Ameego';
+	//$rootScope.siteUrl = 'http://localhost/Ameego/webmaster';
 	
 	//$rootScope.rootUrl = 'http://192.241.237.59';
 	//$rootScope.siteUrl = 'http://192.241.237.59/webmaster';
 	
-	//$rootScope.rootUrl = 'http://www.explorereco.com';
-	//$rootScope.siteUrl = 'http://www.explorereco.com/webmaster';
+	$rootScope.rootUrl = 'http://www.explorereco.com';
+	$rootScope.siteUrl = 'http://www.explorereco.com/webmaster';
 	
 	
 	$rootScope.isLoggedIn = false;
@@ -66,12 +66,12 @@ app.config(function($routeProvider, $httpProvider, $facebookProvider){
     });
 	
 	//fb load sdk
-	/*(function(d, s, id){
+	(function(d, s, id){
 		 var js, fjs = d.getElementsByTagName(s)[0];
 		 if (d.getElementById(id)) {return;}
 		 js = d.createElement(s); js.id = id;
 		 js.src = "//connect.facebook.net/en_US/sdk.js";
 		 fjs.parentNode.insertBefore(js, fjs);
 	   }(document, 'script', 'facebook-jssdk'));
-	*/
+	
 });

@@ -9,21 +9,21 @@
 		<div class="modal-data" ng-show="!showLoading">	
 			 <div class="left-sec">
 			  <div class="title">
-			  <h3>{{card.title}}</h3>
-			  <p>By <a>{{card.username}}</a> on <span>{{card.created}}</span></p>
+				<h3>{{card.places[0].place_name}}</h3>
+				<p>By <a>{{card.username}}</a> on <span>{{card.created}}</span></p>
 			  </div>
 			  <figure><img src="{{$root.siteUrl}}{{card.pictures[0]}}" alt="Image"/></figure>
-			  <p>{{card.notes}}</p>
-			  <ul>
-				<li ng-repeat="tag in card.tags" ng-if="tag.isChecked == true"><a href="#">#{{tags.tag}}</a></li>
+			  <p><strong>Pro Tip: </strong>{{card.notes}}</p>
+			  <ul class="tags">
+				<li ng-repeat="tag in card.tags" ng-if="tag.isChecked == true"><a href="#">#{{tag.tag}}</a></li>
 			  </ul>
 			  </div>
 			  <div class="right-sec">
 			  <ul class="stats">
-			  <li><a><i class="fa fa-eye"></i> {{card.views}}</a></li>
-			  <li><a ng-click="likeCard(card.id)"><i class="fa {{card.liked}}"></i>{{card.likes}}</a> </li>
-			  <li><a class="btn btn-medium font-bold"
-									 socialshare
+				<li><a><i class="fa fa-eye"></i> {{card.views}}</a></li>
+				<li><a ng-click="likeCard(card.id)"><i class="fa fa-paperclip"></i>{{card.likes}}</a> </li>
+				<!--<li><a class="btn btn-medium font-bold"
+									socialshare
 									socialshare-provider="facebook"
 									socialshare-type="feed"
 									socialshare-via="997437293625019"
@@ -36,17 +36,14 @@
 									socialshare-popup-width="400"
 									socialshare-trigger="click">
 									<i class="fa fa-facebook"></i> 
-								  </a></li>
+								  </a>
+				</li>-->
 			  </ul>
-			  <!--<figure class="map">
-			  <h3>Map</h3>
-			  <img src="common/images/map.jpg" alt="">
-			  </figure>-->
-			  <h3>Tags</h3>
-			  <ul class="tags">
+			  <figure class="map">
+				<h3>Map</h3>
+				<div id="map_canvas_mini"></div>
+			  </figure>
 			  
-				<li ng-repeat="tags in card.tags track by $index"><a href="#">#{{tags}}</a></li>
-			  </ul>
 			  </div>
 			   
 		</div>

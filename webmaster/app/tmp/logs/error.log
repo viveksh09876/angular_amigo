@@ -18,3 +18,21 @@ Stack Trace:
 #3 D:\xampp\htdocs\Ameego\webmaster\lib\Cake\Core\App.php(899): App::_checkFatalError()
 #4 [internal function]: App::shutdown()
 #5 {main}
+2016-06-17 01:27:14 Error: [MissingControllerException] Controller class AmeegoController could not be found.
+Exception Attributes: array (
+  'class' => 'AmeegoController',
+  'plugin' => NULL,
+)
+Request URL: /Ameego/webmaster/ameego/updateViews/10
+Stack Trace:
+#0 D:\xampp\htdocs\Ameego\webmaster\app\webroot\index.php(132): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2016-06-17 01:27:14 Error: [MissingControllerException] Controller class AmeegoController could not be found.
+Exception Attributes: array (
+  'class' => 'AmeegoController',
+  'plugin' => NULL,
+)
+Request URL: /Ameego/webmaster/ameego/getStory/10/
+Stack Trace:
+#0 D:\xampp\htdocs\Ameego\webmaster\app\webroot\index.php(132): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}

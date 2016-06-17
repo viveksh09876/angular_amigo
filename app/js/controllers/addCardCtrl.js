@@ -257,7 +257,7 @@ app.controller('addCardCtrl', function($scope, close, $element, dataFactory, $ro
 	
 	$scope.finalizeLater = function(){
 		$scope.cardData.status = 3;
-		$scope.addCard();
+		$scope.addNewCard();
 	}
 	
 });	

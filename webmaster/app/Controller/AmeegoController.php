@@ -266,11 +266,22 @@ class AmeegoController extends AppController {
 										),
 										'Image' => array('className' => 'Image', 
 																'foreignKey' => 'story_id'
-										))));
+										),
+										'Place' => array('className' => 'Place', 
+																'foreignKey' => 'story_id'
+										)),
+									'belongsTo' => array(
+											'User' => array(
+													'className' => 'User',
+													'foreignKey' => 'user_id',
+													'fields' => array('User.first_name','User.last_name')
+											)
+									)		
+								));
 
 			$stories = $this->UserStory->find('all', array(
 											'conditions' => array(
-												'UserStory.status' => 1
+												'UserStory.status !=' => 3
 											),
 											'order' => array('UserStory.created DESC')));
 			
@@ -291,6 +302,8 @@ class AmeegoController extends AppController {
 					$data[$i]['time_spent'] = $story['UserStory']['time_spent'];
 					$data[$i]['views'] = $story['UserStory']['views'];
 					$data[$i]['liked'] = 'fa-heart-o';
+					$data[$i]['place'] = $story['Place'][0]['place_name'];
+					$data[$i]['username'] = $story['User']['first_name'].' '.$story['User']['last_name'];
 					
 					if(!empty($likes)) {
 						if(in_array($story['UserStory']['id'], $likes)) {
