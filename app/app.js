@@ -23,6 +23,10 @@ app.config(function($routeProvider, $httpProvider, $facebookProvider){
 		.when('/trip/:tripId', {
 			templateUrl: 'app/partials/home.html',
 			controller: 'homeCtrl'
+		})
+		.when('/profile', {
+			templateUrl: 'app/partials/profile.html',
+			controller: 'profileCtrl'
 		});
 		
 	$httpProvider.defaults.useXDomain = true;

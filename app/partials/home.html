@@ -8,6 +8,7 @@
 					<li><a ng-click="showRegister()">Signup</a></li>
                 </ul>
 				<ul ng-show="$root.isLoggedIn == true">
+					<li><a href="#/profile">{{$root.userDetails.first_name}}</a></li>
 					<li><a href="#/my-trips">My Reco</a></li>
 					<li><a ng-click="logout()">Logout</a></li>
                 </ul>
