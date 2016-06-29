@@ -16,7 +16,8 @@
                     
 		    <div class="logs-list">
             	<h4>Profile</h4>
-				<div class="log_container">
+				<a ng-click="sendMessage()">Invite friends to connect</a>
+				<!--<div class="log_container">
 					<div class="spinner logbox" ng-show="showLoading">
 						<img src="{{$root.rootUrl}}/app/images/loading_white.gif" alt="loading..."/>
 					</div>
@@ -27,18 +28,17 @@
 							<button type="button" ng-click="saveTrip();">Save Trip</button>
 						</div>
 					</div>
-				</div>
+				</div>-->
             </div>
         
-		
 		</div>
         <div class="right_sec">
         	<div class="right_search">
             	<a href="#"><i class="fa fa-search"></i></a>
                 <input type="search" placeholder="Search your logs and saved cards" ng-model="saveCardSaerch">
             </div>
-            
-			<ul as-sortable="sortableCloneOptions" data-ng-model="itemsList.myCards" ng-show="showCreateTrip == true">
+         <!--   
+			<ul>
             	
 				<li ng-repeat="mCard in itemsList.myCards | filter: saveCardSaerch" as-sortable-item ng-if="mCard.status != '3'">
 					<div as-sortable-item-handle ng-if="mCard.id!='a'">
@@ -71,7 +71,7 @@
 					
 				</li>
             </ul>
-       
+       -->
 	   </div>
         
     </div>
