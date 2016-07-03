@@ -27,6 +27,10 @@ app.config(function($routeProvider, $httpProvider, $facebookProvider){
 		.when('/profile', {
 			templateUrl: 'app/partials/profile.html',
 			controller: 'profileCtrl'
+		})
+		.when('/invite/:refer_id', {
+			templateUrl: 'app/partials/home.html',
+			controller: 'homeCtrl'
 		});
 		
 	$httpProvider.defaults.useXDomain = true;
@@ -43,14 +47,14 @@ app.config(function($routeProvider, $httpProvider, $facebookProvider){
 //$rootScope.siteUrl = 'http://genesievents.com/demo/webmaster';
 	//$rootScope.siteUrl = 'http://sandboxonline.in/dev/ameego/webmaster';
 	//$rootScope.rootUrl = 'http://genesievents.com/demo';
-	//$rootScope.rootUrl = 'http://localhost/Ameego';
-	//$rootScope.siteUrl = 'http://localhost/Ameego/webmaster';
+	$rootScope.rootUrl = 'http://localhost/Ameego';
+	$rootScope.siteUrl = 'http://localhost/Ameego/webmaster';
 	
 	//$rootScope.rootUrl = 'http://192.241.237.59';
 	//$rootScope.siteUrl = 'http://192.241.237.59/webmaster';
 	
-	$rootScope.rootUrl = 'http://www.explorereco.com';
-	$rootScope.siteUrl = 'http://www.explorereco.com/webmaster';
+	//$rootScope.rootUrl = 'http://www.explorereco.com';
+	//$rootScope.siteUrl = 'http://www.explorereco.com/webmaster';
 	
 	
 	$rootScope.isLoggedIn = false;

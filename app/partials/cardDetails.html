@@ -7,9 +7,11 @@
 			<img src="{{$root.rootUrl}}/app/images/loading_grey.gif" alt="loading..."/>
 		</div>
 		<div class="modal-data" ng-show="!showLoading">	
+			<a class="follow-link" ng-click="followUser(card.user_id)">Follow {{card.username}}</a>
 			 <div class="left-sec">
 			  <div class="title">
 				<h3>{{card.places[0].place_name}}</h3>
+				<p>{{card.places[0].formatted_address}}</p>
 				<p>By <a>{{card.username}}</a> on <span>{{card.created}}</span></p>
 			  </div>
 			  <figure><img src="{{$root.siteUrl}}{{card.pictures[0]}}" alt="Image"/></figure>

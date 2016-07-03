@@ -5,13 +5,13 @@ App::uses('AppController', 'Controller');
 class AmeegoController extends AppController {
 
     public $name = 'Ameego';
-    public $uses = array('User', 'Login','Category','UserStory','StoryCategory','Tag','Place','Like','Trip','TripCard','Image','StoryTag');
+    public $uses = array('User', 'Login','Category','UserStory','StoryCategory','Tag','Place','Like','Trip','TripCard','Image','StoryTag','Follower');
     public $components = array('Core', 'Email');
 
     public function beforeFilter() {
 		
         parent::beforeFilter();
-        $this->Auth->allow(array('login','register','fbLogin','getCategories','addCard','getUserStories','getAllUserStories','getStory','deleteStory','removePhoto','deletePlace','updateCard','updateViews','likeCard','getUserLikedStories','getUserSavedCards','saveTrip','getUserTrips','getTripData','updateTrip','deleteTrip','getSearchCards','searchCards','getCategoryTags'));
+        $this->Auth->allow(array('login','register','fbLogin','getCategories','addCard','getUserStories','getAllUserStories','getStory','deleteStory','removePhoto','deletePlace','updateCard','updateViews','likeCard','getUserLikedStories','getUserSavedCards','saveTrip','getUserTrips','getTripData','updateTrip','deleteTrip','getSearchCards','searchCards','getCategoryTags','getFollowersData', 'followUser','updateProfile','updatePassword'));
 		
         //Configure::write('debug',2);	
 		header('Access-Control-Allow-Origin: *'); 
@@ -56,9 +56,11 @@ class AmeegoController extends AppController {
 	public function register() {
 		
         $data = json_decode(json_encode($this->request->input('json_decode')),true);
+		
         if (!empty($data)) {
 
             $user = $this->User->findByEmail($data['username']);
+			$user_id = '';
             if (count($user) == 0) {
                 
 				$this->User->create();
@@ -71,32 +73,50 @@ class AmeegoController extends AppController {
 							
 				$this->request->data['User']['password']=AuthComponent::password($pass);		
 				
-				if($savedData=$this->User->save($this->request->data)) {
+				if($savedData=$this->User->save($this->request->data)) {				
 					
+					$user_id = $savedData['User']['user_id'];
 					unset($savedData['User']['password']);
 					$returnData = array('status' => true, 'message' => 'User account created successfully!', 'data' => $savedData['User']);
-					echo json_encode($returnData);
-					die;
+					$return = json_encode($returnData);
+					
 					
 				} else {
 					$returnData = array('status' => false, 'message' => 'There is some issue. Please contact administrator.');
-					echo json_encode($returnData);
-					die;
+					$return = json_encode($returnData);
+					
 				}	
 				
             }else{
 				
 				if(isset($data['from_fb'])) {
+					$user_id = $user['User']['user_id'];
 					unset($user['User']['password']);
 					$returnData = array('status' => true, 'message' => 'User account created successfully!', 'data' => $user['User']);
-					echo json_encode($returnData);
-					die;
+					$return = json_encode($returnData);
+					
 				}else{
+					$user_id = $user['User']['user_id'];
 					$returnData = array('status' => false, 'message' => 'User already exist with this email id');
-					echo json_encode($returnData);
-					die;
+					$return = json_encode($returnData);
+					
 				}				
 			}
+			
+			
+			if(!empty($user_id) && isset($data['refer_id'])) {
+			
+				$fData = array(
+							'follower_id' => $data['refer_id'],
+							'following_id' => $user_id,
+							'created' => date('Y-m-d H:i:S')
+						);
+					
+				$this->Follower->create();
+				$this->Follower->save($fData);	
+			}	
+			
+			echo $return; die;
             
         } else {
 
@@ -281,7 +301,8 @@ class AmeegoController extends AppController {
 
 			$stories = $this->UserStory->find('all', array(
 											'conditions' => array(
-												'UserStory.status !=' => 3
+												'UserStory.status !=' => 3,
+												'UserStory.card_type' => 2
 											),
 											'order' => array('UserStory.created DESC')));
 			
@@ -418,6 +439,7 @@ class AmeegoController extends AppController {
 				$data['title'] = $story['UserStory']['title'];
 				$data['card_type'] = $story['UserStory']['card_type'];
 				$data['username'] = $story['User']['first_name'].' '.$story['User']['last_name'];
+				$data['user_id'] = $story['User']['user_id'].' '.$story['User']['user_id'];
 				$data['places'] = $story['Place'];
 				$data['notes'] = $story['UserStory']['notes'];
 				$data['time_spent'] = $story['UserStory']['time_spent'];
@@ -1557,9 +1579,11 @@ class AmeegoController extends AppController {
 			}
 			//$key = $data['key'];
 			
-			$sql = "select U.id from user_stories U inner join places P ON (P.story_id = U.id) left join story_categories SC ON (U.id = SC.story_id) inner join categories C ON (C.id = SC.category_id) left join tags T ON (T.category_id = C.id) where U.title like '%".$keys[0]."%' ";
+			$sql = "select U.id from user_stories U inner join places P ON (P.story_id = U.id) inner join users US ON (U.user_id=US.user_id) left join story_categories SC ON (U.id = SC.story_id) inner join categories C ON (C.id = SC.category_id) left join tags T ON (T.category_id = C.id) where U.title like '%".$keys[0]."%' ";
 			
 			foreach($keys as $k){
+				$sql .= " OR US.first_name like '%".$k."%' ";
+				$sql .= " OR US.last_name like '%".$k."%' ";
 				$sql .= " OR U.title like '%".$k."%' ";
 				$sql .= " OR P.place_name like '%".$k."%' ";
 				$sql .= " OR C.name like '%".$k."%' ";
@@ -1690,6 +1714,146 @@ class AmeegoController extends AppController {
 	}
 	
 	
+	public function getFollowersData($id=null) {
+	
+		if(!empty($id)) {
+		
+			$this->Follower->bindModel(array(
+											'belongsTo' => array(
+												'User' => array(
+													'className' => 'User',
+													'foreignKey' => 'following_id',
+													'fields' => array('User.first_name','User.last_name','User.email')
+												)
+											)
+									));
+		
+			$followers = $this->Follower->find('all', array(
+												'conditions' => array(
+													'Follower.following_id' => $id 
+												)
+											));
+			
+			$this->Follower->unbindModel(array('belongsTo' => array('User')));
+			$this->Follower->bindModel(array(
+											'belongsTo' => array(
+												'User' => array(
+													'className' => 'User',
+													'foreignKey' => 'following_id',
+													'fields' => array('User.first_name','User.last_name','User.email')
+												)
+											)
+									));
+			
+			$following = $this->Follower->find('all', array(
+												'conditions' => array(
+													'Follower.follower_id' => $id 
+												)
+											));								
+			
+			
+			$data = array(
+						'my_followers' => $followers,
+						'following' => $following
+					);
+			
+			$returnData = array('status' => true, 'data' => $data);	
+			echo json_encode($returnData); die;
+			
+		}else{
+			$returnData = array('status' => false, 'message' => 'Invalid Request!');	
+			echo json_encode($returnData); die;
+		}
+	}
+	
+	
+	public function followUser() {
+		
+		$data = json_decode(json_encode($this->request->input('json_decode')),true);
+		if(!empty($data)) {
+			
+			$already = $this->Follower->find('first', array('conditions' => array(
+											'Follower.follower_id' => $data['follower_id'],
+											'Follower.following_id' => $data['following_id']
+										)));
+			if(empty($already)) {
+				
+				$arr = array(
+							'follower_id' => $data['follower_id'],
+							'following_id' => $data['following_id'],
+							'created' => date('Y-m-d H:i:s')
+						);
+						
+				$this->Follower->create();		
+				$this->Follower->save($arr);
+				
+				$return_data = array('status' => true, 'message' => 'You are now following user!');
+				echo json_encode($return_data); die;
+				
+			}else{
+				$return_data = array('status' => true, 'message' => 'You are already following this user!');
+				echo json_encode($return_data); die;
+			}
+			
+		}else{
+			$returnData = array('status' => false, 'message' => 'Invalid Request!');	
+			echo json_encode($returnData); die;
+		}
+		
+	}
+	
+	
+	public function updateProfile() {
+		
+		$data = json_decode(json_encode($this->request->input('json_decode')),true);
+		if(!empty($data)) {
+			
+			$this->User->id = $data['user_id'];
+			$this->User->save(array('User.first_name' => $data['first_name'], 'User.last_name' => $data['last_name']));
+			
+			$return_data = array('status' => true, 'message' => 'Profile updated successfully!');
+			echo json_encode($return_data); die;
+			
+		}else{
+			$returnData = array('status' => false, 'message' => 'Invalid Request!');	
+			echo json_encode($returnData); die;
+		}
+		
+	}
+	
+	
+	public function updatePassword() {
+		
+		$data = json_decode(json_encode($this->request->input('json_decode')),true);
+		if(!empty($data)) {
+			
+			$oldpass = AuthComponent::password($data['old_password']);
+			$user = $this->User->find('first', array(
+										'conditions' => array(
+											'User.user_id' => $data['user_id'],
+											'User.password' => 	$oldpass	
+										)
+									));
+			
+			if(!empty($user)) {
+				
+				$newpass = AuthComponent::password($data['new_password']);
+				$this->User->user_id = $data['user_id'];
+				$this->User->save(array('password' => $newpass));
+				
+				$returnData = array('status' => true, 'message' => 'Password updated successfully!');	
+				echo json_encode($returnData); die;
+				
+			}else{
+				$returnData = array('status' => false, 'message' => 'Old Password does not match!');	
+				echo json_encode($returnData); die;
+			}			
+			
+		}else{
+			$returnData = array('status' => false, 'message' => 'Invalid Request!');	
+			echo json_encode($returnData); die;
+		}
+	}
 	
  // die; 
 

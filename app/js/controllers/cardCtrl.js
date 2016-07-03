@@ -99,7 +99,34 @@ app.controller('cardCtrl', function($scope, close, $element, cardId, dataFactory
 
     };
     
-
+	$scope.followUser = function(user_id) {
+		if($localstorage.get('isLoggedIn')) {
+			
+			dataFactory.postData('/ameego/followUser',{ following_id: user_id, follower_id: $rootScope.userDetails.user_id}).success(function(response){
+							
+				ModalService.showModal({
+					templateUrl: 'app/partials/message.html',
+					controller: "messageCtrl",
+					inputs: {
+						text: response.message
+					}
+				}).then(function(modal) {           
+					modal.element.modal();
+					
+				});	
+					
+			});	
+		}else{
+			ModalService.showModal({
+				templateUrl: 'app/partials/login.html',
+				controller: "loginCtrl"
+			}).then(function(modal) {           
+				modal.element.modal();
+				
+			});
+		}	
+		
+	}
  
 
 });

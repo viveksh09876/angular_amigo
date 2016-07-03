@@ -1,38 +1,16 @@
-2016-06-16 01:05:33 Error: Fatal Error (4): syntax error, unexpected 'foreach' (T_FOREACH) in [D:\xampp\htdocs\Ameego\webmaster\app\Controller\AmeegoController.php, line 608]
-2016-06-16 01:05:33 Error: Fatal Error (4): syntax error, unexpected 'foreach' (T_FOREACH) in [D:\xampp\htdocs\Ameego\webmaster\app\Controller\AmeegoController.php, line 608]
-2016-06-16 01:05:33 Error: [FatalErrorException] syntax error, unexpected 'foreach' (T_FOREACH)
-Request URL: /Ameego/webmaster/ameego/getUserTrips/10
+2016-07-03 21:53:16 Error: [PDOException] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'U.first_name' in 'where clause'
+Request URL: /Ameego/webmaster/ameego/getSearchCards
 Stack Trace:
-#0 D:\xampp\htdocs\Ameego\webmaster\lib\Cake\Error\ErrorHandler.php(184): ErrorHandler::handleFatalError(4, 'syntax error, u...', 'D:\\xampp\\htdocs...', 608)
-#1 [internal function]: ErrorHandler::handleError(4, 'syntax error, u...', 'D:\\xampp\\htdocs...', 608, Array)
-#2 D:\xampp\htdocs\Ameego\webmaster\lib\Cake\Core\App.php(926): call_user_func('ErrorHandler::h...', 4, 'syntax error, u...', 'D:\\xampp\\htdocs...', 608, Array)
-#3 D:\xampp\htdocs\Ameego\webmaster\lib\Cake\Core\App.php(899): App::_checkFatalError()
-#4 [internal function]: App::shutdown()
-#5 {main}
-2016-06-16 01:05:33 Error: [FatalErrorException] syntax error, unexpected 'foreach' (T_FOREACH)
-Request URL: /Ameego/webmaster/ameego/getUserSavedCards/10
-Stack Trace:
-#0 D:\xampp\htdocs\Ameego\webmaster\lib\Cake\Error\ErrorHandler.php(184): ErrorHandler::handleFatalError(4, 'syntax error, u...', 'D:\\xampp\\htdocs...', 608)
-#1 [internal function]: ErrorHandler::handleError(4, 'syntax error, u...', 'D:\\xampp\\htdocs...', 608, Array)
-#2 D:\xampp\htdocs\Ameego\webmaster\lib\Cake\Core\App.php(926): call_user_func('ErrorHandler::h...', 4, 'syntax error, u...', 'D:\\xampp\\htdocs...', 608, Array)
-#3 D:\xampp\htdocs\Ameego\webmaster\lib\Cake\Core\App.php(899): App::_checkFatalError()
-#4 [internal function]: App::shutdown()
-#5 {main}
-2016-06-17 01:27:14 Error: [MissingControllerException] Controller class AmeegoController could not be found.
-Exception Attributes: array (
-  'class' => 'AmeegoController',
-  'plugin' => NULL,
-)
-Request URL: /Ameego/webmaster/ameego/updateViews/10
-Stack Trace:
-#0 D:\xampp\htdocs\Ameego\webmaster\app\webroot\index.php(132): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
-#1 {main}
-2016-06-17 01:27:14 Error: [MissingControllerException] Controller class AmeegoController could not be found.
-Exception Attributes: array (
-  'class' => 'AmeegoController',
-  'plugin' => NULL,
-)
-Request URL: /Ameego/webmaster/ameego/getStory/10/
-Stack Trace:
-#0 D:\xampp\htdocs\Ameego\webmaster\app\webroot\index.php(132): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
-#1 {main}
+#0 D:\xampp\htdocs\Ameego\webmaster\lib\Cake\Model\Datasource\DboSource.php(460): PDOStatement->execute(Array)
+#1 D:\xampp\htdocs\Ameego\webmaster\lib\Cake\Model\Datasource\DboSource.php(426): DboSource->_execute('select U.id fro...', Array)
+#2 D:\xampp\htdocs\Ameego\webmaster\lib\Cake\Model\Datasource\DboSource.php(670): DboSource->execute('select U.id fro...', Array, Array)
+#3 D:\xampp\htdocs\Ameego\webmaster\lib\Cake\Model\Datasource\DboSource.php(539): DboSource->fetchAll('select U.id fro...')
+#4 [internal function]: DboSource->query('select U.id fro...')
+#5 D:\xampp\htdocs\Ameego\webmaster\lib\Cake\Model\Model.php(3055): call_user_func_array(Array, Array)
+#6 D:\xampp\htdocs\Ameego\webmaster\app\Controller\AmeegoController.php(1595): Model->query('select U.id fro...')
+#7 [internal function]: AmeegoController->getSearchCards()
+#8 D:\xampp\htdocs\Ameego\webmaster\lib\Cake\Controller\Controller.php(486): ReflectionMethod->invokeArgs(Object(AmeegoController), Array)
+#9 D:\xampp\htdocs\Ameego\webmaster\lib\Cake\Routing\Dispatcher.php(187): Controller->invokeAction(Object(CakeRequest))
+#10 D:\xampp\htdocs\Ameego\webmaster\lib\Cake\Routing\Dispatcher.php(162): Dispatcher->_invoke(Object(AmeegoController), Object(CakeRequest), Object(CakeResponse))
+#11 D:\xampp\htdocs\Ameego\webmaster\app\webroot\index.php(132): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#12 {main}

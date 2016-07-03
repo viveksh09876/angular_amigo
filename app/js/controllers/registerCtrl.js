@@ -1,12 +1,20 @@
-app.controller('registerCtrl', function($scope, $rootScope, close, $element, dataFactory, $localstorage, $location, $document, $facebook) {
+app.controller('registerCtrl', function($scope, $rootScope, close, $element, dataFactory, $localstorage, $location, $document, $facebook, $routeParams) {
   
+	console.log('refer_id', $routeParams.refer_id);
+	$scope.user = {"username": "", "password": "", "first_name": "", "last_name": ""};
+	 $scope.fbUser = {"username": "","from_fb": true, "first_name": "", "last_name": ""};
+	 
+	if($routeParams.refer_id) {
+		$scope.user.refer_id = $routeParams.refer_id;
+		$scope.fbUser.refer_id = $routeParams.refer_id;
+	}
+	
 	 $scope.close = function(result) {
 		$element.modal('hide');
 		close(result, 500); // close, but give 500ms for bootstrap to animate
 	 };
 	 
-	 $scope.user = {"username": "", "password": "", "first_name": "", "last_name": ""};
-	 $scope.fbUser = {"username": "","from_fb": true, "first_name": "", "last_name": ""};
+	 
 	 
 	 $scope.registerUser = function(){
 		 $scope.showLoading = true;

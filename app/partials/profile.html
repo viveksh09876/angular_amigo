@@ -10,68 +10,131 @@
                 </ul>-->
             </div>
 		</div>
-    <div id="sortable-container">
+    <div id="sortable-container" class="profile-page">
 		<div class="left_sec">
 			
                     
 		    <div class="logs-list">
-            	<h4>Profile</h4>
-				<a ng-click="sendMessage()">Invite friends to connect</a>
-				<!--<div class="log_container">
-					<div class="spinner logbox" ng-show="showLoading">
-						<img src="{{$root.rootUrl}}/app/images/loading_white.gif" alt="loading..."/>
-					</div>
-					<div class="sortable-row" ng-show="!showLoading" style="min-height: 100px;" as-sortable="sortableOptions" data-ng-model="itemsList.tripCards">
-						<div class="trip-fromfields">
-							<input type="text" ng-model="tripDetails.tripTitle" placeholder="Enter trip title"/>
-							<textarea row="3" column="3" ng-model="tripDetails.tripNotes"></textarea>
-							<button type="button" ng-click="saveTrip();">Save Trip</button>
+            	<h4>Profile / Settings</h4>
+				
+				<div class="log_container">
+					
+					<div class="sortable-row">
+						<div class="profile-fromfields">
+							<div class="text-field">
+							  <label>
+							  <span class="label-custom">First Name</span>
+							  <input type="text" required ng-model="user.first_name"/>
+							  </label>
+						  </div>
+						  <div class="text-field">
+							  <label>
+							  <span class="label-custom">Last Name</span>
+							  <input type="text" required ng-model="user.last_name"/>
+							  </label>
+						  </div>
+						  <div class="text-field">
+							  <label>
+							  <span class="label-custom">Email</span>
+							  <input type="text" required ng-model="user.email" disabled="true"/>
+							  </label>
+						  </div>
+								<div class="text-field">
+							<button type="button" ng-click="updateProfile();">Update</button>
+							</div>
 						</div>
+						<div class="profile-fromfields">
+						<form id="settingsForm" name="settingsForm" ng-submit="updatePassword()">
+							<div class="text-field">
+							  <label>
+							  <span class="label-custom">Old Password</span>
+							  <input type="password" required ng-model="pass.old_password"/>
+							  </label>
+						  </div>
+						  <div class="text-field">
+							  <label>
+							  <span class="label-custom">New Password</span>
+							  <input type="password" required pattern=".{6,20}" title="6 to 20 characters" maxlength="20" ng-model="pass.new_password"/>
+							  </label>
+						  </div>
+						  <div class="text-field">
+							  <label>
+							  <span class="label-custom">Confirm Password</span>
+							  <input type="password" required pattern=".{6,20}"  maxlength="20" ng-model="pass.confirm_password"/>
+							  </label>
+						  </div>
+							<div class="text-field">
+							<button type="submit">Update Password</button>
+							</div>
+							</form>
+						</div>
+						
+						
 					</div>
-				</div>-->
+					
+					
+				</div>
+				
             </div>
+			<div class="logs-list">
+				<h4>Connect wit friends</h4>
+				<div class="log_container">
+					<div class="sortable-row">
+						
+						<div class="invite-box">
+							<a ng-click="sendMessage()">Invite friends to connect</a>
+						</div>	
+					</div>
+				</div>
+			</div>
         
 		</div>
         <div class="right_sec">
-        	<div class="right_search">
-            	<a href="#"><i class="fa fa-search"></i></a>
-                <input type="search" placeholder="Search your logs and saved cards" ng-model="saveCardSaerch">
-            </div>
-         <!--   
-			<ul>
-            	
-				<li ng-repeat="mCard in itemsList.myCards | filter: saveCardSaerch" as-sortable-item ng-if="mCard.status != '3'">
-					<div as-sortable-item-handle ng-if="mCard.id!='a'">
-						<div class="whitelog-left">
-						<img src="{{$root.siteUrl}}{{mCard.pictures[0]}}" alt="" style="max-height: 60px; max-width: 60px; border-radius: 0;">
-						<a>{{mCard.place}}</a>
+        	<div class="follow-box">
+				<div class="right_search">
+					<a href="#"><i class="fa fa-search"></i></a>
+					<input type="search" placeholder="Search your Followers" ng-model="userFollowers">
+				</div>
+			 
+				<ul>            	
+					<li ng-repeat="user in fData.my_followers | filter: userFollowers">
+						<div >
+							<div class="whitelog-left">
+							<img src="{{$root.rootUrl}}/app/images/person.jpg" alt="" style="max-height: 60px; max-width: 60px; border-radius: 0;">
+							{{user.User.first_name}} {{user.User.last_name}}
+							</div>
+							<div class="whitelog-right">
+								
+								<span><small><a href="mailto: {{user.User.email}}">{{user.User.email}}</a></small></span>
+							</div>
 						</div>
-						<div class="whitelog-right">
-							<i class="fa fa-facebook" 
-									ng-if="mCard.is_user_card == 1"
-									socialshare
-									socialshare-provider="facebook"
-									socialshare-type="feed"
-									socialshare-via="997437293625019"
-									socialshare-media="{{$root.siteUrl}}{{mCard.pictures[0]}}"
-									socialshare-text="{{mCard.title}}"
-									socialshare-caption="{{mCard.notes}}"
-									socialshare-url="{{$root.rootUrl}}/#/story/{{mCard.id}}"									
-									socialshare-popup-height="300"
-									socialshare-popup-width="400"
-									socialshare-trigger="click"></i>
-							<i class="fa fa-pencil-square-o" title="Edit" ng-click="showEditCard(mCard.id)" ng-if="mCard.is_user_card == 1"></i>
-							<i class="fa fa-remove" title="Delete" ng-really-message="Are you sure, you want to delete this card?" ng-really-click="reallyDeleteCard(mCard.id)" item="mCard.id" ng-if="mCard.is_user_card == 1"></i>
-							<span ng-if="mCard.is_user_card == 0"><small>@{{mCard.username}}</small></span>
+						
+					</li>
+				</ul>
+			</div>
+			
+			<div class="follow-box">
+				<div class="right_search">
+					<a href="#"><i class="fa fa-search"></i></a>
+					<input type="search" placeholder="Search users you are following" ng-model="userFollow">
+				</div>
+			 
+				<ul>            	
+					<li ng-repeat="user in fData.following | filter: userFollow">
+						<div >
+							<div class="whitelog-left">
+							<img src="{{$root.rootUrl}}/app/images/person.jpg" alt="" style="max-height: 60px; max-width: 60px; border-radius: 0;">
+							<a>{{user.User.first_name}} {{user.User.last_name}}</a>
+							</div>
+							<div class="whitelog-right">
+								
+								<span><small>{{user.User.email}}</small></span>
+							</div>
 						</div>
-					</div>
-					<div class="daybreak-list" as-sortable-item-handle ng-if="mCard.id=='a'">
-						<p>Day Break</p>
-					</div>
-					
-				</li>
+						
+					</li>
             </ul>
-       -->
+			</div>
 	   </div>
         
     </div>

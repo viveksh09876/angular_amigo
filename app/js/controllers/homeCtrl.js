@@ -2,6 +2,8 @@ app.controller('homeCtrl', function($scope, dataFactory, ModalService, $filter, 
 	
 	//console.log();
 	
+	
+	
 	$scope.cards = [];
 	$scope.showLoading = true;
 	var original = [];
@@ -124,8 +126,6 @@ app.controller('homeCtrl', function($scope, dataFactory, ModalService, $filter, 
 			
 			dataFactory.postData('/ameego/likeCard',{ cid: id, uid: $rootScope.userDetails.user_id}).success(function(response){
 				
-				
-				
 				ModalService.showModal({
 					templateUrl: 'app/partials/message.html',
 					controller: "messageCtrl",
@@ -157,6 +157,18 @@ app.controller('homeCtrl', function($scope, dataFactory, ModalService, $filter, 
 	
 	if($routeParams.tripId != '' && $routeParams.tripId != 'undefined' && $routeParams.tripId != null) {
 		$scope.showViewTrip($routeParams.tripId);
+	}
+		
+	if($routeParams.refer_id != '' && $routeParams.refer_id != 'undefined' && $routeParams.refer_id != null) {
+		ModalService.showModal({
+            templateUrl: 'app/partials/register.html',
+            controller: "registerCtrl",
+			inputs: {
+                refer_id: $routeParams.refer_id,
+            }
+        }).then(function(modal) {
+            modal.element.modal();
+        });
 	}
 	
 	

@@ -247,14 +247,16 @@ text-align: center;}
 
 .trip-fromfields{ display:inline-block; width:100%; margin:0 0 15px;}
 .trip-fromfields input[type="text"], .trip-fromfields textarea{ border:1px solid #ccc; height:20px; padding:5px 10px; float:left; margin:0 20px 0 0;}
-.trip-fromfields button{background: #24335A none repeat scroll 0 0;
+.trip-fromfields button, .profile-fromfields button{background: #24335A none repeat scroll 0 0;
 border-radius: 20px;
 color: #ffffff;
 float: left;
 font-size: 14px;
 line-height: 20px;
 margin: 0 5px 0 0;
-padding: 5px 15px; border:none;}
+padding: 5px 15px; border:none; cursor: pointer;}
+
+.profile-fromfields button{ float: none; }
 
 .modal-footer button{background: #24335A none repeat scroll 0 0;
 border-radius: 20px;
@@ -286,3 +288,26 @@ padding: 5px 15px; border:none;}
 .whitelog-right i.fa-pencil-square-o { color: #1da076;  font-size: 23px;  top: 65%;}
 .whitelog-right i.fa-remove { color: #bd2126;  font-size: 23px;  top: 97%;}
 .incomplete-card{ background: #ccc !important;}
+.profile-fromfields{  padding-left: 10px;  border-right: 1px solid #cccccc;  float: left;  width: 45%;}
+.profile-fromfields:last-child{ border-right: none;}
+.profile-fromfields input[type="text"], .profile-fromfields input[type="password"]{border: 1px solid #cccccc; height: 20px; margin: 0 20px 0 0;  padding: 5px 10px;}
+.profile-fromfields .text-field{ padding: 10px;}	
+.profile-fromfields .text-field label span{ display: block;  float: left; width: 149px;}
+.profile-fromfields button{ margin-bottom: 10px;}
+
+.follow-box { float: left; width: 100%;
+	background: #fff;
+	margin-bottom: 20px;
+}
+.profile-page .right_sec{ background: none; border: none;}
+.invite-box{ margin: 30px; text-align: center;}
+.invite-box a{background: #24335A; padding: 9px; border-radius: 6px; color: #fff;}
+.follow-link {
+    background: #24335a none repeat scroll 0 0;
+    border-radius: 5px;
+    color: #ffffff;
+    position: absolute;
+	right: 0;
+    margin-right: 33px;
+    padding: 5px;
+}
