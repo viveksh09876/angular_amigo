@@ -14,3 +14,25 @@ Stack Trace:
 #10 D:\xampp\htdocs\Ameego\webmaster\lib\Cake\Routing\Dispatcher.php(162): Dispatcher->_invoke(Object(AmeegoController), Object(CakeRequest), Object(CakeResponse))
 #11 D:\xampp\htdocs\Ameego\webmaster\app\webroot\index.php(132): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
 #12 {main}
+2016-07-05 01:09:12 Error: [MissingActionException] Action AmeegoController::getTrendingCards() could not be found.
+Exception Attributes: array (
+  'controller' => 'AmeegoController',
+  'action' => 'getTrendingCards',
+)
+Request URL: /Ameego/webmaster/ameego/getTrendingCards
+Stack Trace:
+#0 D:\xampp\htdocs\Ameego\webmaster\lib\Cake\Routing\Dispatcher.php(187): Controller->invokeAction(Object(CakeRequest))
+#1 D:\xampp\htdocs\Ameego\webmaster\lib\Cake\Routing\Dispatcher.php(162): Dispatcher->_invoke(Object(AmeegoController), Object(CakeRequest), Object(CakeResponse))
+#2 D:\xampp\htdocs\Ameego\webmaster\app\webroot\index.php(132): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2016-07-05 01:10:09 Error: [MissingActionException] Action AmeegoController::getTrendingCards() could not be found.
+Exception Attributes: array (
+  'controller' => 'AmeegoController',
+  'action' => 'getTrendingCards',
+)
+Request URL: /Ameego/webmaster/ameego/getTrendingCards
+Stack Trace:
+#0 D:\xampp\htdocs\Ameego\webmaster\lib\Cake\Routing\Dispatcher.php(187): Controller->invokeAction(Object(CakeRequest))
+#1 D:\xampp\htdocs\Ameego\webmaster\lib\Cake\Routing\Dispatcher.php(162): Dispatcher->_invoke(Object(AmeegoController), Object(CakeRequest), Object(CakeResponse))
+#2 D:\xampp\htdocs\Ameego\webmaster\app\webroot\index.php(132): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}

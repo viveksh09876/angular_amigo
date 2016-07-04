@@ -217,7 +217,7 @@ h1,h2,h3,h4,h5,h6{ font-weight:normal; margin:0;}
  
  
 #placeAutoComplete{ z-index: 9999; position:relative; margin:5px 0 0;}
- #myModal,#myModal + .modal-backdrop{ max-width:67%;}
+ #myModal,#myModal + .modal-backdrop{ max-width:100%;}
  
 
  .spinner img {

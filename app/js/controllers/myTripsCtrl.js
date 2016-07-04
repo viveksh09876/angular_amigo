@@ -17,8 +17,8 @@ app.controller('myTripsCtrl', function($scope, dataFactory, ModalService, $filte
         myCards: []
     };
 	
-	dataFactory.getLocalData('app/json/trending.json').success(function(response){
-		$scope.trendingCards = response.result;		
+	dataFactory.getData('/ameego/getTrendingCards').success(function(response){
+		$scope.trendingCards = response.data;		
 	});
 	
 	function getUserSavedCards() {

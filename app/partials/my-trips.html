@@ -15,8 +15,7 @@
 			<div class="trending_box">
             	<h4>Trending on Ameego</h4>
             	<ul>
-                	<li ng-repeat="cr in trendingCards"><img src="{{cr.img}}" alt=""></li>
-                	
+                	<li ng-repeat="cr in trendingCards"><img src="{{$root.siteUrl}}{{cr.pictures[0]}}" alt=""></li>                	
                 </ul>
             </div>
            
@@ -128,7 +127,7 @@
                 <input type="search" placeholder="Search your logs and saved cards" ng-model="saveCardSaerch">
             </div>
             
-			<ul as-sortable="sortableCloneOptions" data-ng-model="itemsList.myCards" ng-show="showCreateTrip == true">
+			<ul as-sortable="sortableCloneOptions" data-ng-model="itemsList.myCards" ng-show="showCreateTrip == true  || showEditTrip == true">
             	
 				<li ng-repeat="mCard in itemsList.myCards | filter: saveCardSaerch" as-sortable-item ng-if="mCard.status != '3'">
 					<div as-sortable-item-handle ng-if="mCard.id!='a'">
@@ -162,7 +161,7 @@
 				</li>
             </ul>
        
-			<ul ng-show="showCreateTrip == false">
+			<ul ng-show="showCreateTrip == false && showEditTrip == false">
             	
 				<li ng-repeat="mCard in itemsList.myCards | filter: saveCardSaerch" ng-class="{'incomplete-card': mCard.status == '3'}">
 					<div ng-if="mCard.id!='a'">

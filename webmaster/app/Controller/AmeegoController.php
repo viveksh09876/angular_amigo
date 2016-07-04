@@ -11,7 +11,7 @@ class AmeegoController extends AppController {
     public function beforeFilter() {
 		
         parent::beforeFilter();
-        $this->Auth->allow(array('login','register','fbLogin','getCategories','addCard','getUserStories','getAllUserStories','getStory','deleteStory','removePhoto','deletePlace','updateCard','updateViews','likeCard','getUserLikedStories','getUserSavedCards','saveTrip','getUserTrips','getTripData','updateTrip','deleteTrip','getSearchCards','searchCards','getCategoryTags','getFollowersData', 'followUser','updateProfile','updatePassword'));
+        $this->Auth->allow(array('login','register','fbLogin','getCategories','addCard','getUserStories','getAllUserStories','getStory','deleteStory','removePhoto','deletePlace','updateCard','updateViews','likeCard','getUserLikedStories','getUserSavedCards','saveTrip','getUserTrips','getTripData','updateTrip','deleteTrip','getSearchCards','searchCards','getCategoryTags','getFollowersData', 'followUser','updateProfile','updatePassword','getTrendingCards'));
 		
         //Configure::write('debug',2);	
 		header('Access-Control-Allow-Origin: *'); 
@@ -1853,6 +1853,76 @@ class AmeegoController extends AppController {
 			$returnData = array('status' => false, 'message' => 'Invalid Request!');	
 			echo json_encode($returnData); die;
 		}
+	}
+	
+	public function getTrendingCards() {
+		
+		$this->UserStory->recursive = 2;
+		$this->StoryCategory->bindModel(array('belongsTo' => array('Category' => array('className' => 'Category', 'foreignKey' => 'category_id'))));
+		$this->UserStory->bindModel(array('hasMany' => array(
+									'StoryCategory' => array('className' => 'StoryCategory', 
+															'foreignKey' => 'story_id'
+									),
+									'Like' => array('className' => 'Like', 
+															'foreignKey' => 'story_id'
+									),
+									'Image' => array('className' => 'Image', 
+															'foreignKey' => 'story_id'
+									),
+									'Place' => array('className' => 'Place', 
+															'foreignKey' => 'story_id'
+									)),
+									'belongsTo' => array(
+											'User' => array(
+													'className' => 'User',
+													'foreignKey' => 'user_id',
+													'fields' => array('User.first_name','User.last_name')
+											)
+									)		
+								));
+
+		$stories = $this->UserStory->find('all', array(
+										'conditions' => array(
+											'UserStory.status !=' => 3,
+											'UserStory.card_type' => 2
+										),
+										'order' => array('UserStory.created DESC'),
+										'limit' => 3));
+		
+		$data = array();
+		if(!empty($stories)) {
+			
+			 $i = 0;
+			foreach($stories as $story) {
+				$data[$i]['id'] = $story['UserStory']['id'];
+				$data[$i]['title'] = $story['UserStory']['title'];
+				$data[$i]['notes'] = $story['UserStory']['notes'];
+				$data[$i]['time_spent'] = $story['UserStory']['time_spent'];
+				$data[$i]['views'] = $story['UserStory']['views'];
+				$data[$i]['liked'] = 'fa-heart-o';
+				$data[$i]['place'] = $story['Place'][0]['place_name'];
+				
+				
+				$imagesArr = array();
+				
+				if(!empty($story['Image'])) {		
+					foreach($story['Image'] as $img) {
+						$imagesArr[] = '/img/places/'.$img['photo'];	
+					}						
+				}else{
+					$imagesArr[] = '/img/places/image_not_available.jpg';
+				}
+				
+				$data[$i]['pictures'] = $imagesArr;					
+				$data[$i]['recommend'] = $story['UserStory']['is_recommended'];
+				
+				$i++;
+			}
+		}
+		
+		$returnData = array('status' => true, 'data' => $data);	
+		echo json_encode($returnData); die;
+			
 	}
 	
  // die; 
